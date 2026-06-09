@@ -1,9 +1,10 @@
 use std::path::PathBuf;
 
 use crate::domain::{
-    BacklogFilter, BacklogRecord, BoolFlag, CsvList, DecisionRecord, FrictionRecord, HarnessStats,
-    InputType, IntakeRecord, RiskLane, StoryMatrixRecord, StoryVerifyStatus, TraceRecord,
-    TraceScoreResult,
+    AuditResult, BacklogFilter, BacklogRecord, BoolFlag, ContextScoreResult, CsvList,
+    DecisionRecord, FrictionRecord, HarnessStats, ImprovementProposal, InputType, IntakeRecord,
+    InterventionRecord, RiskLane, StoryMatrixRecord, StoryVerifyAllResult, StoryVerifyStatus,
+    ToolArgSpec, ToolEntry, TraceRecord, TraceScoreResult,
 };
 use crate::infrastructure::{HarnessRepository, SqliteHarnessRepository};
 
@@ -67,6 +68,33 @@ pub struct BacklogAddInput {
     pub risk: Option<RiskLane>,
     pub predicted_impact: Option<String>,
     pub notes: Option<String>,
+}
+
+#[derive(Debug)]
+pub struct ToolRegisterInput {
+    pub name: String,
+    pub command: String,
+    pub description: String,
+    pub responsibility: String,
+    pub args: Vec<ToolArgSpec>,
+    pub force: bool,
+}
+
+#[derive(Debug)]
+pub struct InterventionAddInput {
+    pub trace_id: Option<i64>,
+    pub story_id: Option<String>,
+    pub intervention_type: String,
+    pub description: String,
+    pub source: String,
+    pub impact: Option<String>,
+}
+
+#[derive(Debug, Default)]
+pub struct InterventionFilter {
+    pub trace_id: Option<i64>,
+    pub story_id: Option<String>,
+    pub intervention_type: Option<String>,
 }
 
 #[derive(Debug)]
@@ -137,6 +165,10 @@ impl HarnessService {
         self.repository.verify_story(id)
     }
 
+    pub fn verify_all_stories(&self) -> crate::infrastructure::Result<StoryVerifyAllResult> {
+        self.repository.verify_all_stories()
+    }
+
     pub fn add_decision(&self, input: DecisionAddInput) -> crate::infrastructure::Result<()> {
         self.repository.add_decision(input)
     }
@@ -153,12 +185,31 @@ impl HarnessService {
         self.repository.close_backlog(input)
     }
 
+    pub fn register_tool(&self, input: ToolRegisterInput) -> crate::infrastructure::Result<()> {
+        self.repository.register_tool(input)
+    }
+
+    pub fn remove_tool(&self, name: &str) -> crate::infrastructure::Result<()> {
+        self.repository.remove_tool(name)
+    }
+
+    pub fn add_intervention(
+        &self,
+        input: InterventionAddInput,
+    ) -> crate::infrastructure::Result<i64> {
+        self.repository.add_intervention(input)
+    }
+
     pub fn record_trace(&self, input: TraceInput) -> crate::infrastructure::Result<i64> {
         self.repository.record_trace(input)
     }
 
     pub fn score_trace(&self, id: Option<i64>) -> crate::infrastructure::Result<TraceScoreResult> {
         self.repository.score_trace(id)
+    }
+
+    pub fn score_context(&self, id: i64) -> crate::infrastructure::Result<ContextScoreResult> {
+        self.repository.score_context(id)
     }
 
     pub fn story_verify_status(
@@ -195,8 +246,30 @@ impl HarnessService {
         self.repository.query_friction()
     }
 
+    pub fn query_tools(
+        &self,
+        responsibility: Option<String>,
+    ) -> crate::infrastructure::Result<Vec<ToolEntry>> {
+        self.repository.query_tools(responsibility)
+    }
+
+    pub fn query_interventions(
+        &self,
+        filter: InterventionFilter,
+    ) -> crate::infrastructure::Result<Vec<InterventionRecord>> {
+        self.repository.query_interventions(filter)
+    }
+
     pub fn query_stats(&self) -> crate::infrastructure::Result<HarnessStats> {
         self.repository.query_stats()
+    }
+
+    pub fn audit(&self) -> crate::infrastructure::Result<AuditResult> {
+        self.repository.audit()
+    }
+
+    pub fn propose(&self, commit: bool) -> crate::infrastructure::Result<Vec<ImprovementProposal>> {
+        self.repository.propose(commit)
     }
 
     pub fn query_sql(&self, sql: &str) -> crate::infrastructure::Result<QueryTable> {
