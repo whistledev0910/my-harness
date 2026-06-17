@@ -96,6 +96,24 @@ FILES=(
 echo -e "\n${BLUE}[2/5] Fetching files from GitHub...${NC}"
 if [ "$LOCAL_FLAG" = true ]; then
     echo -e "${YELLOW}Running in local mode. Skipping file downloads.${NC}"
+    # Download binary if missing locally (as it is gitignored in the repository)
+    if [ ! -f "scripts/bin/harness-cli" ]; then
+        echo -e "${YELLOW}harness-cli binary is missing locally (due to .gitignore). Fetching from GitHub...${NC}"
+        OS_TYPE="$(uname -s)"
+        if [ "$OS_TYPE" = "Darwin" ]; then
+            echo -e "Downloading macOS binary ${CYAN}scripts/bin/harness-cli${NC}..."
+            "${CURL_CMD[@]}" "${REPO_BASE_URL}/scripts/bin/harness-cli" -o "scripts/bin/harness-cli"
+            chmod +x scripts/bin/harness-cli
+            echo -e "${GREEN}✓ Compiled macOS binary installed and made executable.${NC}"
+        elif [ "$OS_TYPE" = "Linux" ]; then
+            echo -e "Downloading Linux binary ${CYAN}scripts/bin/harness-cli${NC}..."
+            "${CURL_CMD[@]}" "${REPO_BASE_URL}/scripts/bin/harness-cli" -o "scripts/bin/harness-cli"
+            chmod +x scripts/bin/harness-cli
+            echo -e "${GREEN}✓ Linux binary installed and made executable.${NC}"
+        else
+            echo -e "${YELLOW}Detected Windows/Other. You will need to compile the harness-cli binary manually.${NC}"
+        fi
+    fi
 else
     for file in "${FILES[@]}"; do
         echo -e "Downloading ${CYAN}${file}${NC}..."
