@@ -1772,9 +1772,10 @@ impl HarnessRepository for SqliteHarnessRepository {
         }
 
         let transaction = connection.transaction()?;
+        let mut context = ChangesetApplyContext::default();
         let mut applied_operations = 0usize;
         for operation in operations.iter().skip(1) {
-            apply_changeset_operation(&transaction, operation)?;
+            apply_changeset_operation(&transaction, operation, &mut context)?;
             applied_operations += 1;
         }
         transaction.execute(
@@ -2392,16 +2393,32 @@ fn rollback_changeset_append(append: &ChangesetAppend) -> Result<()> {
     Ok(())
 }
 
-fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -> Result<()> {
+#[derive(Debug, Default)]
+struct ChangesetApplyContext {
+    intake_ids: std::collections::HashMap<i64, i64>,
+    backlog_ids: std::collections::HashMap<i64, i64>,
+    trace_ids: std::collections::HashMap<i64, i64>,
+}
+
+fn mapped_id(source_id: Option<i64>, ids: &std::collections::HashMap<i64, i64>) -> Option<i64> {
+    source_id.map(|id| ids.get(&id).copied().unwrap_or(id))
+}
+
+fn apply_changeset_operation(
+    transaction: &Transaction<'_>,
+    operation: &Value,
+    context: &mut ChangesetApplyContext,
+) -> Result<()> {
     let op = required_string(operation, "op")?;
     let payload = operation.get("payload").unwrap_or(&Value::Null);
     match op.as_str() {
-        "intake.add" => transaction.execute(
+        "intake.add" => {
+            let source_id = required_i64(operation, "id")?;
+            transaction.execute(
             "INSERT INTO intake (
-                id, input_type, summary, risk_lane, risk_flags, affected_docs, story_id, notes
-             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);",
+                input_type, summary, risk_lane, risk_flags, affected_docs, story_id, notes
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7);",
             params![
-                required_i64(operation, "id")?,
                 required_string(payload, "input_type")?,
                 required_string(payload, "summary")?,
                 required_string(payload, "risk_lane")?,
@@ -2410,7 +2427,12 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
                 optional_string(payload, "story_id"),
                 optional_string(payload, "notes"),
             ],
-        )?,
+            )?;
+            context
+                .intake_ids
+                .insert(source_id, transaction.last_insert_rowid());
+            1
+        }
         "story.add" => transaction.execute(
             "INSERT INTO story (id, title, risk_lane, contract_doc, verify_command, notes)
              VALUES (?1, ?2, ?3, ?4, ?5, ?6);",
@@ -2475,13 +2497,14 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
                 required_string(operation, "id")?,
             ],
         )?,
-        "backlog.add" => transaction.execute(
+        "backlog.add" => {
+            let source_id = required_i64(operation, "id")?;
+            transaction.execute(
             "INSERT INTO backlog (
-                id, title, discovered_while, current_pain, suggested_improvement,
+                title, discovered_while, current_pain, suggested_improvement,
                 risk, predicted_impact, notes
-             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);",
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7);",
             params![
-                required_i64(operation, "id")?,
                 required_string(payload, "title")?,
                 optional_string(payload, "discovered_while"),
                 optional_string(payload, "current_pain"),
@@ -2490,7 +2513,12 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
                 optional_string(payload, "predicted_impact"),
                 optional_string(payload, "notes"),
             ],
-        )?,
+            )?;
+            context
+                .backlog_ids
+                .insert(source_id, transaction.last_insert_rowid());
+            1
+        }
         "backlog.close" => transaction.execute(
             "UPDATE backlog
              SET status=?1, actual_outcome=?2, implemented_at=datetime('now')
@@ -2498,7 +2526,7 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
             params![
                 required_string(payload, "status")?,
                 optional_string(payload, "actual_outcome"),
-                required_i64(operation, "id")?,
+                mapped_id(Some(required_i64(operation, "id")?), &context.backlog_ids),
             ],
         )?,
         "tool.register" => transaction.execute(
@@ -2529,11 +2557,10 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
             params![required_string(operation, "id")?],
         )?,
         "intervention.add" => transaction.execute(
-            "INSERT INTO intervention (id, trace_id, story_id, type, description, source, impact)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7);",
+            "INSERT INTO intervention (trace_id, story_id, type, description, source, impact)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6);",
             params![
-                required_i64(operation, "id")?,
-                optional_i64(payload, "trace_id"),
+                mapped_id(optional_i64(payload, "trace_id"), &context.trace_ids),
                 optional_string(payload, "story_id"),
                 required_string(payload, "type")?,
                 required_string(payload, "description")?,
@@ -2541,16 +2568,17 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
                 optional_string(payload, "impact"),
             ],
         )?,
-        "trace.add" => transaction.execute(
+        "trace.add" => {
+            let source_id = required_i64(operation, "id")?;
+            transaction.execute(
             "INSERT INTO trace (
-                id, task_summary, intake_id, story_id, agent,
+                task_summary, intake_id, story_id, agent,
                 actions_taken, files_read, files_changed, decisions_made, errors,
                 outcome, duration_seconds, token_estimate, harness_friction, notes
-             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15);",
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14);",
             params![
-                required_i64(operation, "id")?,
                 required_string(payload, "task_summary")?,
-                optional_i64(payload, "intake_id"),
+                mapped_id(optional_i64(payload, "intake_id"), &context.intake_ids),
                 optional_string(payload, "story_id"),
                 optional_string(payload, "agent"),
                 optional_string(payload, "actions_taken"),
@@ -2564,7 +2592,12 @@ fn apply_changeset_operation(transaction: &Transaction<'_>, operation: &Value) -
                 optional_string(payload, "harness_friction"),
                 optional_string(payload, "notes"),
             ],
-        )?,
+            )?;
+            context
+                .trace_ids
+                .insert(source_id, transaction.last_insert_rowid());
+            1
+        }
         _ => return Err(HarnessInfraError::UnsupportedChangesetOp(op)),
     };
     Ok(())
@@ -2656,11 +2689,27 @@ mod tests {
         assert_eq!(repository.query_stats().unwrap().intakes, 0);
         let connection = repository.open_existing().unwrap();
         let schema_version = SqliteHarnessRepository::schema_version(&connection).unwrap();
-        assert_eq!(schema_version, 6);
+        assert_eq!(schema_version, 8);
         let story_columns = story_columns(&connection);
         assert!(story_columns.contains(&"verify_command".to_owned()));
         assert!(story_columns.contains(&"last_verified_at".to_owned()));
         assert!(story_columns.contains(&"last_verified_result".to_owned()));
+        let dependency_table_exists = connection
+            .query_row(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='story_dependency';",
+                [],
+                |_| Ok(()),
+            )
+            .is_ok();
+        assert!(dependency_table_exists);
+        let hierarchy_table_exists = connection
+            .query_row(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='story_hierarchy';",
+                [],
+                |_| Ok(()),
+            )
+            .is_ok();
+        assert!(hierarchy_table_exists);
     }
 
     #[test]
@@ -2699,7 +2748,7 @@ mod tests {
         let header: Value = serde_json::from_str(lines[0]).unwrap();
         assert_eq!(header["op"], "changeset.header");
         assert_eq!(header["run_id"], "run_test");
-        assert_eq!(header["base_schema_version"], 6);
+        assert_eq!(header["base_schema_version"], 8);
         let operation: Value = serde_json::from_str(lines[1]).unwrap();
         assert_eq!(operation["op"], "intake.add");
         assert_eq!(operation["payload"]["summary"], "Logged write test");
@@ -2784,6 +2833,54 @@ mod tests {
     }
 
     #[test]
+    fn apply_changesets_remaps_local_numeric_ids() {
+        let (temp_dir, repository) = isolated_test_repository();
+        repository.init().unwrap();
+
+        for (run_id, summary) in [
+            ("run_worktree_a", "First worktree trace"),
+            ("run_worktree_b", "Second worktree trace"),
+        ] {
+            fs::write(
+                temp_dir.path().join(format!("{run_id}.changeset.jsonl")),
+                format!(
+                    r#"{{"op":"changeset.header","version":1,"run_id":"{run_id}","base_schema_version":8}}
+{{"op":"intake.add","version":1,"id":1,"payload":{{"input_type":"change_request","summary":"{summary} intake","risk_lane":"normal","risk_flags":null,"affected_docs":null,"story_id":null,"notes":null}}}}
+{{"op":"trace.add","version":1,"id":1,"payload":{{"task_summary":"{summary}","intake_id":1,"story_id":null,"agent":"Codex","actions_taken":null,"files_read":null,"files_changed":null,"decisions_made":null,"errors":null,"outcome":"completed","duration_seconds":null,"token_estimate":null,"harness_friction":null,"notes":null}}}}
+"#
+                ),
+            )
+            .unwrap();
+
+            let result = repository
+                .apply_changeset(&temp_dir.path().join(format!("{run_id}.changeset.jsonl")))
+                .unwrap();
+            assert!(result.applied);
+            assert_eq!(result.operations, 2);
+        }
+
+        let connection = repository.open_existing().unwrap();
+        let counts = connection
+            .query_row(
+                "SELECT
+                    (SELECT COUNT(*) FROM intake),
+                    (SELECT COUNT(*) FROM trace),
+                    (SELECT COUNT(DISTINCT intake_id) FROM trace)
+                 ;",
+                [],
+                |row| {
+                    Ok((
+                        row.get::<_, i64>(0)?,
+                        row.get::<_, i64>(1)?,
+                        row.get::<_, i64>(2)?,
+                    ))
+                },
+            )
+            .unwrap();
+        assert_eq!(counts, (2, 2, 2));
+    }
+
+    #[test]
     fn rebuild_db_creates_fresh_database_from_changesets() {
         let (temp_dir, repository) = isolated_test_repository();
         let changeset_dir = temp_dir.path().join("changesets");
@@ -2834,11 +2931,11 @@ mod tests {
         let result = repository.migrate().unwrap();
 
         assert_eq!(result.current_version, 1);
-        assert_eq!(result.applied, vec![2, 3, 4, 5, 6]);
+        assert_eq!(result.applied, vec![2, 3, 4, 5, 6, 7, 8]);
         let connection = repository.open_existing().unwrap();
         assert_eq!(
             SqliteHarnessRepository::schema_version(&connection).unwrap(),
-            6
+            8
         );
         let story_columns = story_columns(&connection);
         assert!(story_columns.contains(&"verify_command".to_owned()));
@@ -2888,7 +2985,7 @@ mod tests {
         drop(connection);
 
         // Upgrade: migration 005 must infer kind from the command prefix.
-        assert_eq!(repository.migrate().unwrap().applied, vec![5, 6]);
+        assert_eq!(repository.migrate().unwrap().applied, vec![5, 6, 7, 8]);
         let connection = repository.open_existing().unwrap();
         let kind_of = |name: &str| -> String {
             connection
