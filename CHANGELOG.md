@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-07-04 - PR #35
+
+- US-064: completed (@hoangnb24)
+- Merge commit: `f7ace90df8d3ff16655dc29b42686d96a25f8fb3`
+- Harness CLI release: not required
+- Changed files:
+  - `.harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl`
+  - `crates/harness-symphony/src/web.rs`
+  - `crates/harness-symphony/src/work.rs`
+  - `crates/harness-symphony/web-ui/src/main.tsx`
+  - `crates/harness-symphony/web-ui/tests/board.spec.ts`
+  - `docs/stories/epics/E08-symphony-web-ui-controller/US-064-ready-work-story-delete.md`
+
 ## 2026-07-04 - PR #34
 
 - US-067: completed (@hoangnb24)
