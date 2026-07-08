@@ -1577,6 +1577,7 @@ impl HarnessRepository for SqliteHarnessRepository {
                  WHERE verify_command IS NOT NULL
                    AND TRIM(verify_command) <> ''
                    AND last_verified_result IS NULL
+                   AND status <> 'retired'
                  ORDER BY id;",
             )?,
             unverified_decisions: audit_findings(
@@ -1642,6 +1643,9 @@ impl HarnessRepository for SqliteHarnessRepository {
         let mut proposals = Vec::new();
 
         for (text, count) in repeated_friction(&connection)? {
+            if validation_provider_friction_resolved(&connection, &text)? {
+                continue;
+            }
             proposals.push(ImprovementProposal {
                 title: format!("Reduce repeated friction: {}", short_title(&text)),
                 component: "Failure attribution".to_owned(),
@@ -2311,6 +2315,35 @@ fn repeated_friction(connection: &Connection) -> Result<Vec<(String, usize)>> {
     let rows = statement.query_map([], |row| row.get::<_, String>(0))?;
     let values = collect_rows(rows)?;
     Ok(repeated_values(values))
+}
+
+fn validation_provider_friction_resolved(connection: &Connection, text: &str) -> Result<bool> {
+    let normalized = normalize_token(text);
+    if !normalized.contains("tool_registry_lacks_entries_for_local_validation_capabilities") {
+        return Ok(false);
+    }
+
+    for capability in [
+        "build-verification",
+        "browser-e2e",
+        "coverage",
+        "design-validation",
+        "platform-smoke",
+    ] {
+        if !has_present_provider(connection, capability)? {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+
+fn has_present_provider(connection: &Connection, capability: &str) -> Result<bool> {
+    let count: i64 = connection.query_row(
+        "SELECT COUNT(*) FROM tool WHERE capability=?1 AND status='present';",
+        params![capability],
+        |row| row.get(0),
+    )?;
+    Ok(count > 0)
 }
 
 fn repeated_interventions(connection: &Connection) -> Result<Vec<(String, usize)>> {
@@ -3520,6 +3553,28 @@ mod tests {
             })
             .unwrap();
         repository
+            .add_story(StoryAddInput {
+                id: "US-RETIRED".to_owned(),
+                title: "Retired audit story".to_owned(),
+                risk_lane: RiskLane::Normal,
+                contract_doc: None,
+                verify_command: Some("exit 0".to_owned()),
+                notes: None,
+            })
+            .unwrap();
+        repository
+            .update_story(StoryUpdateInput {
+                id: "US-RETIRED".to_owned(),
+                status: Some("retired".to_owned()),
+                evidence: None,
+                unit: None,
+                integration: None,
+                e2e: None,
+                platform: None,
+                verify_command: None,
+            })
+            .unwrap();
+        repository
             .add_backlog(BacklogAddInput {
                 title: "Implemented without outcome".to_owned(),
                 discovered_while: None,
@@ -3588,6 +3643,67 @@ mod tests {
             .iter()
             .all(|proposal| proposal.committed_backlog_id.is_some()));
         assert!(repository.query_backlog(BacklogFilter::Open).unwrap().len() >= 1);
+    }
+
+    #[test]
+    fn propose_suppresses_resolved_validation_provider_friction() {
+        let (_temp_dir, repository) = test_repository();
+        repository.init().unwrap();
+
+        for _ in 0..2 {
+            repository
+                .record_trace(TraceInput {
+                    task_summary: "Validation provider friction trace".to_owned(),
+                    intake_id: None,
+                    story_id: None,
+                    agent: Some("codex".to_owned()),
+                    outcome: Some("completed".to_owned()),
+                    duration_seconds: None,
+                    token_estimate: None,
+                    friction: Some(
+                        "Tool registry lacks entries for local validation capabilities".to_owned(),
+                    ),
+                    notes: None,
+                    actions: CsvList::from_optional(Some("query tools".to_owned())),
+                    files_read: CsvList::from_optional(Some("docs/TOOL_REGISTRY.md".to_owned())),
+                    files_changed: CsvList::from_optional(Some("harness.db".to_owned())),
+                    decisions: CsvList::from_optional(None),
+                    errors: CsvList::from_optional(None),
+                })
+                .unwrap();
+        }
+
+        let executable = std::env::current_exe()
+            .unwrap()
+            .to_string_lossy()
+            .into_owned();
+        for (name, capability) in [
+            ("build-provider", "build-verification"),
+            ("browser-provider", "browser-e2e"),
+            ("coverage-provider", "coverage"),
+            ("design-provider", "design-validation"),
+            ("platform-provider", "platform-smoke"),
+        ] {
+            repository
+                .register_tool(ToolRegisterInput {
+                    name: name.to_owned(),
+                    command: executable.clone(),
+                    description: format!("{capability} test provider for proposal suppression"),
+                    responsibility: "Verification".to_owned(),
+                    args: Vec::new(),
+                    force: false,
+                    kind: "cli".to_owned(),
+                    capability: Some(capability.to_owned()),
+                    scan_target: None,
+                })
+                .unwrap();
+        }
+        repository.check_tools(None).unwrap();
+
+        let proposals = repository.propose(false).unwrap();
+        assert!(proposals.iter().all(|proposal| !proposal
+            .title
+            .contains("Tool registry lacks entries for local validation capabilities")));
     }
 
     #[test]

@@ -13,7 +13,7 @@ expected_ids=(
   US-038 US-039 US-040 US-041 US-042 US-043 US-044 US-045 US-046 US-047
   US-048 US-049 US-050 US-051 US-052 US-053 US-054 US-055 US-056 US-057
   US-058 US-059 US-060 US-061 US-062 US-063 US-SYM-001
-  US-064 US-065 US-066 US-067 US-068 US-069 US-070 US-071
+  US-064 US-065 US-066 US-067 US-068 US-069 US-070 US-071 US-072
 )
 
 for id in "${expected_ids[@]}"; do
@@ -24,12 +24,12 @@ for id in "${expected_ids[@]}"; do
   fi
 done
 
-planned_count="$(
+retired_count="$(
   sqlite3 "$TMP_DIR/harness.db" \
-    "SELECT COUNT(*) FROM story WHERE id IN ('US-061', 'US-063') AND status='planned';"
+    "SELECT COUNT(*) FROM story WHERE id IN ('US-061', 'US-063') AND status='retired';"
 )"
-if [[ "$planned_count" != "2" ]]; then
-  echo "expected US-061 and US-063 to rebuild as planned" >&2
+if [[ "$retired_count" != "2" ]]; then
+  echo "expected US-061 and US-063 to rebuild as retired" >&2
   exit 1
 fi
 

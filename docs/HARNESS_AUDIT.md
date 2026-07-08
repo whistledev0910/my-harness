@@ -8,7 +8,7 @@ prints an entropy score. Lower is better.
 | Category | Meaning | Weight |
 | --- | --- | --- |
 | Orphaned stories | Planned or in-progress stories with no linked trace. | 10 |
-| Unverified stories | Stories with `verify_command` but no recorded verification result. | 5 |
+| Unverified stories | Active or implemented stories with `verify_command` but no recorded verification result. Retired stories are historical records and are not counted. | 5 |
 | Unverified decisions | Decisions with `verify_command` but no recorded verification result. | 5 |
 | Open backlog without outcomes | Implemented backlog items with predicted impact but no actual outcome. | 2 |
 | Stale stories | Unimplemented stories whose latest linked trace is more than 30 days old. | 3 |
