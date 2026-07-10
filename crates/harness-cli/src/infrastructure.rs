@@ -24,9 +24,9 @@ use crate::domain::{
     compiled_tool_registry, normalize_token, proposal_key, score_context, score_trace, sha256_hex,
     stable_uid, validate_tool_description, AuditFinding, AuditResult, BacklogFilter, BacklogRecord,
     ContextScoreResult, ContextScoreSource, DecisionRecord, FrictionRecord, HarnessStats,
-    ImprovementProposal, IntakeRecord, InterventionRecord, RiskLane, StoryMatrixRecord,
-    StoryVerifyAllItem, StoryVerifyAllResult, StoryVerifyStatus, ToolArgSpec, ToolEntry,
-    TraceRecord, TraceScoreResult, TraceScoreSource,
+    ImprovementProposal, IntakeRecord, InterventionRecord, ProposalEvidence, RiskLane,
+    StoryMatrixRecord, StoryVerifyAllItem, StoryVerifyAllResult, StoryVerifyStatus, ToolArgSpec,
+    ToolEntry, TraceRecord, TraceScoreResult, TraceScoreSource,
 };
 
 pub type Result<T> = std::result::Result<T, HarnessInfraError>;
@@ -170,6 +170,7 @@ pub trait HarnessRepository {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ProposalDecision {
     Preview,
+    PreviewSuppressed,
     Accept { key: String, schedule: String },
     Reject { key: String, reason: String },
 }
@@ -315,6 +316,82 @@ impl SqliteHarnessRepository {
                 |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?, row.get(4)?, row.get(5)?, row.get(6)?))
             ).optional()?;
             if let Some((id, uid, status, kind, due, traces, notes)) = existing {
+                if matches!(
+                    proposal.lifecycle_state.as_str(),
+                    "regression" | "reconsideration"
+                ) {
+                    debug_assert!(matches!(status.as_str(), "implemented" | "rejected"));
+                    let occurrence_kind = proposal.lifecycle_state.as_str();
+                    let new_uid = Self::new_uid(
+                        "blg",
+                        &format!("{key}\0{uid}\0{occurrence_kind}"),
+                    );
+                    let notes = format!(
+                        "component: {}; confidence: {}; validation: {}",
+                        proposal.component, proposal.confidence, proposal.validation_plan
+                    );
+                    if let Some((schedule_kind, schedule_due, schedule_traces)) =
+                        &parsed_schedule
+                    {
+                        transaction.execute(
+                            "INSERT INTO backlog (uid, proposal_key, predecessor_uid, occurrence_kind, title, discovered_while, current_pain, suggested_improvement, risk, status, predicted_impact, notes, accepted_at, outcome_schedule_kind, outcome_due_at, outcome_after_traces, outcome_baseline_trace_count)
+                             VALUES (?1, ?2, ?3, ?4, ?5, 'harness-cli propose', ?6, ?7, ?8, 'accepted', ?9, ?10, datetime('now'), ?11, ?12, ?13, NULL);",
+                            params![new_uid, key, uid, occurrence_kind, proposal.title, proposal.evidence, proposal.suggested_action, normalize_token(&proposal.risk), proposal.predicted_impact, notes, schedule_kind, schedule_due, schedule_traces],
+                        )?;
+                        let new_id = transaction.last_insert_rowid();
+                        record_proposal_evidence(transaction, &new_uid, proposal)?;
+                        let accepted_at: String = transaction.query_row(
+                            "SELECT accepted_at FROM backlog WHERE id=?1",
+                            params![new_id],
+                            |row| row.get(0),
+                        )?;
+                        return Ok((
+                            format!("Accepted {occurrence_kind} proposal {key} as backlog #{new_id}."),
+                            vec![proposal_decision_operation(
+                                &new_uid,
+                                key,
+                                "accepted",
+                                proposal,
+                                Some((schedule_kind, schedule_due.as_deref(), *schedule_traces)),
+                                None,
+                                Some(&accepted_at),
+                                None,
+                                Some(&notes),
+                            )],
+                        ));
+                    }
+                    let reason = rejection_reason.as_ref().expect("decision is reject");
+                    let rejection_notes = format!(
+                        "rejection_reason: {reason}\ncovered_evidence: {}",
+                        proposal.evidence
+                    );
+                    transaction.execute(
+                        "INSERT INTO backlog (uid, proposal_key, predecessor_uid, occurrence_kind, title, discovered_while, current_pain, suggested_improvement, risk, status, predicted_impact, notes, closed_at)
+                         VALUES (?1, ?2, ?3, ?4, ?5, 'harness-cli propose', ?6, ?7, ?8, 'rejected', ?9, ?10, datetime('now'));",
+                        params![new_uid, key, uid, occurrence_kind, proposal.title, proposal.evidence, proposal.suggested_action, normalize_token(&proposal.risk), proposal.predicted_impact, rejection_notes],
+                    )?;
+                    let new_id = transaction.last_insert_rowid();
+                    record_proposal_evidence(transaction, &new_uid, proposal)?;
+                    let closed_at: String = transaction.query_row(
+                        "SELECT closed_at FROM backlog WHERE id=?1",
+                        params![new_id],
+                        |row| row.get(0),
+                    )?;
+                    return Ok((
+                        format!("Rejected {occurrence_kind} proposal {key} as backlog #{new_id}."),
+                        vec![proposal_decision_operation(
+                            &new_uid,
+                            key,
+                            "rejected",
+                            proposal,
+                            None,
+                            Some(reason),
+                            None,
+                            Some(&closed_at),
+                            Some(&rejection_notes),
+                        )],
+                    ));
+                }
                 if let Some((requested_kind, requested_due, requested_traces)) = &parsed_schedule {
                     if status == "accepted" {
                         if kind.as_deref() == Some(requested_kind.as_str()) && due == *requested_due && traces == *requested_traces {
@@ -361,8 +438,8 @@ impl SqliteHarnessRepository {
                      VALUES (?1, ?2, 'original', ?3, 'harness-cli propose', ?4, ?5, ?6, 'accepted', ?7, ?8, datetime('now'), ?9, ?10, ?11, NULL);",
                     params![uid, key, proposal.title, proposal.evidence, proposal.suggested_action, normalize_token(&proposal.risk), proposal.predicted_impact, notes, kind, due, traces]
                 )?;
-                record_proposal_evidence(transaction, &uid, proposal)?;
                 let id = transaction.last_insert_rowid();
+                record_proposal_evidence(transaction, &uid, proposal)?;
                 let accepted_at: String = transaction.query_row("SELECT accepted_at FROM backlog WHERE id=?1", params![id], |row| row.get(0))?;
                 return Ok((format!("Accepted proposal {key} as backlog #{id}. Next: harness-cli intake --type harness_improvement --summary \"<implementation objective>\" --lane normal --story <US-NNN>"), vec![proposal_decision_operation(&uid, key, "accepted", proposal, Some((kind, due.as_deref(), *traces)), None, Some(&accepted_at), None, Some(&notes))]));
             }
@@ -373,8 +450,8 @@ impl SqliteHarnessRepository {
                  VALUES (?1, ?2, 'original', ?3, 'harness-cli propose', ?4, ?5, ?6, 'rejected', ?7, ?8, datetime('now'));",
                 params![uid, key, proposal.title, proposal.evidence, proposal.suggested_action, normalize_token(&proposal.risk), proposal.predicted_impact, rejection_notes]
             )?;
-            record_proposal_evidence(transaction, &uid, proposal)?;
             let id = transaction.last_insert_rowid();
+            record_proposal_evidence(transaction, &uid, proposal)?;
             let closed_at: String = transaction.query_row("SELECT closed_at FROM backlog WHERE id=?1", params![id], |row| row.get(0))?;
             Ok((format!("Rejected proposal {key} as backlog #{id}."), vec![proposal_decision_operation(&uid, key, "rejected", proposal, None, Some(reason), None, Some(&closed_at), Some(&rejection_notes))]))
         })
@@ -2261,10 +2338,9 @@ impl HarnessRepository for SqliteHarnessRepository {
         let audit = self.audit()?;
         let mut proposals = Vec::new();
 
-        for (text, count) in repeated_friction(&connection)? {
-            if validation_provider_friction_resolved(&connection, &text)? {
-                continue;
-            }
+        for group in repeated_friction(&connection)? {
+            let text = group.text;
+            let count = group.count;
             let title = format!("Reduce repeated friction: {}", short_title(&text));
             let issue = format!("Failure attribution\0{title}");
             proposals.push(ImprovementProposal {
@@ -2279,10 +2355,15 @@ impl HarnessRepository for SqliteHarnessRepository {
                 validation_plan: "Review the next five related traces and compare friction frequency.".to_owned(),
                 confidence: confidence_for_count(count),
                 committed_backlog_id: None,
+                evidence_items: group.evidence,
+                predecessor_uid: None,
+                lifecycle_explanation: None,
             });
         }
 
-        for (key, count) in repeated_interventions(&connection)? {
+        for group in repeated_interventions(&connection)? {
+            let key = group.text;
+            let count = group.count;
             let title = format!("Address repeated intervention: {}", short_title(&key));
             let issue = format!("Intervention recording\0{title}");
             proposals.push(ImprovementProposal {
@@ -2297,26 +2378,45 @@ impl HarnessRepository for SqliteHarnessRepository {
                 validation_plan: "Future interventions of this type should decrease after the rule change.".to_owned(),
                 confidence: confidence_for_count(count),
                 committed_backlog_id: None,
+                evidence_items: group.evidence,
+                predecessor_uid: None,
+                lifecycle_explanation: None,
             });
         }
 
-        for (category, count) in [
+        for (rule, category, findings) in [
             (
+                "orphaned-story",
                 "orphaned planned or in-progress stories",
-                audit.orphaned_stories.len(),
+                &audit.orphaned_stories,
             ),
-            ("unverified story commands", audit.unverified_stories.len()),
             (
+                "unverified-story",
+                "unverified story commands",
+                &audit.unverified_stories,
+            ),
+            (
+                "unverified-decision",
                 "unverified decision commands",
-                audit.unverified_decisions.len(),
+                &audit.unverified_decisions,
             ),
             (
+                "implemented-backlog-without-outcome",
                 "implemented backlog items without outcomes",
-                audit.backlog_without_outcomes.len(),
+                &audit.backlog_without_outcomes,
             ),
-            ("stale unfinished stories", audit.stale_stories.len()),
-            ("broken registered tools", audit.broken_tools.len()),
+            (
+                "stale-story",
+                "stale unfinished stories",
+                &audit.stale_stories,
+            ),
+            (
+                "broken-tool",
+                "broken registered tools",
+                &audit.broken_tools,
+            ),
         ] {
+            let count = findings.len();
             if count > 0 {
                 let title = format!("Clean up {category}");
                 let issue = format!("Entropy auditing\0{title}");
@@ -2332,26 +2432,24 @@ impl HarnessRepository for SqliteHarnessRepository {
                     validation_plan: "Run harness-cli audit and confirm the category count decreases.".to_owned(),
                     confidence: "low".to_owned(),
                     committed_backlog_id: None,
+                    evidence_items: audit_proposal_evidence(&connection, rule, findings)?,
+                    predecessor_uid: None,
+                    lifecycle_explanation: None,
                 });
             }
         }
 
         proposals.sort_by(|left, right| left.key.cmp(&right.key));
         for proposal in &mut proposals {
-            let state: Option<String> = connection
-                .query_row(
-                    "SELECT status FROM backlog WHERE proposal_key=?1 ORDER BY id DESC LIMIT 1;",
-                    params![proposal.key],
-                    |row| row.get(0),
-                )
-                .optional()?;
-            if let Some(state) = state {
-                proposal.lifecycle_state = state;
-            }
+            classify_proposal(&connection, proposal)?;
+        }
+
+        if matches!(decision, ProposalDecision::Preview) {
+            proposals.retain(|proposal| proposal.lifecycle_state != "suppressed");
         }
 
         let message = match decision {
-            ProposalDecision::Preview => None,
+            ProposalDecision::Preview | ProposalDecision::PreviewSuppressed => None,
             ProposalDecision::Accept { key, schedule } => Some(self.decide_proposal(
                 &mut connection,
                 &proposals,
@@ -2915,11 +3013,19 @@ fn record_proposal_evidence(
     backlog_uid: &str,
     proposal: &ImprovementProposal,
 ) -> Result<()> {
-    transaction.execute(
-        "INSERT OR IGNORE INTO proposal_evidence_link (backlog_uid, source_kind, evidence_uid, evidence_fingerprint, observed_at)
-         VALUES (?1, 'legacy_snapshot', ?2, ?3, datetime('now'));",
-        params![backlog_uid, proposal.key, sha256_hex(&proposal.evidence)],
-    )?;
+    for evidence in &proposal.evidence_items {
+        transaction.execute(
+            "INSERT OR IGNORE INTO proposal_evidence_link (backlog_uid, source_kind, evidence_uid, evidence_fingerprint, observed_at)
+             VALUES (?1, ?2, ?3, ?4, ?5);",
+            params![
+                backlog_uid,
+                evidence.source_kind,
+                evidence.uid,
+                evidence.fingerprint,
+                evidence.observed_at
+            ],
+        )?;
+    }
     Ok(())
 }
 
@@ -2935,10 +3041,16 @@ fn proposal_decision_operation(
     closed_at: Option<&str>,
     notes: Option<&str>,
 ) -> Value {
+    let occurrence_kind = match proposal.lifecycle_state.as_str() {
+        "regression" => "regression",
+        "reconsideration" => "reconsideration",
+        _ => "original",
+    };
     json!({
-        "op": "backlog.proposal.decision", "version": 1, "uid": uid,
+        "op": "backlog.proposal.decision", "version": 2, "uid": uid,
         "payload": {
-            "proposal_key": key, "status": status, "occurrence_kind": "original",
+            "proposal_key": key, "status": status, "occurrence_kind": occurrence_kind,
+            "predecessor_uid": proposal.predecessor_uid,
             "title": proposal.title, "discovered_while": "harness-cli propose",
             "current_pain": proposal.evidence, "suggested_improvement": proposal.suggested_action,
             "risk": normalize_token(&proposal.risk), "predicted_impact": proposal.predicted_impact,
@@ -2947,8 +3059,12 @@ fn proposal_decision_operation(
             "outcome_due_at": schedule.as_ref().and_then(|item| item.1),
             "outcome_after_traces": schedule.and_then(|item| item.2),
             "rejection_reason": reason,
-            "evidence_uid": proposal.key,
-            "evidence_fingerprint": sha256_hex(&proposal.evidence),
+            "evidence": proposal.evidence_items.iter().map(|item| json!({
+                "source_kind": item.source_kind,
+                "evidence_uid": item.uid,
+                "evidence_fingerprint": item.fingerprint,
+                "observed_at": item.observed_at,
+            })).collect::<Vec<_>>(),
         }
     })
 }
@@ -3013,72 +3129,224 @@ fn audit_findings(connection: &Connection, sql: &str) -> Result<Vec<AuditFinding
     collect_rows(rows)
 }
 
-fn repeated_friction(connection: &Connection) -> Result<Vec<(String, usize)>> {
+#[derive(Debug)]
+struct ProposalEvidenceGroup {
+    text: String,
+    count: usize,
+    evidence: Vec<ProposalEvidence>,
+}
+
+fn repeated_friction(connection: &Connection) -> Result<Vec<ProposalEvidenceGroup>> {
     let mut statement = connection.prepare(
-        "SELECT harness_friction FROM trace
+        "SELECT uid, harness_friction, created_at FROM trace
          WHERE harness_friction IS NOT NULL
            AND TRIM(harness_friction) <> ''
            AND LOWER(TRIM(harness_friction)) <> 'none';",
     )?;
-    let rows = statement.query_map([], |row| row.get::<_, String>(0))?;
+    let rows = statement.query_map([], |row| {
+        Ok((
+            row.get::<_, Option<String>>(0)?,
+            row.get::<_, String>(1)?,
+            row.get::<_, String>(2)?,
+        ))
+    })?;
     let values = collect_rows(rows)?;
-    Ok(repeated_values(values))
+    Ok(repeated_values("trace", values))
 }
 
-fn validation_provider_friction_resolved(connection: &Connection, text: &str) -> Result<bool> {
-    let normalized = normalize_token(text);
-    if !normalized.contains("tool_registry_lacks_entries_for_local_validation_capabilities") {
-        return Ok(false);
-    }
-
-    for capability in [
-        "build-verification",
-        "browser-e2e",
-        "coverage",
-        "design-validation",
-        "platform-smoke",
-    ] {
-        if !has_present_provider(connection, capability)? {
-            return Ok(false);
-        }
-    }
-    Ok(true)
-}
-
-fn has_present_provider(connection: &Connection, capability: &str) -> Result<bool> {
-    let count: i64 = connection.query_row(
-        "SELECT COUNT(*) FROM tool WHERE capability=?1 AND status='present';",
-        params![capability],
-        |row| row.get(0),
-    )?;
-    Ok(count > 0)
-}
-
-fn repeated_interventions(connection: &Connection) -> Result<Vec<(String, usize)>> {
+fn repeated_interventions(connection: &Connection) -> Result<Vec<ProposalEvidenceGroup>> {
     let mut statement = connection.prepare(
-        "SELECT type || ': ' || description FROM intervention
+        "SELECT uid, type || ': ' || description, created_at FROM intervention
          WHERE TRIM(description) <> '';",
     )?;
-    let rows = statement.query_map([], |row| row.get::<_, String>(0))?;
+    let rows = statement.query_map([], |row| {
+        Ok((
+            row.get::<_, Option<String>>(0)?,
+            row.get::<_, String>(1)?,
+            row.get::<_, String>(2)?,
+        ))
+    })?;
     let values = collect_rows(rows)?;
-    Ok(repeated_values(values))
+    Ok(repeated_values("intervention", values))
 }
 
-fn repeated_values(values: Vec<String>) -> Vec<(String, usize)> {
-    let mut grouped: Vec<(String, String, usize)> = Vec::new();
-    for value in values {
+fn repeated_values(
+    source_kind: &str,
+    values: Vec<(Option<String>, String, String)>,
+) -> Vec<ProposalEvidenceGroup> {
+    let mut grouped: Vec<(String, String, Vec<ProposalEvidence>)> = Vec::new();
+    for (uid, value, observed_at) in values {
         let key = normalize_token(&value);
+        let evidence = ProposalEvidence {
+            source_kind: uid
+                .as_ref()
+                .map(|_| source_kind.to_owned())
+                .unwrap_or_else(|| "legacy_snapshot".to_owned()),
+            uid: uid.unwrap_or_else(|| format!("legacy-{}", sha256_hex(&value))),
+            fingerprint: sha256_hex(&value),
+            observed_at,
+        };
         if let Some(existing) = grouped.iter_mut().find(|item| item.0 == key) {
-            existing.2 += 1;
+            existing.2.push(evidence);
         } else {
-            grouped.push((key, value, 1));
+            grouped.push((key, value, vec![evidence]));
         }
     }
     grouped
         .into_iter()
-        .filter(|(_, _, count)| *count >= 2)
-        .map(|(_, value, count)| (value, count))
+        .filter(|(_, _, evidence)| evidence.len() >= 2)
+        .map(|(_, text, evidence)| ProposalEvidenceGroup {
+            count: evidence.len(),
+            text,
+            evidence,
+        })
         .collect()
+}
+
+fn audit_proposal_evidence(
+    connection: &Connection,
+    rule: &str,
+    findings: &[AuditFinding],
+) -> Result<Vec<ProposalEvidence>> {
+    findings
+        .iter()
+        .map(|finding| {
+            let finding_key = format!("audit.{rule}:v1:entity:{}", finding.id);
+            let active: Option<(String, String, String)> = connection
+                .query_row(
+                    "SELECT uid, evidence_fingerprint, opened_at FROM audit_evidence_episode
+                     WHERE finding_key=?1 AND cleared_at IS NULL;",
+                    params![finding_key],
+                    |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+                )
+                .optional()?;
+            Ok(match active {
+                Some((uid, fingerprint, observed_at)) => ProposalEvidence {
+                    source_kind: "audit".to_owned(),
+                    uid,
+                    fingerprint,
+                    observed_at,
+                },
+                None => ProposalEvidence {
+                    source_kind: "legacy_snapshot".to_owned(),
+                    uid: finding_key.clone(),
+                    fingerprint: sha256_hex(&format!("{finding_key}\0{}", finding.title)),
+                    observed_at: "1970-01-01 00:00:00".to_owned(),
+                },
+            })
+        })
+        .collect()
+}
+
+#[allow(clippy::type_complexity)]
+fn classify_proposal(connection: &Connection, proposal: &mut ImprovementProposal) -> Result<()> {
+    let latest: Option<(
+        i64,
+        String,
+        String,
+        Option<String>,
+        Option<String>,
+        Option<String>,
+        Option<String>,
+    )> = connection
+        .query_row(
+            "SELECT backlog.id, backlog.uid, backlog.status, backlog.occurrence_kind,
+                    backlog.resolution_evidence, backlog.closed_at,
+                    (SELECT story_id FROM story_backlog_link
+                     WHERE backlog_uid=backlog.uid AND relationship='resolves')
+             FROM backlog WHERE proposal_key=?1 ORDER BY id DESC LIMIT 1;",
+            params![proposal.key],
+            |row| {
+                Ok((
+                    row.get(0)?,
+                    row.get(1)?,
+                    row.get(2)?,
+                    row.get(3)?,
+                    row.get(4)?,
+                    row.get(5)?,
+                    row.get(6)?,
+                ))
+            },
+        )
+        .optional()?;
+
+    let Some((id, uid, status, kind, closure_proof, closed_at, resolver)) = latest else {
+        let legacy: i64 = connection.query_row(
+            "SELECT COUNT(*) FROM backlog WHERE proposal_key IS NULL AND title=?1;",
+            params![proposal.title],
+            |row| row.get(0),
+        )?;
+        if legacy > 0 {
+            proposal.lifecycle_state = "legacy-unclassified".to_owned();
+            proposal.lifecycle_explanation = Some(
+                "plausible unkeyed legacy match; use US-080 reconciliation instead of guessing identity"
+                    .to_owned(),
+            );
+        } else {
+            proposal.lifecycle_state = "new".to_owned();
+        }
+        return Ok(());
+    };
+
+    proposal.committed_backlog_id = Some(id);
+    match status.as_str() {
+        "proposed" => {
+            proposal.lifecycle_state = "pending".to_owned();
+            proposal.lifecycle_explanation = Some(format!("existing proposed backlog #{id}"));
+        }
+        "accepted" => {
+            proposal.lifecycle_state = "accepted".to_owned();
+            proposal.lifecycle_explanation = Some(format!("active accepted backlog #{id}"));
+        }
+        "implemented" | "rejected" => {
+            let mut statement = connection.prepare(
+                "SELECT link.source_kind, link.evidence_uid
+                 FROM proposal_evidence_link link
+                 JOIN backlog ON backlog.uid=link.backlog_uid
+                 WHERE backlog.proposal_key=?1;",
+            )?;
+            let rows = statement.query_map(params![proposal.key], |row| {
+                Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
+            })?;
+            let covered = collect_rows(rows)?;
+            proposal.evidence_items.retain(|item| {
+                let explicitly_covered = covered
+                    .iter()
+                    .any(|covered| covered.0 == item.source_kind && covered.1 == item.uid);
+                // Durable timestamps currently have one-second precision, so
+                // equality is the conservative representation of "at/after".
+                let observed_after_closure = closed_at
+                    .as_ref()
+                    .is_some_and(|closed| item.observed_at >= *closed);
+                !explicitly_covered && observed_after_closure
+            });
+            proposal.predecessor_uid = Some(uid.clone());
+            if proposal.evidence_items.is_empty() {
+                proposal.lifecycle_state = "suppressed".to_owned();
+                proposal.lifecycle_explanation = Some(format!(
+                    "backlog #{id} ({}) closed by resolver {} with proof {}; no uncovered evidence",
+                    kind.as_deref().unwrap_or("original"),
+                    resolver.as_deref().unwrap_or("none"),
+                    closure_proof.as_deref().unwrap_or("not recorded")
+                ));
+            } else {
+                proposal.lifecycle_state = if status == "implemented" {
+                    "regression"
+                } else {
+                    "reconsideration"
+                }
+                .to_owned();
+                proposal.lifecycle_explanation = Some(format!(
+                    "{} uncovered evidence item(s) after terminal backlog #{id}",
+                    proposal.evidence_items.len()
+                ));
+            }
+        }
+        _ => {
+            proposal.lifecycle_state = status;
+        }
+    }
+    Ok(())
 }
 
 fn confidence_for_count(count: usize) -> String {
@@ -3325,19 +3593,29 @@ fn apply_changeset_operation(
         "backlog.proposal.decision" => {
             let uid = required_uid(operation, "uid", "blg")?;
             transaction.execute(
-                "INSERT INTO backlog (uid, proposal_key, occurrence_kind, title, discovered_while, current_pain, suggested_improvement, risk, status, predicted_impact, notes, accepted_at, closed_at, outcome_schedule_kind, outcome_due_at, outcome_after_traces, outcome_baseline_trace_count)
-                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, NULL)
+                "INSERT INTO backlog (uid, proposal_key, predecessor_uid, occurrence_kind, title, discovered_while, current_pain, suggested_improvement, risk, status, predicted_impact, notes, accepted_at, closed_at, outcome_schedule_kind, outcome_due_at, outcome_after_traces, outcome_baseline_trace_count)
+                 VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, NULL)
                  ON CONFLICT(uid) DO UPDATE SET
                    status=excluded.status, notes=excluded.notes, accepted_at=excluded.accepted_at,
                    closed_at=excluded.closed_at, outcome_schedule_kind=excluded.outcome_schedule_kind,
                    outcome_due_at=excluded.outcome_due_at, outcome_after_traces=excluded.outcome_after_traces;",
-                params![uid, required_string(payload, "proposal_key")?, required_string(payload, "occurrence_kind")?, required_string(payload, "title")?, optional_string(payload, "discovered_while"), optional_string(payload, "current_pain"), optional_string(payload, "suggested_improvement"), optional_string(payload, "risk"), required_string(payload, "status")?, optional_string(payload, "predicted_impact"), optional_string(payload, "notes"), optional_string(payload, "accepted_at"), optional_string(payload, "closed_at"), optional_string(payload, "outcome_schedule_kind"), optional_string(payload, "outcome_due_at"), optional_i64(payload, "outcome_after_traces")]
+                params![uid, required_string(payload, "proposal_key")?, optional_string(payload, "predecessor_uid"), required_string(payload, "occurrence_kind")?, required_string(payload, "title")?, optional_string(payload, "discovered_while"), optional_string(payload, "current_pain"), optional_string(payload, "suggested_improvement"), optional_string(payload, "risk"), required_string(payload, "status")?, optional_string(payload, "predicted_impact"), optional_string(payload, "notes"), optional_string(payload, "accepted_at"), optional_string(payload, "closed_at"), optional_string(payload, "outcome_schedule_kind"), optional_string(payload, "outcome_due_at"), optional_i64(payload, "outcome_after_traces")]
             )?;
-            transaction.execute(
-                "INSERT OR IGNORE INTO proposal_evidence_link (backlog_uid, source_kind, evidence_uid, evidence_fingerprint, observed_at)
-                 VALUES (?1, 'legacy_snapshot', ?2, ?3, datetime('now'));",
-                params![uid, required_string(payload, "evidence_uid")?, required_string(payload, "evidence_fingerprint")?]
-            )?;
+            if let Some(evidence) = payload.get("evidence").and_then(Value::as_array) {
+                for item in evidence {
+                    transaction.execute(
+                        "INSERT OR IGNORE INTO proposal_evidence_link (backlog_uid, source_kind, evidence_uid, evidence_fingerprint, observed_at)
+                         VALUES (?1, ?2, ?3, ?4, COALESCE(?5, datetime('now')));",
+                        params![uid, required_string(item, "source_kind")?, required_string(item, "evidence_uid")?, required_string(item, "evidence_fingerprint")?, optional_string(item, "observed_at")],
+                    )?;
+                }
+            } else {
+                transaction.execute(
+                    "INSERT OR IGNORE INTO proposal_evidence_link (backlog_uid, source_kind, evidence_uid, evidence_fingerprint, observed_at)
+                     VALUES (?1, 'legacy_snapshot', ?2, ?3, datetime('now'));",
+                    params![uid, required_string(payload, "evidence_uid")?, required_string(payload, "evidence_fingerprint")?]
+                )?;
+            }
             1
         }
         "backlog.add" if version == 2 => {
@@ -3822,6 +4100,27 @@ mod tests {
         } else {
             "exit 1"
         }
+    }
+
+    fn record_proposal_friction(repository: &SqliteHarnessRepository, text: &str) {
+        repository
+            .record_trace(TraceInput {
+                task_summary: "Proposal recurrence fixture".to_owned(),
+                intake_id: None,
+                story_id: None,
+                agent: Some("codex".to_owned()),
+                outcome: Some("completed".to_owned()),
+                duration_seconds: None,
+                token_estimate: None,
+                friction: Some(text.to_owned()),
+                notes: None,
+                actions: CsvList::from_optional(Some("observe".to_owned())),
+                files_read: CsvList::from_optional(None),
+                files_changed: CsvList::from_optional(None),
+                decisions: CsvList::from_optional(None),
+                errors: CsvList::from_optional(None),
+            })
+            .unwrap();
     }
 
     fn add_completion_story(
@@ -5495,67 +5794,332 @@ mod tests {
     }
 
     #[test]
-    fn propose_suppresses_resolved_validation_provider_friction() {
+    fn proposal_recurrence_classifies_suppression_and_regression() {
         let (_temp_dir, repository) = test_repository();
         repository.init().unwrap();
-
         for _ in 0..2 {
-            repository
-                .record_trace(TraceInput {
-                    task_summary: "Validation provider friction trace".to_owned(),
-                    intake_id: None,
-                    story_id: None,
-                    agent: Some("codex".to_owned()),
-                    outcome: Some("completed".to_owned()),
-                    duration_seconds: None,
-                    token_estimate: None,
-                    friction: Some(
-                        "Tool registry lacks entries for local validation capabilities".to_owned(),
-                    ),
-                    notes: None,
-                    actions: CsvList::from_optional(Some("query tools".to_owned())),
-                    files_read: CsvList::from_optional(Some("docs/TOOL_REGISTRY.md".to_owned())),
-                    files_changed: CsvList::from_optional(Some("harness.db".to_owned())),
-                    decisions: CsvList::from_optional(None),
-                    errors: CsvList::from_optional(None),
-                })
-                .unwrap();
+            record_proposal_friction(&repository, "Lifecycle regression fixture");
         }
-
-        let executable = std::env::current_exe()
-            .unwrap()
-            .to_string_lossy()
-            .into_owned();
-        for (name, capability) in [
-            ("build-provider", "build-verification"),
-            ("browser-provider", "browser-e2e"),
-            ("coverage-provider", "coverage"),
-            ("design-provider", "design-validation"),
-            ("platform-provider", "platform-smoke"),
-        ] {
-            repository
-                .register_tool(ToolRegisterInput {
-                    name: name.to_owned(),
-                    command: executable.clone(),
-                    description: format!("{capability} test provider for proposal suppression"),
-                    responsibility: "Verification".to_owned(),
-                    args: Vec::new(),
-                    force: false,
-                    kind: "cli".to_owned(),
-                    capability: Some(capability.to_owned()),
-                    scan_target: None,
-                })
-                .unwrap();
-        }
-        repository.check_tools(None).unwrap();
-
-        let proposals = repository
+        let proposal = repository
             .propose(ProposalDecision::Preview)
             .unwrap()
-            .proposals;
-        assert!(proposals.iter().all(|proposal| !proposal
-            .title
-            .contains("Tool registry lacks entries for local validation capabilities")));
+            .proposals
+            .into_iter()
+            .find(|item| item.title.contains("Lifecycle regression fixture"))
+            .unwrap();
+        assert_eq!(proposal.lifecycle_state, "new");
+        assert_eq!(proposal.evidence_items.len(), 2);
+
+        repository
+            .propose(ProposalDecision::Accept {
+                key: proposal.key.clone(),
+                schedule: "manual".to_owned(),
+            })
+            .unwrap();
+        let connection = repository.open_existing().unwrap();
+        let predecessor: String = connection
+            .query_row(
+                "SELECT uid FROM backlog WHERE proposal_key=?1",
+                params![proposal.key],
+                |row| row.get(0),
+            )
+            .unwrap();
+        connection
+            .execute(
+                "UPDATE backlog SET status='implemented', closed_at=datetime('now'), resolution_evidence='fresh proof' WHERE uid=?1",
+                params![predecessor],
+            )
+            .unwrap();
+
+        assert!(repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .iter()
+            .all(|item| item.key != proposal.key));
+        let suppressed = repository
+            .propose(ProposalDecision::PreviewSuppressed)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == proposal.key)
+            .unwrap();
+        assert_eq!(suppressed.lifecycle_state, "suppressed");
+        assert!(suppressed
+            .lifecycle_explanation
+            .unwrap()
+            .contains("no uncovered evidence"));
+
+        record_proposal_friction(&repository, "Lifecycle regression fixture");
+        let regression = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == proposal.key)
+            .unwrap();
+        assert_eq!(regression.lifecycle_state, "regression");
+        assert_eq!(
+            regression.predecessor_uid.as_deref(),
+            Some(predecessor.as_str())
+        );
+        assert_eq!(regression.evidence_items.len(), 1);
+
+        repository
+            .propose(ProposalDecision::Accept {
+                key: proposal.key.clone(),
+                schedule: "traces:5".to_owned(),
+            })
+            .unwrap();
+        let recurrence: (String, String, Option<String>, Option<String>, Option<i64>) = connection
+            .query_row(
+                "SELECT uid, occurrence_kind, predecessor_uid, outcome_schedule_kind, outcome_after_traces FROM backlog WHERE proposal_key=?1 ORDER BY id DESC LIMIT 1",
+                params![proposal.key],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?, row.get(4)?)),
+            )
+            .unwrap();
+        assert_ne!(recurrence.0, predecessor);
+        assert_eq!(recurrence.1, "regression");
+        assert_eq!(recurrence.2.as_deref(), Some(predecessor.as_str()));
+        assert_eq!(recurrence.3.as_deref(), Some("trace_count"));
+        assert_eq!(recurrence.4, Some(5));
+        assert_eq!(
+            connection
+                .query_row(
+                    "SELECT COUNT(*) FROM proposal_evidence_link WHERE backlog_uid=?1",
+                    params![recurrence.0],
+                    |row| row.get::<_, i64>(0),
+                )
+                .unwrap(),
+            1
+        );
+    }
+
+    #[test]
+    fn proposal_recurrence_rejection_creates_reconsideration_idempotently() {
+        let (_temp_dir, repository) = test_repository();
+        repository.init().unwrap();
+        for _ in 0..2 {
+            record_proposal_friction(&repository, "Lifecycle reconsideration fixture");
+        }
+        let proposal = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.title.contains("Lifecycle reconsideration fixture"))
+            .unwrap();
+        repository
+            .propose(ProposalDecision::Reject {
+                key: proposal.key.clone(),
+                reason: "not useful yet".to_owned(),
+            })
+            .unwrap();
+        record_proposal_friction(&repository, "Lifecycle reconsideration fixture");
+        let candidate = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == proposal.key)
+            .unwrap();
+        assert_eq!(candidate.lifecycle_state, "reconsideration");
+        let rejected = repository
+            .propose(ProposalDecision::Reject {
+                key: proposal.key.clone(),
+                reason: "still not useful".to_owned(),
+            })
+            .unwrap();
+        assert!(rejected
+            .message
+            .unwrap()
+            .contains("Rejected reconsideration"));
+        let unchanged = repository
+            .propose(ProposalDecision::Reject {
+                key: proposal.key.clone(),
+                reason: "still not useful".to_owned(),
+            })
+            .unwrap();
+        assert!(unchanged.message.unwrap().contains("unchanged"));
+
+        let connection = repository.open_existing().unwrap();
+        let latest: (String, Option<String>, Option<String>, Option<String>) = connection
+            .query_row(
+                "SELECT occurrence_kind, predecessor_uid, outcome_schedule_kind, closed_at FROM backlog WHERE proposal_key=?1 ORDER BY id DESC LIMIT 1",
+                params![proposal.key],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?)),
+            )
+            .unwrap();
+        assert_eq!(latest.0, "reconsideration");
+        assert!(latest.1.is_some());
+        assert_eq!(latest.2, None);
+        assert!(latest.3.is_some());
+    }
+
+    #[test]
+    fn proposal_recurrence_classifies_pending_accepted_and_legacy_rows() {
+        let (_temp_dir, repository) = test_repository();
+        repository.init().unwrap();
+        for _ in 0..2 {
+            record_proposal_friction(&repository, "Lifecycle pending fixture");
+        }
+        let proposal = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.title.contains("Lifecycle pending fixture"))
+            .unwrap();
+        let connection = repository.open_existing().unwrap();
+        connection
+            .execute(
+                "INSERT INTO backlog (uid, proposal_key, occurrence_kind, title, status) VALUES (?1, ?2, 'original', ?3, 'proposed')",
+                params![stable_uid("blg", "pending fixture"), proposal.key, proposal.title],
+            )
+            .unwrap();
+        let pending = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == proposal.key)
+            .unwrap();
+        assert_eq!(pending.lifecycle_state, "pending");
+        assert!(pending.committed_backlog_id.is_some());
+        connection
+            .execute(
+                "UPDATE backlog SET status='accepted', accepted_at=datetime('now'), outcome_schedule_kind='manual' WHERE proposal_key=?1",
+                params![proposal.key],
+            )
+            .unwrap();
+        let accepted = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == proposal.key)
+            .unwrap();
+        assert_eq!(accepted.lifecycle_state, "accepted");
+
+        for _ in 0..2 {
+            record_proposal_friction(&repository, "Lifecycle legacy fixture");
+        }
+        let legacy_proposal = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.title.contains("Lifecycle legacy fixture"))
+            .unwrap();
+        connection
+            .execute(
+                "INSERT INTO backlog (title, status) VALUES (?1, 'implemented')",
+                params![legacy_proposal.title],
+            )
+            .unwrap();
+        let legacy = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.key == legacy_proposal.key)
+            .unwrap();
+        assert_eq!(legacy.lifecycle_state, "legacy-unclassified");
+        assert!(legacy
+            .lifecycle_explanation
+            .unwrap()
+            .contains("US-080 reconciliation"));
+    }
+
+    #[test]
+    fn proposal_recurrence_changeset_rebuild_preserves_lineage_and_evidence() {
+        let (_temp_dir, repository) = isolated_test_repository();
+        let repository = repository.with_run_id("run_proposal_recurrence_replay");
+        repository.init().unwrap();
+        for _ in 0..2 {
+            record_proposal_friction(&repository, "Lifecycle replay fixture");
+        }
+        let proposal = repository
+            .propose(ProposalDecision::Preview)
+            .unwrap()
+            .proposals
+            .into_iter()
+            .find(|item| item.title.contains("Lifecycle replay fixture"))
+            .unwrap();
+        repository
+            .propose(ProposalDecision::Accept {
+                key: proposal.key.clone(),
+                schedule: "manual".to_owned(),
+            })
+            .unwrap();
+        let mut connection = repository.open_existing().unwrap();
+        let predecessor: String = connection
+            .query_row(
+                "SELECT uid FROM backlog WHERE proposal_key=?1",
+                params![proposal.key],
+                |row| row.get(0),
+            )
+            .unwrap();
+        repository
+            .with_logged_write(&mut connection, |transaction| {
+                transaction.execute(
+                    "UPDATE backlog SET status='implemented', closed_at=datetime('now'), resolution_evidence='replay proof' WHERE uid=?1",
+                    params![predecessor],
+                )?;
+                Ok((
+                    (),
+                    vec![json!({
+                        "op": "backlog.complete",
+                        "version": 1,
+                        "uid": predecessor,
+                        "payload": {
+                            "story_id": "US-REPLAY",
+                            "resolution_evidence": "replay proof",
+                            "trace_baseline": null,
+                        }
+                    })],
+                ))
+            })
+            .unwrap();
+        record_proposal_friction(&repository, "Lifecycle replay fixture");
+        repository
+            .propose(ProposalDecision::Accept {
+                key: proposal.key.clone(),
+                schedule: "traces:4".to_owned(),
+            })
+            .unwrap();
+
+        let changeset = repository
+            .repo_root
+            .join(".harness/changesets/run_proposal_recurrence_replay.changeset.jsonl");
+        let replay = SqliteHarnessRepository::new(
+            repository.repo_root.clone(),
+            repository.repo_root.join("replay.db"),
+            repository.schema_dir.clone(),
+        );
+        replay.init().unwrap();
+        replay.apply_changeset(&changeset).unwrap();
+        let replay_connection = replay.open_existing().unwrap();
+        let rows: i64 = replay_connection
+            .query_row(
+                "SELECT COUNT(*) FROM backlog WHERE proposal_key=?1",
+                params![proposal.key],
+                |row| row.get(0),
+            )
+            .unwrap();
+        assert_eq!(rows, 2);
+        let recurrence: (String, Option<String>, i64) = replay_connection
+            .query_row(
+                "SELECT backlog.occurrence_kind, backlog.predecessor_uid,
+                        (SELECT COUNT(*) FROM proposal_evidence_link WHERE backlog_uid=backlog.uid)
+                 FROM backlog WHERE proposal_key=?1 ORDER BY id DESC LIMIT 1",
+                params![proposal.key],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+            )
+            .unwrap();
+        assert_eq!(recurrence.0, "regression");
+        assert_eq!(recurrence.1.as_deref(), Some(predecessor.as_str()));
+        assert_eq!(recurrence.2, 1);
     }
 
     #[test]

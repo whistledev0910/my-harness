@@ -17,6 +17,8 @@ scripts/bin/harness-cli story verify US-001  # Run the story's verify_command
 scripts/bin/harness-cli story complete US-001 # Fresh proof plus atomic lifecycle completion
 scripts/bin/harness-cli decision ...  # Add a decision or run its verification
 scripts/bin/harness-cli backlog ...   # Add or close a backlog item
+scripts/bin/harness-cli propose       # Classify new, active, handled, and recurring evidence
+scripts/bin/harness-cli propose --show-suppressed # Explain handled evidence
 scripts/bin/harness-cli trace ...     # Record and auto-score an agent execution trace
 scripts/bin/harness-cli score-trace   # Score a trace against TRACE_SPEC.md tiers
 scripts/bin/harness-cli query ...     # Query harness data, including backlog --open/--closed

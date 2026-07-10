@@ -2,8 +2,8 @@
 
 ## Status
 
-in_progress — `US-073` through `US-077` implemented; `US-078` through
-`US-080` remain planned.
+in_progress — `US-073` through `US-078` implemented; `US-079` and `US-080`
+remain planned.
 
 ## Intake
 
@@ -19,13 +19,13 @@ in_progress — `US-073` through `US-077` implemented; `US-078` through
 Make Harness remember the full lifecycle of its own improvement suggestions so
 it can improve repeatedly without proposing the same handled work every day.
 
-## Current Problem
+## Starting Problem
 
-The current repository can observe friction and generate proposals, but it
-cannot reliably connect a proposal to acceptance, implementation, proof,
+Before E09, the repository could observe friction and generate proposals, but
+could not reliably connect a proposal to acceptance, implementation, proof,
 closure, later impact, or recurrence.
 
-The live failure is concrete:
+The original failure was concrete:
 
 - `harness-cli audit` reports entropy `0/100`.
 - `harness-cli propose` still emits the exact patterns already stored as open

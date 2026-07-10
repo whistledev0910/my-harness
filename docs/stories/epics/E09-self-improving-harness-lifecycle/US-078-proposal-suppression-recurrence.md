@@ -2,7 +2,7 @@
 
 ## Status
 
-planned
+implemented
 
 ## Lane
 
@@ -107,4 +107,8 @@ one-off suppression rules.
 
 ## Evidence
 
-Add exact proposal-state and rebuild output after implementation.
+- `cargo test -p harness-cli proposal_recurrence -- --nocapture` covers new,
+  pending, accepted, suppressed, regression, reconsideration,
+  legacy-unclassified, decision idempotency, and recurrence changeset replay.
+- The story verification command runs the targeted suite and the committed
+  changeset rebuild validator.

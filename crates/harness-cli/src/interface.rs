@@ -441,6 +441,9 @@ struct ProposeArgs {
     outcome_after_traces: Option<String>,
     #[arg(long)]
     reason: Option<String>,
+    /// Include handled occurrences whose current evidence is fully covered.
+    #[arg(long, conflicts_with_all = ["accept", "reject"])]
+    show_suppressed: bool,
 }
 
 #[derive(Args, Debug)]
@@ -906,7 +909,11 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
                             "propose decision flags require --accept or --reject".to_owned(),
                         ));
                     }
-                    ProposalDecision::Preview
+                    if args.show_suppressed {
+                        ProposalDecision::PreviewSuppressed
+                    } else {
+                        ProposalDecision::Preview
+                    }
                 }
                 (Some(key), None) => {
                     let schedules = usize::from(args.outcome_manual)
@@ -1168,6 +1175,9 @@ fn print_proposals(proposals: &[ImprovementProposal]) {
         );
         println!("  Key: {}", proposal.key);
         println!("  Lifecycle: {}", proposal.lifecycle_state);
+        if let Some(explanation) = &proposal.lifecycle_explanation {
+            println!("  Lifecycle detail: {explanation}");
+        }
         println!("  Title: {}", proposal.title);
         println!("  Component: {}", proposal.component);
         println!("  Evidence: {}", proposal.evidence);
@@ -1176,7 +1186,7 @@ fn print_proposals(proposals: &[ImprovementProposal]) {
         println!("  Suggested action: {}", proposal.suggested_action);
         println!("  Validation: {}", proposal.validation_plan);
         if let Some(id) = proposal.committed_backlog_id {
-            println!("  Created backlog item #{id}");
+            println!("  Backlog item: #{id}");
         }
     }
     println!();

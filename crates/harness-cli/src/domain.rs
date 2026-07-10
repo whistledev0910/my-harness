@@ -1130,6 +1130,14 @@ impl AuditResult {
 }
 
 #[derive(Debug, PartialEq, Eq)]
+pub struct ProposalEvidence {
+    pub source_kind: String,
+    pub uid: String,
+    pub fingerprint: String,
+    pub observed_at: String,
+}
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct ImprovementProposal {
     pub key: String,
     pub lifecycle_state: String,
@@ -1142,6 +1150,9 @@ pub struct ImprovementProposal {
     pub validation_plan: String,
     pub confidence: String,
     pub committed_backlog_id: Option<i64>,
+    pub evidence_items: Vec<ProposalEvidence>,
+    pub predecessor_uid: Option<String>,
+    pub lifecycle_explanation: Option<String>,
 }
 
 #[derive(Debug, PartialEq, Eq)]

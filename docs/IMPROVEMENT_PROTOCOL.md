@@ -27,6 +27,30 @@ Each proposal includes a stable versioned key, lifecycle state, title, component
 evidence, predicted impact, risk, suggested action, validation plan, and
 confidence. Running `propose` without a decision flag is read-only.
 
+Lifecycle state is evidence-aware:
+
+- `new`: no keyed occurrence exists.
+- `pending`: a proposed occurrence already exists; the existing backlog id is
+  shown.
+- `accepted`: active work already exists and a second open occurrence cannot be
+  created.
+- `suppressed`: an implemented or rejected occurrence covers all current stable
+  evidence. These rows are hidden by default.
+- `regression`: evidence not covered by the occurrence lineage appeared after an
+  implemented occurrence.
+- `reconsideration`: evidence not covered by the occurrence lineage appeared
+  after a rejected occurrence.
+
+Inspect handled evidence without reopening it:
+
+```bash
+scripts/bin/harness-cli propose --show-suppressed
+```
+
+The explanation includes the terminal occurrence, resolver, closure proof, and
+why no evidence remains uncovered. Plausible unkeyed legacy matches are reported
+as `legacy-unclassified` and left for explicit US-080 reconciliation.
+
 ## Decide One Proposal
 
 ```bash
@@ -43,6 +67,12 @@ next `harness_improvement` intake command. Rejection records one terminal reason
 and covered evidence without creating an intake, story, or Symphony run.
 `propose --commit` is intentionally rejected; Harness never bulk-writes every
 currently displayed suggestion.
+
+Accepting or rejecting a `regression` or `reconsideration` candidate appends a
+new occurrence with a new uid, the same proposal key, the immediately prior
+terminal occurrence as `predecessor_uid`, and only the uncovered stable evidence.
+The predecessor is never reopened or mutated. Recurrence candidates remain
+read-only until this explicit human decision.
 
 Humans review accepted work with:
 
