@@ -7,6 +7,9 @@ CLI="$ROOT_DIR/target/debug/harness-cli"
 FIXTURE_ROOT="$ROOT_DIR/tests/fixtures/changesets/generic-rebuild"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
+FIXTURE_REPO="$TMP_DIR/repo"
+mkdir -p "$FIXTURE_REPO/scripts"
+cp -R "$ROOT_DIR/scripts/schema" "$FIXTURE_REPO/scripts/schema"
 
 cargo build --quiet --manifest-path "$ROOT_DIR/Cargo.toml" -p harness-cli
 HARNESS_VALIDATOR_LIBRARY_ONLY=1 source "$VALIDATOR"
@@ -42,8 +45,8 @@ assert_failed_apply_rolled_back() {
   local expected_error="$4"
   local name="$5"
   local db="$TMP_DIR/$name.db"
-  HARNESS_DB_PATH="$db" "$CLI" init >/dev/null
-  if HARNESS_DB_PATH="$db" "$CLI" db changeset apply "$fixture" >"$TMP_DIR/$name.out" 2>&1; then
+  HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$db" "$CLI" init >/dev/null
+  if HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$db" "$CLI" db changeset apply "$fixture" >"$TMP_DIR/$name.out" 2>&1; then
     echo "negative fixture unexpectedly applied: $name" >&2
     exit 1
   fi
@@ -70,11 +73,11 @@ assert_failed_apply_rolled_back \
 identity_db="$TMP_DIR/identity.db"
 identity_fixture="$TMP_DIR/identity.changeset.jsonl"
 cp "$FIXTURE_ROOT/positive/001-story-graph.changeset.jsonl" "$identity_fixture"
-HARNESS_DB_PATH="$identity_db" "$CLI" init >/dev/null
-HARNESS_DB_PATH="$identity_db" "$CLI" db changeset apply "$identity_fixture" >/dev/null
+HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$identity_db" "$CLI" init >/dev/null
+HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$identity_db" "$CLI" db changeset apply "$identity_fixture" >/dev/null
 sed 's/Generic root/Changed bytes/' "$identity_fixture" >"$identity_fixture.changed"
 mv "$identity_fixture.changed" "$identity_fixture"
-if HARNESS_DB_PATH="$identity_db" "$CLI" db changeset status "$identity_fixture" --json >"$TMP_DIR/identity.out" 2>&1; then
+if HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$identity_db" "$CLI" db changeset status "$identity_fixture" --json >"$TMP_DIR/identity.out" 2>&1; then
   echo "changeset status unexpectedly accepted changed content for an applied run ID" >&2
   exit 1
 fi

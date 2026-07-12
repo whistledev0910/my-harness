@@ -1,3 +1,0 @@
-{"base_schema_version":12,"op":"changeset.header","run_id":"run_1783790000000000000_us089_activation","version":1}
-{"id":"US-089","op":"story.update","payload":{"e2e_proof":null,"evidence":null,"integration_proof":null,"platform_proof":null,"status":null,"unit_proof":null,"verify_command":"scripts/verify-e11-us089.sh"},"version":1}
-{"id":"US-089","op":"story.update","payload":{"e2e_proof":null,"evidence":null,"integration_proof":null,"platform_proof":null,"status":"in_progress","unit_proof":null,"verify_command":null},"version":1}

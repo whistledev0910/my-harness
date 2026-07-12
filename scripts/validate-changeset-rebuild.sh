@@ -76,6 +76,10 @@ done
 
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
+FIXTURE_REPO="$TMP_DIR/repo"
+mkdir -p "$FIXTURE_REPO/scripts"
+cp -R "$ROOT_DIR/scripts/schema" "$FIXTURE_REPO/scripts/schema"
+FIXTURE_DB="$FIXTURE_REPO/harness.db"
 HARNESS_CLI="$(select_harness_cli "$ROOT_DIR")"
 if [[ ! -x "$HARNESS_CLI" ]]; then
   echo "Harness CLI not found; build it with: cargo build -p harness-cli" >&2
@@ -85,49 +89,49 @@ fi
 echo "rebuild validator executable: $HARNESS_CLI"
 echo "rebuild validator fixtures: $CHANGESET_DIR"
 
-rebuild_output="$(HARNESS_DB_PATH="$TMP_DIR/harness.db" "$HARNESS_CLI" db rebuild --from "$CHANGESET_DIR")"
+rebuild_output="$(HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$FIXTURE_DB" "$HARNESS_CLI" db rebuild --from "$CHANGESET_DIR")"
 
 expected_schema="$(jq -r '.schema_version' "$EXPECTED_FILE")"
 expected_changesets="$(jq -r '.changesets' "$EXPECTED_FILE")"
 expected_operations="$(jq -r '.operations' "$EXPECTED_FILE")"
-actual_schema="$(sqlite3 "$TMP_DIR/harness.db" 'SELECT MAX(version) FROM schema_version;')"
+actual_schema="$(sqlite3 "$FIXTURE_DB" 'SELECT MAX(version) FROM schema_version;')"
 [[ "$actual_schema" == "$expected_schema" ]] || { echo "expected schema $expected_schema, got $actual_schema" >&2; exit 1; }
 grep -Fq "$expected_changesets changeset(s)" <<<"$rebuild_output"
 grep -Fq "$expected_operations operation(s)" <<<"$rebuild_output"
 
-actual_stories="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT id,status,unit_proof,integration_proof,e2e_proof,platform_proof,evidence,verify_command FROM story ORDER BY id;")"
+actual_stories="$(sqlite3 -json "$FIXTURE_DB" "SELECT id,status,unit_proof,integration_proof,e2e_proof,platform_proof,evidence,verify_command FROM story ORDER BY id;")"
 assert_json_equal stories "$(jq -c '.stories' "$EXPECTED_FILE")" "$actual_stories"
 
 verification_id="$(jq -r '.verification.id' "$EXPECTED_FILE")"
-proof_is_valid "$TMP_DIR/harness.db" "$verification_id"
-actual_verification="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT id,last_verified_result AS result,last_verified_at AS verified_at FROM story WHERE id='$verification_id';")"
+proof_is_valid "$FIXTURE_DB" "$verification_id"
+actual_verification="$(sqlite3 -json "$FIXTURE_DB" "SELECT id,last_verified_result AS result,last_verified_at AS verified_at FROM story WHERE id='$verification_id';")"
 assert_json_equal verification "[$(jq -c '.verification' "$EXPECTED_FILE")]" "$actual_verification"
 
-actual_dependencies="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT story_id AS blocker,blocks_story_id AS blocked FROM story_dependency ORDER BY story_id,blocks_story_id;")"
+actual_dependencies="$(sqlite3 -json "$FIXTURE_DB" "SELECT story_id AS blocker,blocks_story_id AS blocked FROM story_dependency ORDER BY story_id,blocks_story_id;")"
 assert_json_equal dependencies "$(jq -c '.dependencies' "$EXPECTED_FILE")" "$actual_dependencies"
-actual_hierarchy="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT parent_story_id AS parent,child_story_id AS child FROM story_hierarchy ORDER BY parent_story_id,child_story_id;")"
+actual_hierarchy="$(sqlite3 -json "$FIXTURE_DB" "SELECT parent_story_id AS parent,child_story_id AS child FROM story_hierarchy ORDER BY parent_story_id,child_story_id;")"
 assert_json_equal hierarchy "$(jq -c '.hierarchy' "$EXPECTED_FILE")" "$actual_hierarchy"
 
-actual_tools="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT name,status,kind,capability FROM tool ORDER BY name;")"
+actual_tools="$(sqlite3 -json "$FIXTURE_DB" "SELECT name,status,kind,capability FROM tool ORDER BY name;")"
 assert_json_equal retained-tools "$(jq -c '.retained_tools' "$EXPECTED_FILE")" "$actual_tools"
 while IFS= read -r removed_tool; do
-  [[ "$(sqlite3 "$TMP_DIR/harness.db" "SELECT COUNT(*) FROM tool WHERE name='$removed_tool';")" == "0" ]]
+  [[ "$(sqlite3 "$FIXTURE_DB" "SELECT COUNT(*) FROM tool WHERE name='$removed_tool';")" == "0" ]]
 done < <(jq -r '.removed_tools[]' "$EXPECTED_FILE")
 
-actual_remap="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT (SELECT COUNT(*) FROM intake) AS intakes,(SELECT COUNT(*) FROM trace) AS traces,(SELECT COUNT(DISTINCT intake_id) FROM trace) AS distinct_trace_intake_ids,(SELECT COUNT(*) FROM trace JOIN intake ON intake.id=trace.intake_id) AS closed_trace_intake_links;")"
+actual_remap="$(sqlite3 -json "$FIXTURE_DB" "SELECT (SELECT COUNT(*) FROM intake) AS intakes,(SELECT COUNT(*) FROM trace) AS traces,(SELECT COUNT(DISTINCT intake_id) FROM trace) AS distinct_trace_intake_ids,(SELECT COUNT(*) FROM trace JOIN intake ON intake.id=trace.intake_id) AS closed_trace_intake_links;")"
 assert_json_equal local-id-remap "[$(jq -c '.remap' "$EXPECTED_FILE")]" "$actual_remap"
 
-actual_run_ids="$(sqlite3 -json "$TMP_DIR/harness.db" "SELECT id FROM changeset_applied ORDER BY id;" | jq -c '[.[].id]')"
+actual_run_ids="$(sqlite3 -json "$FIXTURE_DB" "SELECT id FROM changeset_applied ORDER BY id;" | jq -c '[.[].id]')"
 assert_json_equal applied-run-ids "$(jq -c '.run_ids' "$EXPECTED_FILE")" "$actual_run_ids"
-missing_sha="$(sqlite3 "$TMP_DIR/harness.db" "SELECT COUNT(*) FROM changeset_applied WHERE content_sha256 IS NULL OR length(content_sha256)<>64;")"
+missing_sha="$(sqlite3 "$FIXTURE_DB" "SELECT COUNT(*) FROM changeset_applied WHERE content_sha256 IS NULL OR length(content_sha256)<>64;")"
 [[ "$missing_sha" == "0" ]] || { echo "applied fixtures must retain exact content SHA-256" >&2; exit 1; }
 
-before="$(sqlite3 "$TMP_DIR/harness.db" "SELECT (SELECT COUNT(*) FROM story)||'|'||(SELECT COUNT(*) FROM story_dependency)||'|'||(SELECT COUNT(*) FROM story_hierarchy)||'|'||(SELECT COUNT(*) FROM intake)||'|'||(SELECT COUNT(*) FROM trace)||'|'||(SELECT COUNT(*) FROM tool)||'|'||(SELECT COUNT(*) FROM changeset_applied);")"
+before="$(sqlite3 "$FIXTURE_DB" "SELECT (SELECT COUNT(*) FROM story)||'|'||(SELECT COUNT(*) FROM story_dependency)||'|'||(SELECT COUNT(*) FROM story_hierarchy)||'|'||(SELECT COUNT(*) FROM intake)||'|'||(SELECT COUNT(*) FROM trace)||'|'||(SELECT COUNT(*) FROM tool)||'|'||(SELECT COUNT(*) FROM changeset_applied);")"
 while IFS= read -r fixture; do
-  second_apply="$(HARNESS_DB_PATH="$TMP_DIR/harness.db" "$HARNESS_CLI" db changeset apply "$fixture")"
+  second_apply="$(HARNESS_REPO_ROOT="$FIXTURE_REPO" HARNESS_DB_PATH="$FIXTURE_DB" "$HARNESS_CLI" db changeset apply "$fixture")"
   grep -Fq 'already applied; skipped' <<<"$second_apply"
 done < <(find "$CHANGESET_DIR" -maxdepth 1 -type f -name '*.changeset.jsonl' -print | sort)
-after="$(sqlite3 "$TMP_DIR/harness.db" "SELECT (SELECT COUNT(*) FROM story)||'|'||(SELECT COUNT(*) FROM story_dependency)||'|'||(SELECT COUNT(*) FROM story_hierarchy)||'|'||(SELECT COUNT(*) FROM intake)||'|'||(SELECT COUNT(*) FROM trace)||'|'||(SELECT COUNT(*) FROM tool)||'|'||(SELECT COUNT(*) FROM changeset_applied);")"
+after="$(sqlite3 "$FIXTURE_DB" "SELECT (SELECT COUNT(*) FROM story)||'|'||(SELECT COUNT(*) FROM story_dependency)||'|'||(SELECT COUNT(*) FROM story_hierarchy)||'|'||(SELECT COUNT(*) FROM intake)||'|'||(SELECT COUNT(*) FROM trace)||'|'||(SELECT COUNT(*) FROM tool)||'|'||(SELECT COUNT(*) FROM changeset_applied);")"
 [[ "$before" == "$after" ]] || { echo "idempotent replay changed generic fixture state" >&2; exit 1; }
 
 echo "generic changeset rebuild passed: $expected_changesets fixtures, $expected_operations operations"
