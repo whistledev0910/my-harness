@@ -72,14 +72,14 @@ begin_with_crash() {
 # the same transition, and can be compensated without any rename.
 fixture=$(make_fixture preflight-fence)
 "$transition" --repo-root "$fixture" fence --transition-id transition-preflight
-assert_fenced "$fixture" 0
+assert_fenced "$fixture" 1
 "$transition" --repo-root "$fixture" recover --strategy compensate
 HARNESS_REPO_ROOT="$fixture" HARNESS_DB_PATH="$fixture/harness.db" \
   "$cli" query stats >/dev/null
 
 fixture=$(make_fixture promoted-fence)
 "$transition" --repo-root "$fixture" fence --transition-id transition-promoted
-assert_fenced "$fixture" 0
+assert_fenced "$fixture" 1
 "$transition" --repo-root "$fixture" begin \
   --transition-id transition-promoted \
   --fresh-db "$fixture/prepared/harness.db" \

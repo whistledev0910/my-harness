@@ -104,8 +104,8 @@ fn validate_journal(path: &Path, mutates_state: bool) -> Result<(), EpochFenceEr
             reason: "payload.state is missing or not a string".to_owned(),
         })?;
     let terminal = state == "complete" || state == "compensated";
-    let verified_pair_pending_validation = state == "switched_pending_validation";
-    if !terminal && (mutates_state || !verified_pair_pending_validation) {
+    let verified_read_only_state = state == "fenced" || state == "switched_pending_validation";
+    if !terminal && (mutates_state || !verified_read_only_state) {
         let transition_id = envelope
             .payload
             .get("transition_id")
@@ -188,6 +188,17 @@ mod tests {
     fn switched_pair_allows_reads_but_not_writes() {
         let temp = tempfile::tempdir().unwrap();
         write_journal(temp.path(), "switched_pending_validation", true);
+        drop(acquire_command_guard(temp.path(), false).unwrap());
+        assert!(matches!(
+            acquire_command_guard(temp.path(), true),
+            Err(EpochFenceError::TransitionInProgress { .. })
+        ));
+    }
+
+    #[test]
+    fn preflight_fence_allows_reads_but_not_writes() {
+        let temp = tempfile::tempdir().unwrap();
+        write_journal(temp.path(), "fenced", true);
         drop(acquire_command_guard(temp.path(), false).unwrap());
         assert!(matches!(
             acquire_command_guard(temp.path(), true),
