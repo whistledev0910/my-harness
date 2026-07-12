@@ -41,14 +41,16 @@ jobs:
 
           git pull --ff-only origin main
 
-          pr_json="$(gh pr view "$PR_NUMBER" --json number,title,author,files,mergeCommit)"
+          pr_json="$(gh pr view "$PR_NUMBER" --json number,title,author,mergeCommit)"
           pr_title="$(jq -r '.title' <<<"$pr_json")"
           pr_author="$(jq -r '.author.login // "unknown"' <<<"$pr_json")"
           merge_sha="$(jq -r '.mergeCommit.oid // empty' <<<"$pr_json")"
-          changed_files="$(jq -r '.files[].path' <<<"$pr_json")"
+          changed_files_json="$(gh api --paginate --slurp \
+            "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100")"
+          changed_files="$(jq -r '.[][] | .filename' <<<"$changed_files_json")"
 
           cli_changed=false
-          if grep -Eq '^(crates/harness-cli/|scripts/schema/|scripts/build-harness-cli-release\.sh$|Cargo\.toml$|Cargo\.lock$)' <<<"$changed_files"; then
+          if scripts/harness-cli-release-changed.sh <<<"$changed_files"; then
             cli_changed=true
           fi
 
@@ -84,8 +86,8 @@ jobs:
             else
               printf -- '- Harness CLI release: not required\n'
             fi
-            printf -- '- Changed files:\n'
-            sed 's/^/  - `/' <<<"$changed_files" | sed 's/$/`/'
+            python3 scripts/render-changelog-files.py --limit 20 \
+              <<<"$changed_files_json"
             printf '\n'
           } > "$entry"
 

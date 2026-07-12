@@ -3,7 +3,6 @@ name: Harness CLI Release
 on:
   push:
     tags:
-      - "v*"
       - "harness-cli-v*"
   workflow_dispatch:
     inputs:
@@ -42,10 +41,13 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Check formatting
-        run: cargo fmt --check
+        run: cargo fmt -p harness-cli -- --check
 
       - name: Run tests
-        run: cargo test --workspace
+        run: cargo test -p harness-cli --locked
+
+      - name: Run clippy
+        run: cargo clippy -p harness-cli --all-targets --locked -- -D warnings
 
       - name: Check shell scripts
         run: |
