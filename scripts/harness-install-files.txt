@@ -25,6 +25,7 @@ docs/decisions/0005-prebuilt-rust-harness-cli.md
 docs/decisions/0006-phase-4-benchmark-triage.md
 docs/decisions/0007-improvement-proposal-rules.md
 docs/decisions/README.md
+docs/contracts/harness-orchestration-v1.md
 docs/product/README.md
 docs/stories/README.md
 docs/stories/backlog.md

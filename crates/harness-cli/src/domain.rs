@@ -142,6 +142,18 @@ pub fn sha256_hex(material: &str) -> String {
         .collect()
 }
 
+/// SHA-256 for protocol artifacts whose identity is their exact byte stream.
+/// This deliberately does not normalize line endings or Unicode.
+pub fn sha256_bytes(material: &[u8]) -> String {
+    let mut digest = Sha256::new();
+    digest.update(material);
+    digest
+        .finalize()
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
+}
+
 pub const RESPONSIBILITIES: &[&str] = &[
     "Task specification",
     "Context selection",

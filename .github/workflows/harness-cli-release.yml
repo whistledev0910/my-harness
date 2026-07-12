@@ -96,10 +96,14 @@ jobs:
         run: scripts/build-harness-cli-release.sh --target "${{ matrix.target }}"
 
       - name: Smoke built CLI
+        if: ${{ matrix.platform != 'windows-x64' }}
         shell: bash
-        run: |
-          "dist/${{ matrix.binary }}" --help
-          "dist/${{ matrix.binary }}" score-trace --help
+        run: tests/protocol/smoke-native-artifact.sh "dist/${{ matrix.binary }}"
+
+      - name: Smoke built CLI on Windows
+        if: ${{ matrix.platform == 'windows-x64' }}
+        shell: pwsh
+        run: tests/protocol/smoke-native-artifact.ps1 -Artifact "dist/${{ matrix.binary }}"
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

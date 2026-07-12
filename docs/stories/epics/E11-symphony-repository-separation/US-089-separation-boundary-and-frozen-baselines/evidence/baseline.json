@@ -1,0 +1,98 @@
+{
+  "frozen_sha": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9",
+  "commands": [
+    {
+      "name": "tool-versions",
+      "exit_status": 0,
+      "duration_seconds": 1,
+      "log_sha256": "b56d1a3df26680c159a2b2e8fd286e8cd83cab49f387e530a990bc956614afd4",
+      "argv": "sh -c git --version; cargo --version; rustc --version; node --version; npm --version; python3 --version; sqlite3 --version",
+      "log": "frozen-baseline/logs/tool-versions.log"
+    },
+    {
+      "name": "npm-ci",
+      "exit_status": 0,
+      "duration_seconds": 17,
+      "log_sha256": "fe80eff2494a2dc64a81ea2b3a643c89f372a40d4b18bf6e56a8c434af75c145",
+      "argv": "npm --prefix crates/harness-symphony/web-ui ci",
+      "log": "frozen-baseline/logs/npm-ci.log"
+    },
+    {
+      "name": "playwright-browser",
+      "exit_status": 0,
+      "duration_seconds": 1,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": "npm --prefix crates/harness-symphony/web-ui exec -- playwright install chromium",
+      "log": "frozen-baseline/logs/playwright-browser.log"
+    },
+    {
+      "name": "cargo-test",
+      "exit_status": 0,
+      "duration_seconds": 16,
+      "log_sha256": "6cd9423e2231522324fec86553705dc5e4a1da98387007b05461c902a4a2d12f",
+      "argv": "cargo test --workspace",
+      "log": "frozen-baseline/logs/cargo-test.log"
+    },
+    {
+      "name": "web-build",
+      "exit_status": 0,
+      "duration_seconds": 4,
+      "log_sha256": "8fe735adcfb93a599d24aaadea337b82cd474ba1093cbbf5b6e2ddeca1e3b957",
+      "argv": "npm --prefix crates/harness-symphony/web-ui run build",
+      "log": "frozen-baseline/logs/web-build.log"
+    },
+    {
+      "name": "web-e2e",
+      "exit_status": 0,
+      "duration_seconds": 17,
+      "log_sha256": "24ac37add5bc462a4250845010bb3f3f1b68bd9a51fb121f32b28577d7d92543",
+      "argv": "npm --prefix crates/harness-symphony/web-ui run e2e",
+      "log": "frozen-baseline/logs/web-e2e.log"
+    },
+    {
+      "name": "desktop-smoke",
+      "exit_status": 0,
+      "duration_seconds": 7,
+      "log_sha256": "e83714a6b75aba0b640eefc13610da4b722365bb70b2e1a5e597f89760702e3c",
+      "argv": "npm --prefix crates/harness-symphony/web-ui run desktop:smoke",
+      "log": "frozen-baseline/logs/desktop-smoke.log"
+    },
+    {
+      "name": "cargo-fmt",
+      "exit_status": 0,
+      "duration_seconds": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "argv": "cargo fmt --check",
+      "log": "frozen-baseline/logs/cargo-fmt.log"
+    },
+    {
+      "name": "cargo-clippy",
+      "exit_status": 0,
+      "duration_seconds": 4,
+      "log_sha256": "53c2c8f92ab3fecf469e11a4c33889e0b67e143ebe630611e91bb7e4e50a1eef",
+      "argv": "cargo clippy --workspace -- -D warnings",
+      "log": "frozen-baseline/logs/cargo-clippy.log"
+    },
+    {
+      "name": "changeset-rebuild",
+      "exit_status": 0,
+      "duration_seconds": 8,
+      "log_sha256": "a0c4c66f332bf465fd5f55500282fd62f6417e723831b55f8e6694b60c5bb73f",
+      "argv": "scripts/validate-changeset-rebuild.sh",
+      "log": "frozen-baseline/logs/changeset-rebuild.log"
+    },
+    {
+      "name": "changeset-validator-tests",
+      "exit_status": 0,
+      "duration_seconds": 6,
+      "log_sha256": "4e9db942a415575e92e18047d9e947c943bc84529fc37c5ea2306b558734e7eb",
+      "argv": "scripts/test-validate-changeset-rebuild.sh",
+      "log": "frozen-baseline/logs/changeset-validator-tests.log"
+    }
+  ],
+  "expected_counts": {
+    "harness_cli_rust_tests": 73,
+    "harness_symphony_rust_tests": 99,
+    "playwright_tests": 19
+  }
+}

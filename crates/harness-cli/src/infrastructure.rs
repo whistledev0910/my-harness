@@ -1,6 +1,6 @@
 use std::env;
 use std::fs::{self, OpenOptions};
-use std::io::{Seek, SeekFrom, Write};
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::str::FromStr;
@@ -15,20 +15,23 @@ use thiserror::Error;
 
 use crate::application::{
     BacklogAddInput, BacklogCloseInput, BacklogOutcomeInput, BrownfieldImportResult,
-    ChangesetApplyResult, DbRebuildResult, DecisionAddInput, DecisionVerifyResult, HarnessContext,
+    ChangesetApplyResult, ChangesetStatusResult, ContractDatabaseState, ContractDiscoveryResult,
+    DbRebuildResult, DbSnapshotResult, DecisionAddInput, DecisionVerifyResult, HarnessContext,
     ImprovementHealthItem, ImprovementHealthResult, InitResult, IntakeInput, InterventionAddInput,
     InterventionFilter, LegacyReconcileRecord, LegacyReconcileResult, MigrateResult,
-    OutcomeObservationRecord, QueryTable, StoryAddInput, StoryBacklogLinkInput,
-    StoryBacklogLinkRecord, StoryCompleteResult, StoryDependencyInput, StoryDependencyRecord,
-    StoryUpdateInput, StoryVerifyResult, ToolRegisterInput, TraceInput,
+    OrchestrationStoryRecord, OutcomeObservationRecord, QueryTable, StoryAddInput,
+    StoryBacklogLinkInput, StoryBacklogLinkRecord, StoryCasUpdateInput, StoryCasUpdateResult,
+    StoryCompleteResult, StoryDependencyInput, StoryDependencyRecord, StoryHierarchyInput,
+    StoryHierarchyRecord, StoryUpdateInput, StoryVerifyResult, ToolRegisterInput, TraceInput,
+    WorkGraphResult,
 };
 use crate::domain::{
-    compiled_tool_registry, normalize_token, proposal_key, score_context, score_trace, sha256_hex,
-    stable_uid, validate_tool_description, AuditFinding, AuditResult, BacklogFilter, BacklogRecord,
-    ContextScoreResult, ContextScoreSource, DecisionRecord, FrictionRecord, HarnessStats,
-    ImprovementProposal, IntakeRecord, InterventionRecord, ProposalEvidence, RiskLane,
-    StoryMatrixRecord, StoryVerifyAllItem, StoryVerifyAllResult, StoryVerifyStatus, ToolArgSpec,
-    ToolEntry, TraceRecord, TraceScoreResult, TraceScoreSource,
+    compiled_tool_registry, normalize_token, proposal_key, score_context, score_trace,
+    sha256_bytes, sha256_hex, stable_uid, validate_tool_description, AuditFinding, AuditResult,
+    BacklogFilter, BacklogRecord, ContextScoreResult, ContextScoreSource, DecisionRecord,
+    FrictionRecord, HarnessStats, ImprovementProposal, IntakeRecord, InterventionRecord,
+    ProposalEvidence, RiskLane, StoryMatrixRecord, StoryVerifyAllItem, StoryVerifyAllResult,
+    StoryVerifyStatus, ToolArgSpec, ToolEntry, TraceRecord, TraceScoreResult, TraceScoreSource,
 };
 
 pub type Result<T> = std::result::Result<T, HarnessInfraError>;
@@ -53,6 +56,26 @@ pub enum HarnessInfraError {
     StoryDependencySelf(String),
     #[error("story dependency: adding '{0}' -> '{1}' would create a cycle")]
     StoryDependencyCycle(String, String),
+    #[error("story hierarchy: a story cannot be its own parent ('{0}')")]
+    StoryHierarchySelf(String),
+    #[error("story hierarchy: adding parent '{0}' -> child '{1}' would create a cycle")]
+    StoryHierarchyCycle(String, String),
+    #[error("story update conflict: story '{id}' expected status '{expected}' but stored status is '{actual}'")]
+    StoryStatusConflict {
+        id: String,
+        expected: String,
+        actual: String,
+    },
+    #[error("story update conflict: story '{0}' is not runnable")]
+    StoryNotRunnable(String),
+    #[error("changeset identity conflict: run '{id}' was previously applied with SHA-256 '{applied_sha256}', not '{content_sha256}'")]
+    ChangesetIdentityConflict {
+        id: String,
+        applied_sha256: String,
+        content_sha256: String,
+    },
+    #[error("database snapshot: output already exists at {0}")]
+    SnapshotOutputExists(String),
     #[error("story backlog: backlog item '{0}' not found")]
     StoryBacklogNotFound(i64),
     #[error(
@@ -139,6 +162,13 @@ pub trait HarnessRepository {
         backlog_id: Option<i64>,
     ) -> Result<Vec<StoryBacklogLinkRecord>>;
     fn query_story_dependencies(&self, story: Option<&str>) -> Result<Vec<StoryDependencyRecord>>;
+    fn add_story_hierarchy(&self, input: StoryHierarchyInput) -> Result<bool>;
+    fn remove_story_hierarchy(&self, input: StoryHierarchyInput) -> Result<bool>;
+    fn query_story_hierarchy(&self, story: Option<&str>) -> Result<Vec<StoryHierarchyRecord>>;
+    fn query_orchestration_stories(&self) -> Result<Vec<OrchestrationStoryRecord>>;
+    fn query_work_graph(&self) -> Result<WorkGraphResult>;
+    fn update_story_cas(&self, input: StoryCasUpdateInput) -> Result<StoryCasUpdateResult>;
+    fn discover_contract(&self) -> Result<ContractDiscoveryResult>;
     fn verify_story(&self, id: &str) -> Result<StoryVerifyResult>;
     fn complete_story(&self, id: &str) -> Result<StoryCompleteResult>;
     fn verify_all_stories(&self) -> Result<StoryVerifyAllResult>;
@@ -178,6 +208,8 @@ pub trait HarnessRepository {
     fn propose(&self, decision: ProposalDecision) -> Result<ProposalResult>;
     fn query_sql(&self, sql: &str) -> Result<QueryTable>;
     fn apply_changeset(&self, path: &Path) -> Result<ChangesetApplyResult>;
+    fn changeset_status(&self, path: &Path) -> Result<ChangesetStatusResult>;
+    fn snapshot_db(&self, output: &Path) -> Result<DbSnapshotResult>;
     fn rebuild_db(&self, changeset_dir: &Path) -> Result<DbRebuildResult>;
 }
 
@@ -209,6 +241,13 @@ pub struct SqliteHarnessRepository {
 struct ChangesetAppend {
     path: PathBuf,
     original_len: u64,
+}
+
+#[derive(Debug)]
+struct ParsedChangeset {
+    id: String,
+    content_sha256: String,
+    operations: Vec<Value>,
 }
 
 #[derive(Debug, Default)]
@@ -548,6 +587,82 @@ impl SqliteHarnessRepository {
         Ok(version)
     }
 
+    fn query_orchestration_stories_from(
+        connection: &Connection,
+    ) -> Result<Vec<OrchestrationStoryRecord>> {
+        let mut statement = connection.prepare(
+            "SELECT s.id, s.title, s.risk_lane, s.contract_doc, s.status,
+                    s.verify_command,
+                    CASE WHEN s.status='planned'
+                               AND length(trim(COALESCE(s.verify_command,''))) > 0
+                               AND NOT EXISTS (
+                                   SELECT 1 FROM story_dependency d
+                                   JOIN story blocker ON blocker.id=d.story_id
+                                   WHERE d.blocks_story_id=s.id
+                                     AND blocker.status <> 'implemented'
+                               )
+                         THEN 1 ELSE 0 END AS runnable
+             FROM story s ORDER BY s.id;",
+        )?;
+        let rows = statement.query_map([], |row| {
+            Ok(OrchestrationStoryRecord {
+                id: row.get(0)?,
+                title: row.get(1)?,
+                risk_lane: row.get(2)?,
+                contract_doc: row.get(3)?,
+                status: row.get(4)?,
+                verify_command: row.get(5)?,
+                runnable: row.get::<_, i64>(6)? == 1,
+            })
+        })?;
+        collect_rows(rows)
+    }
+
+    fn query_dependencies_from(connection: &Connection) -> Result<Vec<StoryDependencyRecord>> {
+        let mut statement = connection.prepare(
+            "SELECT story_id, blocks_story_id FROM story_dependency
+             ORDER BY story_id, blocks_story_id;",
+        )?;
+        let rows = statement.query_map([], |row| {
+            Ok(StoryDependencyRecord {
+                blocker: row.get(0)?,
+                blocked: row.get(1)?,
+            })
+        })?;
+        collect_rows(rows)
+    }
+
+    fn query_hierarchy_from(connection: &Connection) -> Result<Vec<StoryHierarchyRecord>> {
+        let mut statement = connection.prepare(
+            "SELECT parent_story_id, child_story_id FROM story_hierarchy
+             ORDER BY parent_story_id, child_story_id;",
+        )?;
+        let rows = statement.query_map([], |row| {
+            Ok(StoryHierarchyRecord {
+                parent: row.get(0)?,
+                child: row.get(1)?,
+            })
+        })?;
+        collect_rows(rows)
+    }
+
+    fn work_graph_from(connection: &Connection) -> Result<WorkGraphResult> {
+        let stories = Self::query_orchestration_stories_from(connection)?;
+        let dependencies = Self::query_dependencies_from(connection)?;
+        let hierarchy = Self::query_hierarchy_from(connection)?;
+        let canonical = serde_json::to_vec(&json!({
+            "stories": &stories,
+            "dependencies": &dependencies,
+            "hierarchy": &hierarchy,
+        }))?;
+        Ok(WorkGraphResult {
+            revision: sha256_bytes(&canonical),
+            stories,
+            dependencies,
+            hierarchy,
+        })
+    }
+
     fn apply_schema_v1(&self, connection: &Connection) -> Result<()> {
         let schema_path = self.schema_dir.join("001-init.sql");
         if !schema_path.exists() {
@@ -684,6 +799,70 @@ impl SqliteHarnessRepository {
         file.sync_all()?;
 
         Ok(Some(ChangesetAppend { path, original_len }))
+    }
+
+    fn parse_changeset(&self, path: &Path) -> Result<ParsedChangeset> {
+        let bytes = fs::read(path)?;
+        let content_sha256 = sha256_bytes(&bytes);
+        let content = std::str::from_utf8(&bytes).map_err(|error| {
+            HarnessInfraError::InvalidChangeset(format!("{} is not UTF-8: {error}", path.display()))
+        })?;
+        let mut operations = Vec::new();
+        for (index, line) in content.lines().enumerate() {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let value = serde_json::from_str::<Value>(line).map_err(|error| {
+                HarnessInfraError::InvalidChangeset(format!(
+                    "{} line {} is not valid JSON: {error}",
+                    path.display(),
+                    index + 1
+                ))
+            })?;
+            operations.push(value);
+        }
+        let header = operations
+            .first()
+            .filter(|value| value.get("op").and_then(Value::as_str) == Some("changeset.header"))
+            .ok_or_else(|| {
+                HarnessInfraError::InvalidChangeset(
+                    "first operation must be changeset.header".to_owned(),
+                )
+            })?;
+        if header.get("version").and_then(Value::as_i64) != Some(1) {
+            return Err(HarnessInfraError::InvalidChangeset(
+                "changeset.header version must be 1".to_owned(),
+            ));
+        }
+        let id = required_string(header, "run_id")?;
+        if id.trim().is_empty() {
+            return Err(HarnessInfraError::InvalidChangeset(
+                "changeset.header run_id must be nonblank".to_owned(),
+            ));
+        }
+        let base_schema_version = header
+            .get("base_schema_version")
+            .and_then(Value::as_i64)
+            .ok_or_else(|| {
+                HarnessInfraError::InvalidChangeset(
+                    "changeset.header base_schema_version must be an integer".to_owned(),
+                )
+            })?;
+        let schema_maximum = self
+            .migration_files()?
+            .last()
+            .map(|(version, _)| *version)
+            .unwrap_or(1);
+        if !(1..=schema_maximum).contains(&base_schema_version) {
+            return Err(HarnessInfraError::InvalidChangeset(format!(
+                "changeset.header base_schema_version {base_schema_version} is outside supported range 1..={schema_maximum}"
+            )));
+        }
+        Ok(ParsedChangeset {
+            id,
+            content_sha256,
+            operations,
+        })
     }
 
     fn import_matrix(&self, connection: &Connection) -> Result<usize> {
@@ -1387,6 +1566,201 @@ impl HarnessRepository for SqliteHarnessRepository {
             })
         })?;
         collect_rows(rows)
+    }
+
+    fn add_story_hierarchy(&self, input: StoryHierarchyInput) -> Result<bool> {
+        if input.parent == input.child {
+            return Err(HarnessInfraError::StoryHierarchySelf(input.parent));
+        }
+        let mut connection = self.open_existing()?;
+        self.with_logged_write(&mut connection, |transaction| {
+            ensure_story_exists(transaction, &input.parent)?;
+            ensure_story_exists(transaction, &input.child)?;
+            if hierarchy_path_exists(transaction, &input.child, &input.parent)? {
+                return Err(HarnessInfraError::StoryHierarchyCycle(
+                    input.parent,
+                    input.child,
+                ));
+            }
+            let changed = transaction.execute(
+                "INSERT INTO story_hierarchy (parent_story_id, child_story_id)
+                 VALUES (?1, ?2) ON CONFLICT(parent_story_id, child_story_id) DO NOTHING;",
+                params![input.parent, input.child],
+            )? > 0;
+            let operations = if changed {
+                vec![json!({
+                    "op": "story.hierarchy.add",
+                    "version": 1,
+                    "id": input.parent,
+                    "payload": { "child": input.child },
+                })]
+            } else {
+                Vec::new()
+            };
+            Ok((changed, operations))
+        })
+    }
+
+    fn remove_story_hierarchy(&self, input: StoryHierarchyInput) -> Result<bool> {
+        let mut connection = self.open_existing()?;
+        self.with_logged_write(&mut connection, |transaction| {
+            let changed = transaction.execute(
+                "DELETE FROM story_hierarchy WHERE parent_story_id=?1 AND child_story_id=?2;",
+                params![input.parent, input.child],
+            )? > 0;
+            let operations = if changed {
+                vec![json!({
+                    "op": "story.hierarchy.remove",
+                    "version": 1,
+                    "id": input.parent,
+                    "payload": { "child": input.child },
+                })]
+            } else {
+                Vec::new()
+            };
+            Ok((changed, operations))
+        })
+    }
+
+    fn query_story_hierarchy(&self, story: Option<&str>) -> Result<Vec<StoryHierarchyRecord>> {
+        let connection = self.open_existing()?;
+        let mut statement = connection.prepare(
+            "SELECT parent_story_id, child_story_id FROM story_hierarchy
+             WHERE (?1 IS NULL OR parent_story_id=?1 OR child_story_id=?1)
+             ORDER BY parent_story_id, child_story_id;",
+        )?;
+        let rows = statement.query_map(params![story], |row| {
+            Ok(StoryHierarchyRecord {
+                parent: row.get(0)?,
+                child: row.get(1)?,
+            })
+        })?;
+        collect_rows(rows)
+    }
+
+    fn query_orchestration_stories(&self) -> Result<Vec<OrchestrationStoryRecord>> {
+        let connection = self.open_existing()?;
+        Self::query_orchestration_stories_from(&connection)
+    }
+
+    fn query_work_graph(&self) -> Result<WorkGraphResult> {
+        let mut connection = self.open_existing()?;
+        let transaction = connection.transaction()?;
+        let result = Self::work_graph_from(&transaction)?;
+        transaction.commit()?;
+        Ok(result)
+    }
+
+    fn update_story_cas(&self, input: StoryCasUpdateInput) -> Result<StoryCasUpdateResult> {
+        let mut connection = self.open_existing()?;
+        self.with_logged_write(&mut connection, |transaction| {
+            let (actual, runnable): (String, i64) = transaction
+                .query_row(
+                    "SELECT s.status,
+                            CASE WHEN s.status='planned'
+                                      AND length(trim(COALESCE(s.verify_command,''))) > 0
+                                      AND NOT EXISTS (
+                                          SELECT 1 FROM story_dependency d
+                                          JOIN story blocker ON blocker.id=d.story_id
+                                          WHERE d.blocks_story_id=s.id
+                                            AND blocker.status <> 'implemented'
+                                      )
+                                 THEN 1 ELSE 0 END
+                     FROM story s WHERE s.id=?1;",
+                    params![input.id],
+                    |row| Ok((row.get(0)?, row.get(1)?)),
+                )
+                .optional()?
+                .ok_or_else(|| HarnessInfraError::StoryNotFound(input.id.clone()))?;
+            if actual != input.expected_status {
+                return Err(HarnessInfraError::StoryStatusConflict {
+                    id: input.id,
+                    expected: input.expected_status,
+                    actual,
+                });
+            }
+            if input.require_runnable && runnable != 1 {
+                return Err(HarnessInfraError::StoryNotRunnable(input.id));
+            }
+            transaction.execute(
+                "UPDATE story SET status=?1 WHERE id=?2;",
+                params![input.status, input.id],
+            )?;
+            let result = StoryCasUpdateResult {
+                id: input.id.clone(),
+                before_status: actual,
+                after_status: input.status.clone(),
+                runnable_before: runnable == 1,
+            };
+            Ok((
+                result,
+                vec![json!({
+                    "op": "story.update",
+                    "version": 1,
+                    "id": input.id,
+                    "payload": {
+                        "status": input.status,
+                        "evidence": null,
+                        "unit_proof": null,
+                        "integration_proof": null,
+                        "e2e_proof": null,
+                        "platform_proof": null,
+                        "verify_command": null,
+                    }
+                })],
+            ))
+        })
+    }
+
+    fn discover_contract(&self) -> Result<ContractDiscoveryResult> {
+        const CAPABILITIES: &[&str] = &[
+            "changesets.apply.v1",
+            "changesets.status-sha.v1",
+            "isolated-db-snapshot.v1",
+            "isolated-db.v1",
+            "semantic-operation-log.v1",
+            "stories.read.v1",
+            "stories.write.v1",
+            "story-dependencies.read-write.v1",
+            "story-hierarchy.read-write.v1",
+            "work-graph.read.v1",
+        ];
+        let maximum = self
+            .migration_files()?
+            .last()
+            .map(|(version, _)| *version)
+            .unwrap_or(1);
+        let (database_state, database_schema_version) = if !self.db_path.exists() {
+            (ContractDatabaseState::Missing, None)
+        } else {
+            use rusqlite::OpenFlags;
+            let connection = Connection::open_with_flags(
+                &self.db_path,
+                OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+            )?;
+            let version = Self::schema_version(&connection).unwrap_or(-1);
+            let state = if version < 1 || version > maximum {
+                ContractDatabaseState::Unsupported
+            } else if version < maximum {
+                ContractDatabaseState::NeedsMigration
+            } else {
+                ContractDatabaseState::Current
+            };
+            (state, Some(version))
+        };
+        Ok(ContractDiscoveryResult {
+            protocol_version: 1,
+            cli_version: env!("CARGO_PKG_VERSION").to_owned(),
+            schema_minimum: 1,
+            schema_maximum: maximum,
+            database_state,
+            database_schema_version,
+            required_environment_variables: vec!["HARNESS_DB_PATH".to_owned()],
+            capabilities: CAPABILITIES
+                .iter()
+                .map(|value| (*value).to_owned())
+                .collect(),
+        })
     }
 
     fn link_story_backlog(&self, input: StoryBacklogLinkInput) -> Result<bool> {
@@ -3117,68 +3491,194 @@ impl HarnessRepository for SqliteHarnessRepository {
     }
 
     fn apply_changeset(&self, path: &Path) -> Result<ChangesetApplyResult> {
-        let content = fs::read_to_string(path)?;
-        let mut operations = Vec::new();
-        for (index, line) in content.lines().enumerate() {
-            if line.trim().is_empty() {
-                continue;
-            }
-            let value = serde_json::from_str::<Value>(line).map_err(|error| {
-                HarnessInfraError::InvalidChangeset(format!(
-                    "{} line {} is not valid JSON: {error}",
-                    path.display(),
-                    index + 1
-                ))
-            })?;
-            operations.push(value);
-        }
-
-        let header = operations
-            .first()
-            .filter(|value| value.get("op").and_then(Value::as_str) == Some("changeset.header"))
-            .ok_or_else(|| {
-                HarnessInfraError::InvalidChangeset(
-                    "first operation must be changeset.header".to_owned(),
-                )
-            })?;
-        let id = required_string(header, "run_id")?;
-
+        // Parsing, header version, base range, and content identity are all
+        // established before migration or any other database write.
+        let parsed = self.parse_changeset(path)?;
         self.migrate()?;
         let mut connection = self.open_existing()?;
-        let already_applied = connection
+        let applied_sha256: Option<Option<String>> = connection
             .query_row(
-                "SELECT 1 FROM changeset_applied WHERE id=?1;",
-                params![id],
-                |_| Ok(()),
+                "SELECT content_sha256 FROM changeset_applied WHERE id=?1;",
+                params![parsed.id],
+                |row| row.get(0),
             )
-            .optional()?
-            .is_some();
-        if already_applied {
-            return Ok(ChangesetApplyResult {
-                id,
-                applied: false,
-                operations: 0,
+            .optional()?;
+        if let Some(applied_sha256) = applied_sha256 {
+            if applied_sha256.as_deref() == Some(parsed.content_sha256.as_str()) {
+                return Ok(ChangesetApplyResult {
+                    id: parsed.id,
+                    content_sha256: parsed.content_sha256,
+                    applied: false,
+                    operations: 0,
+                });
+            }
+            return Err(HarnessInfraError::ChangesetIdentityConflict {
+                id: parsed.id,
+                applied_sha256: applied_sha256.unwrap_or_else(|| "unknown-legacy-content".into()),
+                content_sha256: parsed.content_sha256,
             });
         }
 
         let transaction = connection.transaction()?;
         let mut context = ChangesetApplyContext::default();
         let mut applied_operations = 0usize;
-        for operation in operations.iter().skip(1) {
+        for operation in parsed.operations.iter().skip(1) {
             apply_changeset_operation(&transaction, operation, &mut context)?;
             applied_operations += 1;
         }
         transaction.execute(
-            "INSERT INTO changeset_applied (id, path) VALUES (?1, ?2);",
-            params![id, path.display().to_string()],
+            "INSERT INTO changeset_applied (id, path, content_sha256) VALUES (?1, ?2, ?3);",
+            params![parsed.id, path.display().to_string(), parsed.content_sha256],
         )?;
         transaction.commit()?;
 
         Ok(ChangesetApplyResult {
-            id,
+            id: parsed.id,
+            content_sha256: parsed.content_sha256,
             applied: true,
             operations: applied_operations,
         })
+    }
+
+    fn changeset_status(&self, path: &Path) -> Result<ChangesetStatusResult> {
+        let parsed = self.parse_changeset(path)?;
+        if !self.db_path.exists() {
+            return Ok(ChangesetStatusResult {
+                id: parsed.id,
+                content_sha256: parsed.content_sha256,
+                applied: false,
+                operation_count: parsed.operations.len().saturating_sub(1),
+            });
+        }
+        use rusqlite::OpenFlags;
+        let connection = Connection::open_with_flags(
+            &self.db_path,
+            OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_NO_MUTEX,
+        )?;
+        let has_applied_table: bool = connection
+            .query_row(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='changeset_applied';",
+                [],
+                |_| Ok(()),
+            )
+            .optional()?
+            .is_some();
+        if !has_applied_table {
+            return Ok(ChangesetStatusResult {
+                id: parsed.id,
+                content_sha256: parsed.content_sha256,
+                applied: false,
+                operation_count: parsed.operations.len().saturating_sub(1),
+            });
+        }
+        let has_sha_column: bool = connection
+            .query_row(
+                "SELECT 1 FROM pragma_table_info('changeset_applied') WHERE name='content_sha256';",
+                [],
+                |_| Ok(()),
+            )
+            .optional()?
+            .is_some();
+        let applied_sha256: Option<Option<String>> = if has_sha_column {
+            connection
+                .query_row(
+                    "SELECT content_sha256 FROM changeset_applied WHERE id=?1;",
+                    params![parsed.id],
+                    |row| row.get(0),
+                )
+                .optional()?
+        } else {
+            connection
+                .query_row(
+                    "SELECT NULL FROM changeset_applied WHERE id=?1;",
+                    params![parsed.id],
+                    |row| row.get(0),
+                )
+                .optional()?
+        };
+        if let Some(applied_sha256) = applied_sha256 {
+            if applied_sha256.as_deref() != Some(parsed.content_sha256.as_str()) {
+                return Err(HarnessInfraError::ChangesetIdentityConflict {
+                    id: parsed.id,
+                    applied_sha256: applied_sha256
+                        .unwrap_or_else(|| "unknown-legacy-content".to_owned()),
+                    content_sha256: parsed.content_sha256,
+                });
+            }
+            return Ok(ChangesetStatusResult {
+                id: parsed.id,
+                content_sha256: parsed.content_sha256,
+                applied: true,
+                operation_count: parsed.operations.len().saturating_sub(1),
+            });
+        }
+        Ok(ChangesetStatusResult {
+            id: parsed.id,
+            content_sha256: parsed.content_sha256,
+            applied: false,
+            operation_count: parsed.operations.len().saturating_sub(1),
+        })
+    }
+
+    fn snapshot_db(&self, output: &Path) -> Result<DbSnapshotResult> {
+        if output.exists() {
+            return Err(HarnessInfraError::SnapshotOutputExists(
+                output.display().to_string(),
+            ));
+        }
+        let parent = output.parent().unwrap_or_else(|| Path::new("."));
+        let file_name = output
+            .file_name()
+            .and_then(|value| value.to_str())
+            .unwrap_or("harness.db");
+        let temporary = parent.join(format!(
+            ".{file_name}.tmp.{}.{}",
+            std::process::id(),
+            Self::unix_time_nanos()
+        ));
+        let attempt = (|| -> Result<DbSnapshotResult> {
+            let mut source = self.open_existing()?;
+            let transaction = source.transaction()?;
+            let graph_revision = Self::work_graph_from(&transaction)?.revision;
+            let source_logical_sha256 = logical_database_sha256(&transaction)?;
+            transaction.backup(rusqlite::MAIN_DB, &temporary, None)?;
+            transaction.commit()?;
+
+            let snapshot = Connection::open(&temporary)?;
+            let integrity: String =
+                snapshot.query_row("PRAGMA integrity_check;", [], |row| row.get(0))?;
+            if integrity != "ok" {
+                return Err(HarnessInfraError::InvalidChangeset(format!(
+                    "snapshot integrity check failed: {integrity}"
+                )));
+            }
+            let snapshot_logical_sha256 = logical_database_sha256(&snapshot)?;
+            if snapshot_logical_sha256 != source_logical_sha256 {
+                return Err(HarnessInfraError::InvalidChangeset(
+                    "snapshot logical state differs from source read transaction".to_owned(),
+                ));
+            }
+            drop(snapshot);
+            let mut file = fs::File::open(&temporary)?;
+            let mut bytes = Vec::new();
+            file.read_to_end(&mut bytes)?;
+            let snapshot_file_sha256 = sha256_bytes(&bytes);
+            file.sync_all()?;
+            fs::rename(&temporary, output)?;
+            if let Ok(directory) = fs::File::open(parent) {
+                let _ = directory.sync_all();
+            }
+            Ok(DbSnapshotResult {
+                output: output.to_owned(),
+                source_logical_sha256,
+                graph_revision,
+                snapshot_file_sha256,
+            })
+        })();
+        if attempt.is_err() {
+            let _ = fs::remove_file(&temporary);
+        }
+        attempt
     }
 
     fn rebuild_db(&self, changeset_dir: &Path) -> Result<DbRebuildResult> {
@@ -4340,6 +4840,68 @@ fn sql_value_to_string(value: ValueRef<'_>) -> String {
     }
 }
 
+/// Canonical full logical database digest. Table and row ordering is detached
+/// from SQLite's physical page layout so WAL checkpoints and VACUUM do not
+/// change this identity.
+fn logical_database_sha256(connection: &Connection) -> Result<String> {
+    let mut table_statement = connection.prepare(
+        "SELECT name, sql FROM sqlite_master
+         WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;",
+    )?;
+    let tables = table_statement.query_map([], |row| {
+        Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
+    })?;
+    let tables = collect_rows(tables)?;
+    let mut canonical_tables = Vec::new();
+    for (table, schema) in tables {
+        let escaped = table.replace('"', "\"\"");
+        let mut statement = connection.prepare(&format!("SELECT * FROM \"{escaped}\";"))?;
+        let columns = statement
+            .column_names()
+            .iter()
+            .map(|value| (*value).to_owned())
+            .collect::<Vec<_>>();
+        let column_count = statement.column_count();
+        let rows = statement.query_map([], |row| {
+            let mut values = Vec::with_capacity(column_count);
+            for index in 0..column_count {
+                let value = match row.get_ref(index)? {
+                    ValueRef::Null => json!(["null"]),
+                    ValueRef::Integer(value) => json!(["integer", value]),
+                    ValueRef::Real(value) => json!(["real_bits", value.to_bits().to_string()]),
+                    ValueRef::Text(value) => {
+                        json!(["text", String::from_utf8_lossy(value).into_owned()])
+                    }
+                    ValueRef::Blob(value) => json!([
+                        "blob_hex",
+                        value
+                            .iter()
+                            .map(|byte| format!("{byte:02x}"))
+                            .collect::<String>()
+                    ]),
+                };
+                values.push(value);
+            }
+            serde_json::to_string(&values).map_err(|error| {
+                rusqlite::Error::FromSqlConversionFailure(
+                    0,
+                    rusqlite::types::Type::Text,
+                    Box::new(error),
+                )
+            })
+        })?;
+        let mut rows = collect_rows(rows)?;
+        rows.sort();
+        canonical_tables.push(json!({
+            "name": table,
+            "schema": schema,
+            "columns": columns,
+            "rows": rows,
+        }));
+    }
+    Ok(sha256_bytes(&serde_json::to_vec(&canonical_tables)?))
+}
+
 fn rollback_changeset_append(append: &ChangesetAppend) -> Result<()> {
     let mut file = OpenOptions::new().write(true).open(&append.path)?;
     file.set_len(append.original_len)?;
@@ -4462,6 +5024,30 @@ fn apply_changeset_operation(
             params![
                 required_string(operation, "id")?,
                 required_string(payload, "blocked")?,
+            ],
+        )?,
+        "story.hierarchy.add" => {
+            let parent = required_string(operation, "id")?;
+            let child = required_string(payload, "child")?;
+            if parent == child {
+                return Err(HarnessInfraError::StoryHierarchySelf(parent));
+            }
+            ensure_story_exists(transaction, &parent)?;
+            ensure_story_exists(transaction, &child)?;
+            if hierarchy_path_exists(transaction, &child, &parent)? {
+                return Err(HarnessInfraError::StoryHierarchyCycle(parent, child));
+            }
+            transaction.execute(
+                "INSERT INTO story_hierarchy (parent_story_id, child_story_id) VALUES (?1, ?2)
+                 ON CONFLICT(parent_story_id, child_story_id) DO NOTHING;",
+                params![parent, child],
+            )?
+        }
+        "story.hierarchy.remove" => transaction.execute(
+            "DELETE FROM story_hierarchy WHERE parent_story_id=?1 AND child_story_id=?2;",
+            params![
+                required_string(operation, "id")?,
+                required_string(payload, "child")?,
             ],
         )?,
         "story.backlog.link" => {
@@ -5160,6 +5746,25 @@ fn dependency_path_exists(transaction: &Transaction<'_>, from: &str, to: &str) -
         .map_err(HarnessInfraError::from)
 }
 
+fn hierarchy_path_exists(transaction: &Transaction<'_>, from: &str, to: &str) -> Result<bool> {
+    transaction
+        .query_row(
+            "WITH RECURSIVE reachable(id) AS (
+                SELECT child_story_id FROM story_hierarchy WHERE parent_story_id=?1
+                UNION
+                SELECT hierarchy.child_story_id
+                FROM story_hierarchy AS hierarchy
+                JOIN reachable ON hierarchy.parent_story_id=reachable.id
+             )
+             SELECT 1 FROM reachable WHERE id=?2 LIMIT 1;",
+            params![from, to],
+            |_| Ok(()),
+        )
+        .optional()
+        .map(|value| value.is_some())
+        .map_err(HarnessInfraError::from)
+}
+
 fn required_string(value: &Value, field: &str) -> Result<String> {
     value
         .get(field)
@@ -5435,7 +6040,7 @@ mod tests {
         assert_eq!(repository.query_stats().unwrap().intakes, 0);
         let connection = repository.open_existing().unwrap();
         let schema_version = SqliteHarnessRepository::schema_version(&connection).unwrap();
-        assert_eq!(schema_version, 12);
+        assert_eq!(schema_version, 13);
         let story_columns = story_columns(&connection);
         assert!(story_columns.contains(&"verify_command".to_owned()));
         assert!(story_columns.contains(&"last_verified_at".to_owned()));
@@ -5473,11 +6078,11 @@ mod tests {
         drop(connection);
 
         let result = repository.migrate().unwrap();
-        assert_eq!(result.applied, vec![11, 12]);
+        assert_eq!(result.applied, vec![11, 12, 13]);
         let connection = repository.open_existing().unwrap();
         assert_eq!(
             SqliteHarnessRepository::schema_version(&connection).unwrap(),
-            12
+            13
         );
         assert!(connection
             .query_row(
@@ -5513,7 +6118,7 @@ mod tests {
         ).unwrap();
         drop(connection);
 
-        assert_eq!(repository.migrate().unwrap().applied, vec![12]);
+        assert_eq!(repository.migrate().unwrap().applied, vec![12, 13]);
         let connection = repository.open_existing().unwrap();
         let reason: Option<String> = connection
             .query_row(
@@ -5793,7 +6398,7 @@ mod tests {
         let header: Value = serde_json::from_str(lines[0]).unwrap();
         assert_eq!(header["op"], "changeset.header");
         assert_eq!(header["run_id"], "run_test");
-        assert_eq!(header["base_schema_version"], 12);
+        assert_eq!(header["base_schema_version"], 13);
         let operation: Value = serde_json::from_str(lines[1]).unwrap();
         assert_eq!(operation["op"], "intake.add");
         assert_eq!(operation["payload"]["summary"], "Logged write test");
@@ -6169,7 +6774,7 @@ mod tests {
         let connection = repository.open_existing().unwrap();
         assert_eq!(
             SqliteHarnessRepository::schema_version(&connection).unwrap(),
-            12
+            13
         );
         let applied = connection
             .query_row(
@@ -6280,11 +6885,11 @@ mod tests {
         let result = repository.migrate().unwrap();
 
         assert_eq!(result.current_version, 1);
-        assert_eq!(result.applied, vec![2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+        assert_eq!(result.applied, vec![2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
         let connection = repository.open_existing().unwrap();
         assert_eq!(
             SqliteHarnessRepository::schema_version(&connection).unwrap(),
-            12
+            13
         );
         let story_columns = story_columns(&connection);
         assert!(story_columns.contains(&"verify_command".to_owned()));
@@ -6336,7 +6941,7 @@ mod tests {
         // Upgrade: migration 005 must infer kind from the command prefix.
         assert_eq!(
             repository.migrate().unwrap().applied,
-            vec![5, 6, 7, 8, 9, 10, 11, 12]
+            vec![5, 6, 7, 8, 9, 10, 11, 12, 13]
         );
         let connection = repository.open_existing().unwrap();
         let kind_of = |name: &str| -> String {
@@ -8729,5 +9334,170 @@ implemented
             )
             .unwrap();
         assert_eq!(rebuilt_order, live_order);
+    }
+
+    #[test]
+    fn protocol_discovery_is_non_mutating() {
+        let (_temp, repository) = isolated_test_repository();
+        let missing = repository.discover_contract().unwrap();
+        assert_eq!(missing.database_state, ContractDatabaseState::Missing);
+        assert!(!repository.db_path.exists());
+        let connection = Connection::open(&repository.db_path).unwrap();
+        repository.apply_schema_v1(&connection).unwrap();
+        drop(connection);
+        let old = repository.discover_contract().unwrap();
+        assert_eq!(old.database_state, ContractDatabaseState::NeedsMigration);
+        assert_eq!(old.database_schema_version, Some(1));
+        let connection = Connection::open(&repository.db_path).unwrap();
+        assert_eq!(
+            SqliteHarnessRepository::schema_version(&connection).unwrap(),
+            1
+        );
+    }
+
+    #[test]
+    fn graph_cas_and_hierarchy_are_cycle_safe() {
+        let (_temp, repository) = isolated_test_repository();
+        repository.init().unwrap();
+        for id in ["US-A", "US-B", "US-C"] {
+            repository
+                .add_story(StoryAddInput {
+                    id: id.into(),
+                    title: id.into(),
+                    risk_lane: RiskLane::Normal,
+                    contract_doc: None,
+                    verify_command: Some("true".into()),
+                    notes: None,
+                })
+                .unwrap();
+        }
+        repository
+            .add_story_dependency(StoryDependencyInput {
+                blocker: "US-A".into(),
+                blocked: "US-B".into(),
+            })
+            .unwrap();
+        repository
+            .add_story_hierarchy(StoryHierarchyInput {
+                parent: "US-A".into(),
+                child: "US-B".into(),
+            })
+            .unwrap();
+        repository
+            .add_story_hierarchy(StoryHierarchyInput {
+                parent: "US-B".into(),
+                child: "US-C".into(),
+            })
+            .unwrap();
+        assert!(matches!(
+            repository
+                .add_story_hierarchy(StoryHierarchyInput {
+                    parent: "US-C".into(),
+                    child: "US-A".into()
+                })
+                .unwrap_err(),
+            HarnessInfraError::StoryHierarchyCycle(_, _)
+        ));
+        let first = repository.query_work_graph().unwrap();
+        assert_eq!(first, repository.query_work_graph().unwrap());
+        assert!(
+            first
+                .stories
+                .iter()
+                .find(|story| story.id == "US-A")
+                .unwrap()
+                .runnable
+        );
+        assert!(
+            !first
+                .stories
+                .iter()
+                .find(|story| story.id == "US-B")
+                .unwrap()
+                .runnable
+        );
+        assert!(matches!(
+            repository
+                .update_story_cas(StoryCasUpdateInput {
+                    id: "US-B".into(),
+                    status: "retired".into(),
+                    expected_status: "planned".into(),
+                    require_runnable: true
+                })
+                .unwrap_err(),
+            HarnessInfraError::StoryNotRunnable(_)
+        ));
+        let changed = repository
+            .update_story_cas(StoryCasUpdateInput {
+                id: "US-A".into(),
+                status: "implemented".into(),
+                expected_status: "planned".into(),
+                require_runnable: true,
+            })
+            .unwrap();
+        assert_eq!(
+            (
+                changed.before_status.as_str(),
+                changed.after_status.as_str()
+            ),
+            ("planned", "implemented")
+        );
+        assert!(matches!(
+            repository
+                .update_story_cas(StoryCasUpdateInput {
+                    id: "US-A".into(),
+                    status: "retired".into(),
+                    expected_status: "planned".into(),
+                    require_runnable: false
+                })
+                .unwrap_err(),
+            HarnessInfraError::StoryStatusConflict { .. }
+        ));
+    }
+
+    #[test]
+    fn changeset_id_is_bound_to_exact_content_sha() {
+        let (temp, repository) = isolated_test_repository();
+        repository.init().unwrap();
+        let path = temp.path().join("identity.changeset.jsonl");
+        fs::write(&path, "{\"op\":\"changeset.header\",\"version\":1,\"run_id\":\"run_identity\",\"base_schema_version\":13}\n{\"op\":\"story.add\",\"version\":1,\"id\":\"US-IDENTITY\",\"payload\":{\"title\":\"Identity\",\"risk_lane\":\"normal\",\"contract_doc\":null,\"verify_command\":\"true\",\"notes\":null}}\n").unwrap();
+        let status = repository.changeset_status(&path).unwrap();
+        assert!(!status.applied);
+        let applied = repository.apply_changeset(&path).unwrap();
+        assert_eq!(applied.content_sha256, status.content_sha256);
+        assert!(!repository.apply_changeset(&path).unwrap().applied);
+        fs::write(&path, "{\"op\":\"changeset.header\",\"version\":1,\"run_id\":\"run_identity\",\"base_schema_version\":13}\n").unwrap();
+        assert!(matches!(
+            repository.changeset_status(&path).unwrap_err(),
+            HarnessInfraError::ChangesetIdentityConflict { .. }
+        ));
+    }
+
+    #[test]
+    fn snapshot_contains_committed_wal_state() {
+        let (temp, repository) = isolated_test_repository();
+        repository.init().unwrap();
+        let writer = repository.open_existing().unwrap();
+        writer.execute("INSERT INTO story (id,title,risk_lane,verify_command) VALUES ('US-WAL','WAL','normal','true');", []).unwrap();
+        assert!(repository.db_path.with_extension("db-wal").exists());
+        let output = temp.path().join("snapshot.db");
+        let result = repository.snapshot_db(&output).unwrap();
+        let snapshot = Connection::open(&result.output).unwrap();
+        assert_eq!(
+            snapshot
+                .query_row("SELECT COUNT(*) FROM story WHERE id='US-WAL';", [], |row| {
+                    row.get::<_, i64>(0)
+                })
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            logical_database_sha256(&snapshot).unwrap(),
+            result.source_logical_sha256
+        );
+        assert_eq!(
+            sha256_bytes(&fs::read(&result.output).unwrap()),
+            result.snapshot_file_sha256
+        );
     }
 }

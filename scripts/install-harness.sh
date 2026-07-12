@@ -12,6 +12,10 @@ Options:
   -y, --yes              Accept defaults and skip prompts.
       --merge            On protected-path conflict, keep existing files in
                          place and install only missing Harness files.
+      --upgrade-cli      Replace the installed Harness CLI after checksum
+                         verification. Requires --ref.
+      --ref <tag>        Immutable Harness release tag used for both template
+                         files and the CLI artifact (harness-cli-vX.Y.Z).
       --refresh-agent-shim
                          Refresh an existing AGENTS.md into the small Harness
                          shim after backing it up. Old Harness-generated files
@@ -43,6 +47,7 @@ Examples:
   scripts/install-harness.sh ./my-project --force
   curl -fsSL https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh | bash -s -- --yes
   curl -fsSL https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh | bash -s -- --merge --yes
+  curl -fsSL https://raw.githubusercontent.com/hoangnb24/repository-harness/harness-cli-v0.1.12/scripts/install-harness.sh | bash -s -- --merge --upgrade-cli --ref harness-cli-v0.1.12 --yes
   curl -fsSL https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh | bash -s -- --merge --refresh-agent-shim --yes
   curl -fsSL https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh | bash -s -- --claude --yes
 EOF
@@ -611,14 +616,14 @@ default_cli_base_url() {
 install_harness_cli_binary() {
   [ "$INSTALL_RUST_CLI" -eq 1 ] || return 0
 
-  local platform binary_name binary_url checksum_url target tmp_dir binary_tmp checksum_tmp expected actual
+  local platform binary_name binary_url checksum_url target target_dir tmp_dir binary_tmp checksum_tmp expected actual
   platform="${HARNESS_CLI_PLATFORM:-$(detect_cli_platform)}"
   binary_name="harness-cli-$platform"
   binary_url="$CLI_BASE_URL/$binary_name"
   checksum_url="$binary_url.sha256"
   target="$TARGET_DIR/scripts/bin/harness-cli"
 
-  if [ -e "$target" ] && [ "$CONFLICT_ACTION" = "merge" ] && [ "$FORCE" -eq 0 ]; then
+  if [ -e "$target" ] && [ "$CONFLICT_ACTION" = "merge" ] && [ "$FORCE" -eq 0 ] && [ "$UPGRADE_CLI" -eq 0 ]; then
     log "skip     scripts/bin/harness-cli (merge keeps existing file)"
     SKIPPED=$((SKIPPED + 1))
     return 0
@@ -633,7 +638,9 @@ install_harness_cli_binary() {
 
   command -v curl >/dev/null 2>&1 || fail "curl is required to download the Harness CLI"
 
-  tmp_dir="$(mktemp -d)"
+  target_dir="$(dirname "$target")"
+  mkdir -p "$target_dir"
+  tmp_dir="$(mktemp -d "$target_dir/.harness-cli-upgrade.XXXXXX")"
   binary_tmp="$tmp_dir/$binary_name"
   checksum_tmp="$tmp_dir/$binary_name.sha256"
 
@@ -648,9 +655,8 @@ install_harness_cli_binary() {
     fail "Checksum mismatch for $binary_name: expected $expected, got $actual"
   fi
 
-  mkdir -p "$(dirname "$target")"
   if [ -e "$target" ]; then
-    if [ "$FORCE" -eq 1 ]; then
+    if [ "$FORCE" -eq 1 ] || [ "$UPGRADE_CLI" -eq 1 ]; then
       mkdir -p "$BACKUP_DIR/scripts/bin"
       cp -p "$target" "$BACKUP_DIR/scripts/bin/harness-cli"
     fi
@@ -661,8 +667,8 @@ install_harness_cli_binary() {
     log "created  scripts/bin/harness-cli"
   fi
 
-  cp "$binary_tmp" "$target"
-  chmod 755 "$target"
+  chmod 755 "$binary_tmp"
+  mv -f "$binary_tmp" "$target"
   rm -rf "$tmp_dir"
   log "verified scripts/bin/harness-cli ($platform)"
 }
@@ -759,6 +765,8 @@ DRY_RUN=0
 INSTALL_RUST_CLI=1
 REFRESH_AGENT_SHIM=0
 INSTALL_CLAUDE_SHIM=0
+UPGRADE_CLI=0
+REQUESTED_REF=""
 REQUESTED_CONFLICT_ACTION=""
 POSITIONAL_TARGET=""
 
@@ -780,6 +788,15 @@ while [ "$#" -gt 0 ]; do
     --merge)
       REQUESTED_CONFLICT_ACTION="merge"
       shift
+      ;;
+    --upgrade-cli)
+      UPGRADE_CLI=1
+      shift
+      ;;
+    --ref)
+      [ "$#" -ge 2 ] || fail "$1 requires an immutable Harness release tag"
+      REQUESTED_REF="$2"
+      shift 2
       ;;
     --refresh-agent-shim)
       REFRESH_AGENT_SHIM=1
@@ -843,7 +860,23 @@ SCHEMA_DIR="scripts/schema"
 CLI_BASE_URL="${HARNESS_CLI_BASE_URL:-}"
 CLI_BASE_URL="${CLI_BASE_URL%/}"
 
-if [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../AGENTS.md" ] && [ -f "$SCRIPT_DIR/../docs/HARNESS.md" ]; then
+if [ "$UPGRADE_CLI" -eq 0 ] && [ -n "$REQUESTED_REF" ]; then
+  fail "--ref is valid only with --upgrade-cli"
+fi
+
+if [ "$UPGRADE_CLI" -eq 1 ]; then
+  [ -n "$REQUESTED_REF" ] || fail "--upgrade-cli requires --ref <harness-cli-vX.Y.Z>"
+  [[ "$REQUESTED_REF" =~ ^harness-cli-v[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]] ||
+    fail "--ref must be an immutable Harness CLI release tag such as harness-cli-v0.1.12"
+  SOURCE_MODE="remote"
+  SOURCE_ROOT=""
+  SOURCE_BASE_URL="${HARNESS_SOURCE_BASE_URL:-https://raw.githubusercontent.com/hoangnb24/repository-harness/$REQUESTED_REF}"
+  SOURCE_BASE_URL="${SOURCE_BASE_URL%/}"
+  CLI_BASE_URL="${HARNESS_CLI_BASE_URL:-https://github.com/hoangnb24/repository-harness/releases/download/$REQUESTED_REF}"
+  CLI_BASE_URL="${CLI_BASE_URL%/}"
+fi
+
+if [ "$UPGRADE_CLI" -eq 0 ] && [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../AGENTS.md" ] && [ -f "$SCRIPT_DIR/../docs/HARNESS.md" ]; then
   SOURCE_ROOT="$(cd "$SCRIPT_DIR/.." && pwd -P)"
   SOURCE_MODE="local"
 fi

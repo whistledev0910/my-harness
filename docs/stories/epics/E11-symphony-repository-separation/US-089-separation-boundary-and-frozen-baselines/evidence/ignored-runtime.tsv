@@ -1,0 +1,19 @@
+path	action	reason
+.harness/db-backups	archive	run evidence retained outside Git
+.harness/harness.db	online-backup	durable SQLite state
+.harness/runs	archive	run evidence retained outside Git
+.harness/state.db	online-backup	durable SQLite state
+.harness/symphony.db	online-backup	durable SQLite state
+.harness/symphony.yml	discard_after_gate	regenerable build, dependency, or test output
+.impeccable	discard_after_gate	regenerable build, dependency, or test output
+.symphony	worktree-manifest	worktrees are captured as patches; generated checkout/cache bytes are not duplicated
+crates/harness-symphony/web-ui/dist	discard_after_gate	regenerable build, dependency, or test output
+crates/harness-symphony/web-ui/node_modules	discard_after_gate	regenerable build, dependency, or test output
+crates/harness-symphony/web-ui/test-results	discard_after_gate	regenerable build, dependency, or test output
+crates/harness-symphony/web-ui/tsconfig.tsbuildinfo	discard_after_gate	regenerable build, dependency, or test output
+dist	discard_after_gate	regenerable build, dependency, or test output
+harness.db	online-backup	durable SQLite state
+harness.db-shm	discard_after_gate	regenerable build, dependency, or test output
+harness.db-wal	discard_after_gate	regenerable build, dependency, or test output
+scripts/bin	discard_after_gate	regenerable build, dependency, or test output
+target	discard_after_gate	regenerable build, dependency, or test output

@@ -1,0 +1,7 @@
+{
+  "bare_main_file_copy_missed_sentinel": true,
+  "snapshot_contains_committed_sentinel": true,
+  "snapshot_sha256": "4928c1e722b1e44fd1d1defb3edd1aa7b481d639ce253fa0fbf41b5085deaa34",
+  "status": "pass",
+  "wal_size_bytes": 12392
+}

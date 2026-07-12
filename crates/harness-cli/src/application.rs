@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use serde::Serialize;
+
 use crate::domain::{
     AuditResult, BacklogFilter, BacklogRecord, BoolFlag, ContextScoreResult, CsvList,
     DecisionRecord, FrictionRecord, HarnessStats, InputType, IntakeRecord, InterventionRecord,
@@ -55,10 +57,78 @@ pub struct StoryDependencyInput {
     pub blocked: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct StoryDependencyRecord {
     pub blocker: String,
     pub blocked: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StoryHierarchyInput {
+    pub parent: String,
+    pub child: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct StoryHierarchyRecord {
+    pub parent: String,
+    pub child: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StoryCasUpdateInput {
+    pub id: String,
+    pub status: String,
+    pub expected_status: String,
+    pub require_runnable: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct StoryCasUpdateResult {
+    pub id: String,
+    pub before_status: String,
+    pub after_status: String,
+    pub runnable_before: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct OrchestrationStoryRecord {
+    pub id: String,
+    pub title: String,
+    pub risk_lane: String,
+    pub contract_doc: Option<String>,
+    pub status: String,
+    pub verify_command: Option<String>,
+    pub runnable: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct WorkGraphResult {
+    pub revision: String,
+    pub stories: Vec<OrchestrationStoryRecord>,
+    pub dependencies: Vec<StoryDependencyRecord>,
+    pub hierarchy: Vec<StoryHierarchyRecord>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ContractDatabaseState {
+    Missing,
+    Current,
+    NeedsMigration,
+    Unsupported,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ContractDiscoveryResult {
+    pub protocol_version: u32,
+    pub cli_version: String,
+    pub schema_minimum: i64,
+    pub schema_maximum: i64,
+    pub database_state: ContractDatabaseState,
+    pub database_schema_version: Option<i64>,
+    pub required_environment_variables: Vec<String>,
+    pub capabilities: Vec<String>,
 }
 
 #[derive(Debug)]
@@ -207,11 +277,28 @@ pub struct TraceInput {
     pub errors: CsvList,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct ChangesetApplyResult {
     pub id: String,
+    pub content_sha256: String,
     pub applied: bool,
     pub operations: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ChangesetStatusResult {
+    pub id: String,
+    pub content_sha256: String,
+    pub applied: bool,
+    pub operation_count: usize,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct DbSnapshotResult {
+    pub output: PathBuf,
+    pub source_logical_sha256: String,
+    pub graph_revision: String,
+    pub snapshot_file_sha256: String,
 }
 
 #[derive(Debug)]
@@ -272,6 +359,48 @@ impl HarnessService {
         input: StoryDependencyInput,
     ) -> crate::infrastructure::Result<bool> {
         self.repository.remove_story_dependency(input)
+    }
+
+    pub fn add_story_hierarchy(
+        &self,
+        input: StoryHierarchyInput,
+    ) -> crate::infrastructure::Result<bool> {
+        self.repository.add_story_hierarchy(input)
+    }
+
+    pub fn remove_story_hierarchy(
+        &self,
+        input: StoryHierarchyInput,
+    ) -> crate::infrastructure::Result<bool> {
+        self.repository.remove_story_hierarchy(input)
+    }
+
+    pub fn query_story_hierarchy(
+        &self,
+        story: Option<&str>,
+    ) -> crate::infrastructure::Result<Vec<StoryHierarchyRecord>> {
+        self.repository.query_story_hierarchy(story)
+    }
+
+    pub fn query_orchestration_stories(
+        &self,
+    ) -> crate::infrastructure::Result<Vec<OrchestrationStoryRecord>> {
+        self.repository.query_orchestration_stories()
+    }
+
+    pub fn query_work_graph(&self) -> crate::infrastructure::Result<WorkGraphResult> {
+        self.repository.query_work_graph()
+    }
+
+    pub fn update_story_cas(
+        &self,
+        input: StoryCasUpdateInput,
+    ) -> crate::infrastructure::Result<StoryCasUpdateResult> {
+        self.repository.update_story_cas(input)
+    }
+
+    pub fn discover_contract(&self) -> crate::infrastructure::Result<ContractDiscoveryResult> {
+        self.repository.discover_contract()
     }
 
     pub fn link_story_backlog(
@@ -463,6 +592,20 @@ impl HarnessService {
         path: &std::path::Path,
     ) -> crate::infrastructure::Result<ChangesetApplyResult> {
         self.repository.apply_changeset(path)
+    }
+
+    pub fn changeset_status(
+        &self,
+        path: &std::path::Path,
+    ) -> crate::infrastructure::Result<ChangesetStatusResult> {
+        self.repository.changeset_status(path)
+    }
+
+    pub fn snapshot_db(
+        &self,
+        output: &std::path::Path,
+    ) -> crate::infrastructure::Result<DbSnapshotResult> {
+        self.repository.snapshot_db(output)
     }
 
     pub fn rebuild_db(

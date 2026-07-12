@@ -6,8 +6,21 @@ mod interface;
 use clap::Parser;
 
 fn main() {
-    let cli = interface::Cli::parse();
+    let arguments = std::env::args_os().collect::<Vec<_>>();
+    let machine_requested = arguments.iter().any(|argument| argument == "--json");
+    let cli = match interface::Cli::try_parse_from(arguments) {
+        Ok(cli) => cli,
+        Err(error) if machine_requested => {
+            std::process::exit(interface::emit_parse_error(&error.to_string()));
+        }
+        Err(error) => error.exit(),
+    };
+    let machine_mode = cli.machine_mode();
+    let operation = cli.machine_operation();
     if let Err(error) = interface::run(cli) {
+        if machine_mode {
+            std::process::exit(interface::emit_machine_error(operation, &error));
+        }
         eprintln!("error: {error}");
         std::process::exit(1);
     }

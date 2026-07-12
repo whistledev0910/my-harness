@@ -1,0 +1,8 @@
+{
+  "classification_mode": "exact-reviewed-map",
+  "extraction_sha": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9",
+  "planning_sha": "e3980e5acdf520bf75101b9ef4a9fd4da310fc3e",
+  "planning_transition_path_count": 38,
+  "tracked_path_count": 392,
+  "unknown_count": 0
+}

@@ -168,6 +168,30 @@ that tag, or set `HARNESS_CLI_BASE_URL` to point at an alternate artifact
 directory, such as a local `file:///.../dist` directory created by
 `scripts/build-harness-cli-release.sh`.
 
+`--merge` (PowerShell: `-Merge`) deliberately does not replace an existing CLI.
+To upgrade a CLI explicitly, pin one immutable tag for both the template files
+and release artifact:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/harness-cli-v0.1.12/scripts/install-harness.sh" |
+  bash -s -- --merge --upgrade-cli --ref harness-cli-v0.1.12 --yes
+```
+
+```powershell
+& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/harness-cli-v0.1.12/scripts/install-harness.ps1"))) `
+  -Merge -UpgradeCli -Ref harness-cli-v0.1.12 -Yes
+```
+
+The installer rejects branch names and `latest`, downloads the tagged template
+and matching platform artifact, verifies the published SHA-256, backs up the
+old executable, then atomically replaces it. A download/checksum failure leaves
+the old CLI in place. Run `scripts/test-install-harness-cli-upgrade.sh` for the
+merge/upgrade/checksum-preservation regression.
+
+The external process protocol, including JSON envelopes, capability discovery,
+timeouts, and snapshot semantics, is documented in
+`docs/contracts/harness-orchestration-v1.md`.
+
 ## Schema Migrations
 
 Migration files live under `scripts/schema/` and are named `NNN-description.sql`

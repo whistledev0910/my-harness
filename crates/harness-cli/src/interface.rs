@@ -1,6 +1,8 @@
 use std::env;
+use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use clap::{Args, Parser, Subcommand};
 use thiserror::Error;
@@ -10,7 +12,8 @@ use crate::application::{
     ChangesetApplyResult, DbRebuildResult, DecisionAddInput, HarnessContext, HarnessService,
     ImprovementHealthResult, InitResult, IntakeInput, InterventionAddInput, InterventionFilter,
     LegacyReconcileResult, MigrateResult, QueryTable, StoryAddInput, StoryBacklogLinkInput,
-    StoryDependencyInput, StoryUpdateInput, ToolRegisterInput, TraceInput,
+    StoryCasUpdateInput, StoryDependencyInput, StoryHierarchyInput, StoryUpdateInput,
+    ToolRegisterInput, TraceInput,
 };
 use crate::domain::{
     normalize_capability, parse_optional_integer, parse_tool_args, proof_display,
@@ -120,6 +123,8 @@ enum StoryAction {
     Update(StoryUpdateArgs),
     /// Add or remove a dependency edge where blocker -> blocked.
     Dependency(StoryDependencyArgs),
+    /// Add or remove a hierarchy edge where parent -> child.
+    Hierarchy(StoryHierarchyArgs),
     /// Link a story to a stable Harness backlog occurrence.
     Backlog(StoryBacklogArgs),
     #[command(
@@ -133,6 +138,9 @@ enum StoryAction {
     Complete {
         /// Story id to complete.
         id: String,
+        /// Emit the protocol-v1 machine envelope.
+        #[arg(long)]
+        json: bool,
     },
     /// Verify every story, skipping stories without verify_command.
     VerifyAll,
@@ -199,6 +207,34 @@ struct StoryDependencyMutationArgs {
     /// The story blocked by --blocker.
     #[arg(long)]
     blocked: String,
+    /// Emit the protocol-v1 machine envelope.
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Args, Debug)]
+struct StoryHierarchyArgs {
+    #[command(subcommand)]
+    action: StoryHierarchyAction,
+}
+
+#[derive(Subcommand, Debug)]
+enum StoryHierarchyAction {
+    /// Add a cycle-safe parent/child edge.
+    Add(StoryHierarchyMutationArgs),
+    /// Remove a parent/child edge; a missing edge is unchanged.
+    Remove(StoryHierarchyMutationArgs),
+}
+
+#[derive(Args, Debug)]
+struct StoryHierarchyMutationArgs {
+    #[arg(long)]
+    parent: String,
+    #[arg(long)]
+    child: String,
+    /// Emit the protocol-v1 machine envelope.
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Args, Debug)]
@@ -215,6 +251,9 @@ struct StoryAddArgs {
     verify: Option<String>,
     #[arg(long)]
     notes: Option<String>,
+    /// Emit the protocol-v1 machine envelope.
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Args, Debug)]
@@ -235,6 +274,15 @@ struct StoryUpdateArgs {
     platform: Option<String>,
     #[arg(long)]
     verify: Option<String>,
+    /// Compare-and-set precondition checked in the write transaction.
+    #[arg(long)]
+    expected_status: Option<String>,
+    /// Require generic runnable state in the same write transaction.
+    #[arg(long)]
+    require_runnable: bool,
+    /// Emit the protocol-v1 machine envelope.
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Args, Debug)]
@@ -493,6 +541,8 @@ struct DbArgs {
 #[derive(Subcommand, Debug)]
 enum DbAction {
     Changeset(ChangesetArgs),
+    /// Create an atomic SQLite online-backup snapshot.
+    Snapshot(SnapshotArgs),
     /// Rebuild a fresh harness database from committed changesets.
     Rebuild {
         #[arg(long = "from")]
@@ -509,7 +559,25 @@ struct ChangesetArgs {
 #[derive(Subcommand, Debug)]
 enum ChangesetAction {
     /// Apply one semantic changeset file idempotently.
-    Apply { path: PathBuf },
+    Apply {
+        path: PathBuf,
+        #[arg(long)]
+        json: bool,
+    },
+    /// Inspect one semantic changeset without changing database state.
+    Status {
+        path: PathBuf,
+        #[arg(long, action = clap::ArgAction::SetTrue, required = true)]
+        json: bool,
+    },
+}
+
+#[derive(Args, Debug)]
+struct SnapshotArgs {
+    #[arg(long)]
+    output: PathBuf,
+    #[arg(long, action = clap::ArgAction::SetTrue, required = true)]
+    json: bool,
 }
 
 #[derive(Args, Debug)]
@@ -540,10 +608,18 @@ struct BacklogQueryArgs {
 
 #[derive(Subcommand, Debug)]
 enum QueryView {
+    /// Discover protocol capabilities and database compatibility without writes.
+    Contract(MachineQueryArgs),
+    /// Read stable story records.
+    Stories(MachineQueryArgs),
+    /// Read stories, dependencies, and hierarchy from one database revision.
+    WorkGraph(MachineQueryArgs),
     /// Test matrix.
     Matrix(MatrixQueryArgs),
     /// Story dependency edges, optionally filtered to one story.
     Dependencies(DependenciesQueryArgs),
+    /// Story hierarchy edges, optionally filtered to one story.
+    Hierarchy(HierarchyQueryArgs),
     /// Harness improvement proposals.
     Backlog(BacklogQueryArgs),
     /// Decision records.
@@ -571,6 +647,22 @@ struct DependenciesQueryArgs {
     /// Show edges where this story is either the blocker or blocked story.
     #[arg(long)]
     story: Option<String>,
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Args, Debug)]
+struct HierarchyQueryArgs {
+    #[arg(long)]
+    story: Option<String>,
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Args, Debug)]
+struct MachineQueryArgs {
+    #[arg(long, action = clap::ArgAction::SetTrue, required = true)]
+    json: bool,
 }
 
 #[derive(Args, Debug)]
@@ -613,6 +705,198 @@ pub enum InterfaceError {
     CurrentDir(std::io::Error),
     #[error("query sql requires a SQL statement")]
     EmptySql,
+    #[error("machine output exceeds the 16 MiB protocol limit")]
+    MachineOutputTooLarge,
+    #[error("json serialization failed: {0}")]
+    Json(#[from] serde_json::Error),
+    #[error("stdout write failed: {0}")]
+    Output(std::io::Error),
+    #[error("path cannot be represented as UTF-8 for protocol JSON")]
+    NonUtf8Path,
+}
+
+const PROTOCOL_VERSION: u32 = 1;
+const MAX_MACHINE_OUTPUT_BYTES: usize = 16 * 1024 * 1024;
+
+impl Cli {
+    pub fn machine_mode(&self) -> bool {
+        match &self.command {
+            Command::Story(args) => match &args.action {
+                StoryAction::Add(args) => args.json,
+                StoryAction::Update(args) => args.json,
+                StoryAction::Dependency(args) => match &args.action {
+                    StoryDependencyAction::Add(args) | StoryDependencyAction::Remove(args) => {
+                        args.json
+                    }
+                },
+                StoryAction::Hierarchy(args) => match &args.action {
+                    StoryHierarchyAction::Add(args) | StoryHierarchyAction::Remove(args) => {
+                        args.json
+                    }
+                },
+                StoryAction::Complete { json, .. } => *json,
+                _ => false,
+            },
+            Command::Db(args) => match &args.action {
+                DbAction::Snapshot(args) => args.json,
+                DbAction::Changeset(args) => match &args.action {
+                    ChangesetAction::Apply { json, .. } | ChangesetAction::Status { json, .. } => {
+                        *json
+                    }
+                },
+                DbAction::Rebuild { .. } => false,
+            },
+            Command::Query(args) => match &args.view {
+                QueryView::Contract(args)
+                | QueryView::Stories(args)
+                | QueryView::WorkGraph(args) => args.json,
+                QueryView::Dependencies(args) => args.json,
+                QueryView::Hierarchy(args) => args.json,
+                _ => false,
+            },
+            _ => false,
+        }
+    }
+
+    pub fn machine_operation(&self) -> &'static str {
+        match &self.command {
+            Command::Story(args) => match &args.action {
+                StoryAction::Add(_) => "story.add",
+                StoryAction::Update(_) => "story.update",
+                StoryAction::Dependency(args) => match &args.action {
+                    StoryDependencyAction::Add(_) => "story.dependency.add",
+                    StoryDependencyAction::Remove(_) => "story.dependency.remove",
+                },
+                StoryAction::Hierarchy(args) => match &args.action {
+                    StoryHierarchyAction::Add(_) => "story.hierarchy.add",
+                    StoryHierarchyAction::Remove(_) => "story.hierarchy.remove",
+                },
+                StoryAction::Complete { .. } => "story.complete",
+                _ => "story",
+            },
+            Command::Db(args) => match &args.action {
+                DbAction::Snapshot(_) => "db.snapshot",
+                DbAction::Changeset(args) => match &args.action {
+                    ChangesetAction::Apply { .. } => "db.changeset.apply",
+                    ChangesetAction::Status { .. } => "db.changeset.status",
+                },
+                DbAction::Rebuild { .. } => "db.rebuild",
+            },
+            Command::Query(args) => match &args.view {
+                QueryView::Contract(_) => "query.contract",
+                QueryView::Stories(_) => "query.stories",
+                QueryView::WorkGraph(_) => "query.work-graph",
+                QueryView::Dependencies(_) => "query.dependencies",
+                QueryView::Hierarchy(_) => "query.hierarchy",
+                _ => "query",
+            },
+            _ => "harness-cli",
+        }
+    }
+}
+
+fn request_id() -> String {
+    if let Ok(value) = env::var("HARNESS_REQUEST_ID") {
+        let trimmed = value.trim();
+        if !trimmed.is_empty() {
+            return trimmed.chars().take(128).collect();
+        }
+    }
+    let nanos = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or_default();
+    format!("req-{}-{nanos}", std::process::id())
+}
+
+fn write_machine_document(value: &serde_json::Value) -> Result<(), InterfaceError> {
+    let mut output = serde_json::to_vec(value)?;
+    if output.len() + 1 > MAX_MACHINE_OUTPUT_BYTES {
+        return Err(InterfaceError::MachineOutputTooLarge);
+    }
+    output.push(b'\n');
+    std::io::stdout()
+        .lock()
+        .write_all(&output)
+        .map_err(InterfaceError::Output)
+}
+
+fn print_machine_success(operation: &str, result: serde_json::Value) -> Result<(), InterfaceError> {
+    write_machine_document(&serde_json::json!({
+        "protocol_version": PROTOCOL_VERSION,
+        "operation": operation,
+        "request_id": request_id(),
+        "result": result,
+    }))
+}
+
+pub fn emit_machine_error(operation: &str, error: &InterfaceError) -> i32 {
+    let (code, retryable, exit_code) = match error {
+        InterfaceError::InvalidArgument(_)
+        | InterfaceError::ParseHarnessValue(_)
+        | InterfaceError::ToolValidation(_)
+        | InterfaceError::EmptySql => ("INVALID_ARGUMENT", false, 2),
+        InterfaceError::Infrastructure(
+            crate::infrastructure::HarnessInfraError::StoryNotFound(_)
+            | crate::infrastructure::HarnessInfraError::ToolNotFound(_)
+            | crate::infrastructure::HarnessInfraError::BacklogNotFound(_)
+            | crate::infrastructure::HarnessInfraError::TraceNotFound(_),
+        ) => ("NOT_FOUND", false, 3),
+        InterfaceError::Infrastructure(
+            crate::infrastructure::HarnessInfraError::MissingStoryVerifyCommand(_)
+            | crate::infrastructure::HarnessInfraError::StoryCompletion(_),
+        ) => ("VERIFICATION_FAILED", false, 4),
+        InterfaceError::Infrastructure(
+            crate::infrastructure::HarnessInfraError::StoryDependencySelf(_)
+            | crate::infrastructure::HarnessInfraError::StoryDependencyCycle(_, _)
+            | crate::infrastructure::HarnessInfraError::StoryHierarchySelf(_)
+            | crate::infrastructure::HarnessInfraError::StoryHierarchyCycle(_, _)
+            | crate::infrastructure::HarnessInfraError::StoryStatusConflict { .. }
+            | crate::infrastructure::HarnessInfraError::StoryNotRunnable(_)
+            | crate::infrastructure::HarnessInfraError::ChangesetIdentityConflict { .. }
+            | crate::infrastructure::HarnessInfraError::SnapshotOutputExists(_),
+        ) => ("CONFLICT", false, 3),
+        InterfaceError::Infrastructure(
+            crate::infrastructure::HarnessInfraError::MissingDatabase(_)
+            | crate::infrastructure::HarnessInfraError::InvalidChangeset(_),
+        ) => ("COMPATIBILITY_ERROR", false, 2),
+        InterfaceError::MachineOutputTooLarge => ("OUTPUT_LIMIT_EXCEEDED", false, 5),
+        InterfaceError::NonUtf8Path => ("PATH_NOT_UTF8", false, 2),
+        _ => ("INTERNAL_ERROR", false, 5),
+    };
+    let envelope = serde_json::json!({
+        "protocol_version": PROTOCOL_VERSION,
+        "operation": operation,
+        "request_id": request_id(),
+        "error": {
+            "code": code,
+            "message": error.to_string(),
+            "retryable": retryable,
+            "details": {},
+        },
+    });
+    if let Err(write_error) = write_machine_document(&envelope) {
+        eprintln!("error: {write_error}");
+    }
+    exit_code
+}
+
+pub fn emit_parse_error(message: &str) -> i32 {
+    let envelope = serde_json::json!({
+        "protocol_version": PROTOCOL_VERSION,
+        "operation": "cli.parse",
+        "request_id": request_id(),
+        "error": {
+            "code": "INVALID_ARGUMENT",
+            "message": message,
+            "retryable": false,
+            "details": {},
+        },
+    });
+    if let Err(error) = write_machine_document(&envelope) {
+        eprintln!("error: {error}");
+    }
+    2
 }
 
 pub fn run(cli: Cli) -> Result<(), InterfaceError> {
@@ -648,23 +932,75 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
                     verify_command: args.verify,
                     notes: args.notes,
                 })?;
-                println!("Story {} added.", args.id);
+                if args.json {
+                    let story = service
+                        .query_orchestration_stories()?
+                        .into_iter()
+                        .find(|story| story.id == args.id)
+                        .ok_or_else(|| {
+                            InterfaceError::InvalidArgument(
+                                "created story was not readable".to_owned(),
+                            )
+                        })?;
+                    print_machine_success(
+                        "story.add",
+                        serde_json::json!({"changed": true, "story": story}),
+                    )?;
+                } else {
+                    println!("Story {} added.", args.id);
+                }
             }
             StoryAction::Update(args) => {
-                service.update_story(StoryUpdateInput {
-                    id: args.id.clone(),
-                    status: args.status,
-                    evidence: args.evidence,
-                    unit: parse_optional_bool("story update: --unit", args.unit)?,
-                    integration: parse_optional_bool(
-                        "story update: --integration",
-                        args.integration,
-                    )?,
-                    e2e: parse_optional_bool("story update: --e2e", args.e2e)?,
-                    platform: parse_optional_bool("story update: --platform", args.platform)?,
-                    verify_command: args.verify,
-                })?;
-                println!("Story {} updated.", args.id);
+                if args.json {
+                    if args.evidence.is_some()
+                        || args.unit.is_some()
+                        || args.integration.is_some()
+                        || args.e2e.is_some()
+                        || args.platform.is_some()
+                        || args.verify.is_some()
+                    {
+                        return Err(InterfaceError::InvalidArgument(
+                            "story update --json is a status CAS operation and cannot combine proof/evidence/verify fields".to_owned(),
+                        ));
+                    }
+                    let status = args.status.ok_or_else(|| {
+                        InterfaceError::InvalidArgument(
+                            "story update --json requires --status".to_owned(),
+                        )
+                    })?;
+                    let expected_status = args.expected_status.ok_or_else(|| {
+                        InterfaceError::InvalidArgument(
+                            "story update --json requires --expected-status".to_owned(),
+                        )
+                    })?;
+                    let result = service.update_story_cas(StoryCasUpdateInput {
+                        id: args.id,
+                        status,
+                        expected_status,
+                        require_runnable: args.require_runnable,
+                    })?;
+                    print_machine_success("story.update", serde_json::to_value(result)?)?;
+                } else {
+                    if args.expected_status.is_some() || args.require_runnable {
+                        return Err(InterfaceError::InvalidArgument(
+                            "--expected-status and --require-runnable require --json".to_owned(),
+                        ));
+                    }
+                    service.update_story(StoryUpdateInput {
+                        id: args.id.clone(),
+                        status: args.status,
+                        evidence: args.evidence,
+                        unit: parse_optional_bool("story update: --unit", args.unit)?,
+                        integration: parse_optional_bool(
+                            "story update: --integration",
+                            args.integration,
+                        )?,
+                        e2e: parse_optional_bool("story update: --e2e", args.e2e)?,
+                        platform: parse_optional_bool("story update: --platform", args.platform)?,
+                        verify_command: args.verify,
+                    })?;
+                    println!("Story {} updated.", args.id);
+                }
             }
             StoryAction::Dependency(args) => match args.action {
                 StoryDependencyAction::Add(args) => {
@@ -672,24 +1008,86 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
                         blocker: args.blocker.clone(),
                         blocked: args.blocked.clone(),
                     })?;
-                    println!(
-                        "Story dependency {} -> {} {}.",
-                        args.blocker,
-                        args.blocked,
-                        if changed { "added" } else { "unchanged" }
-                    );
+                    if args.json {
+                        print_machine_success(
+                            "story.dependency.add",
+                            serde_json::json!({
+                                "blocker": args.blocker, "blocked": args.blocked, "changed": changed
+                            }),
+                        )?;
+                    } else {
+                        println!(
+                            "Story dependency {} -> {} {}.",
+                            args.blocker,
+                            args.blocked,
+                            if changed { "added" } else { "unchanged" }
+                        );
+                    }
                 }
                 StoryDependencyAction::Remove(args) => {
                     let changed = service.remove_story_dependency(StoryDependencyInput {
                         blocker: args.blocker.clone(),
                         blocked: args.blocked.clone(),
                     })?;
-                    println!(
-                        "Story dependency {} -> {} {}.",
-                        args.blocker,
-                        args.blocked,
-                        if changed { "removed" } else { "unchanged" }
-                    );
+                    if args.json {
+                        print_machine_success(
+                            "story.dependency.remove",
+                            serde_json::json!({
+                                "blocker": args.blocker, "blocked": args.blocked, "changed": changed
+                            }),
+                        )?;
+                    } else {
+                        println!(
+                            "Story dependency {} -> {} {}.",
+                            args.blocker,
+                            args.blocked,
+                            if changed { "removed" } else { "unchanged" }
+                        );
+                    }
+                }
+            },
+            StoryAction::Hierarchy(args) => match args.action {
+                StoryHierarchyAction::Add(args) => {
+                    let changed = service.add_story_hierarchy(StoryHierarchyInput {
+                        parent: args.parent.clone(),
+                        child: args.child.clone(),
+                    })?;
+                    if args.json {
+                        print_machine_success(
+                            "story.hierarchy.add",
+                            serde_json::json!({
+                                "parent": args.parent, "child": args.child, "changed": changed
+                            }),
+                        )?;
+                    } else {
+                        println!(
+                            "Story hierarchy {} -> {} {}.",
+                            args.parent,
+                            args.child,
+                            if changed { "added" } else { "unchanged" }
+                        );
+                    }
+                }
+                StoryHierarchyAction::Remove(args) => {
+                    let changed = service.remove_story_hierarchy(StoryHierarchyInput {
+                        parent: args.parent.clone(),
+                        child: args.child.clone(),
+                    })?;
+                    if args.json {
+                        print_machine_success(
+                            "story.hierarchy.remove",
+                            serde_json::json!({
+                                "parent": args.parent, "child": args.child, "changed": changed
+                            }),
+                        )?;
+                    } else {
+                        println!(
+                            "Story hierarchy {} -> {} {}.",
+                            args.parent,
+                            args.child,
+                            if changed { "removed" } else { "unchanged" }
+                        );
+                    }
                 }
             },
             StoryAction::Backlog(args) => match args.action {
@@ -744,8 +1142,22 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
                     std::process::exit(1);
                 }
             }
-            StoryAction::Complete { id } => {
+            StoryAction::Complete { id, json } => {
                 let result = service.complete_story(&id)?;
+                if json {
+                    return print_machine_success(
+                        "story.complete",
+                        serde_json::json!({
+                            "id": id, "command": result.command,
+                            "stdout": result.stdout, "stderr": result.stderr,
+                            "result": result.result, "intake_uid": result.intake_uid,
+                            "implementation_trace_uid": result.implementation_trace_uid,
+                            "closed_backlog_ids": result.closed_backlog_ids,
+                            "already_closed_backlog_ids": result.already_closed_backlog_ids,
+                            "referenced_backlog_ids": result.referenced_backlog_ids,
+                        }),
+                    );
+                }
                 println!("Running: {}", result.command);
                 print!("{}", result.stdout);
                 print!("{}", result.stderr);
@@ -1025,16 +1437,67 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
         }
         Command::Db(args) => match args.action {
             DbAction::Changeset(args) => match args.action {
-                ChangesetAction::Apply { path } => {
-                    print_changeset_apply_result(service.apply_changeset(&path)?)
+                ChangesetAction::Apply { path, json } => {
+                    let result = service.apply_changeset(&path)?;
+                    if json {
+                        print_machine_success("db.changeset.apply", serde_json::to_value(result)?)?
+                    } else {
+                        print_changeset_apply_result(result)
+                    }
                 }
+                ChangesetAction::Status { path, .. } => print_machine_success(
+                    "db.changeset.status",
+                    serde_json::to_value(service.changeset_status(&path)?)?,
+                )?,
             },
+            DbAction::Snapshot(args) => {
+                if args.output.to_str().is_none() {
+                    return Err(InterfaceError::NonUtf8Path);
+                }
+                print_machine_success(
+                    "db.snapshot",
+                    serde_json::to_value(service.snapshot_db(&args.output)?)?,
+                )?
+            }
             DbAction::Rebuild { from } => print_db_rebuild_result(service.rebuild_db(&from)?),
         },
         Command::Query(args) => match args.view {
+            QueryView::Contract(_) => print_machine_success(
+                "query.contract",
+                serde_json::to_value(service.discover_contract()?)?,
+            )?,
+            QueryView::Stories(_) => print_machine_success(
+                "query.stories",
+                serde_json::json!({"stories": service.query_orchestration_stories()?}),
+            )?,
+            QueryView::WorkGraph(_) => print_machine_success(
+                "query.work-graph",
+                serde_json::to_value(service.query_work_graph()?)?,
+            )?,
             QueryView::Matrix(args) => print_matrix(&service.query_matrix()?, args.numeric),
             QueryView::Dependencies(args) => {
-                print_dependencies(&service.query_story_dependencies(args.story.as_deref())?)
+                let dependencies = service.query_story_dependencies(args.story.as_deref())?;
+                if args.json {
+                    print_machine_success(
+                        "query.dependencies",
+                        serde_json::json!({"dependencies": dependencies}),
+                    )?;
+                } else {
+                    print_dependencies(&dependencies)
+                }
+            }
+            QueryView::Hierarchy(args) => {
+                let hierarchy = service.query_story_hierarchy(args.story.as_deref())?;
+                if args.json {
+                    print_machine_success(
+                        "query.hierarchy",
+                        serde_json::json!({"hierarchy": hierarchy}),
+                    )?;
+                } else {
+                    for edge in hierarchy {
+                        println!("{} -> {}", edge.parent, edge.child);
+                    }
+                }
             }
             QueryView::Backlog(args) => {
                 let filter = backlog_filter(&args);
@@ -1910,7 +2373,7 @@ mod tests {
             cli.command,
             Command::Story(StoryArgs {
                 action: StoryAction::Dependency(StoryDependencyArgs {
-                    action: StoryDependencyAction::Add(StoryDependencyMutationArgs { blocker, blocked })
+                    action: StoryDependencyAction::Add(StoryDependencyMutationArgs { blocker, blocked, .. })
                 })
             }) if blocker == "US-073" && blocked == "US-074"
         ));
@@ -1930,7 +2393,7 @@ mod tests {
             cli.command,
             Command::Story(StoryArgs {
                 action: StoryAction::Dependency(StoryDependencyArgs {
-                    action: StoryDependencyAction::Remove(StoryDependencyMutationArgs { blocker, blocked })
+                    action: StoryDependencyAction::Remove(StoryDependencyMutationArgs { blocker, blocked, .. })
                 })
             }) if blocker == "US-073" && blocked == "US-074"
         ));
@@ -1941,7 +2404,7 @@ mod tests {
         assert!(matches!(
             cli.command,
             Command::Query(QueryArgs {
-                view: QueryView::Dependencies(DependenciesQueryArgs { story: Some(story) })
+                view: QueryView::Dependencies(DependenciesQueryArgs { story: Some(story), .. })
             }) if story == "US-074"
         ));
     }

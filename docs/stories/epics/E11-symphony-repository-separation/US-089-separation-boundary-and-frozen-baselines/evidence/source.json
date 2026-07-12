@@ -1,0 +1,17 @@
+{
+  "bundle_sha256": "cc6b868567750e139d167e8b674d8016359e0e8c66307446ef15fe6ae4df712d",
+  "bundle_verify": "pass",
+  "captured_at": "2026-07-11T15:58:49.278796+00:00",
+  "develop_ahead_of_main": 18,
+  "develop_sha": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9",
+  "frozen_sha": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9",
+  "main_sha": "14e6f102a4a645562d046f7c693c61401261cac6",
+  "planning_control_sha": "e3980e5acdf520bf75101b9ef4a9fd4da310fc3e",
+  "raw_artifact_logical_id": "US-089-20260711",
+  "source_repository": "git@github.com:hoangnb24/repository-harness.git",
+  "tag": "pre-symphony-extraction-20260711",
+  "tag_commit": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9",
+  "target_remote": "git@github.com:hoangnb24/symphony.git",
+  "target_remote_ref_count": 0,
+  "working_branch_head_at_capture": "e3980e5acdf520bf75101b9ef4a9fd4da310fc3e"
+}
