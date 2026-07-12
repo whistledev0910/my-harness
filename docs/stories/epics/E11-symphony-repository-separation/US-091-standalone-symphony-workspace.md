@@ -89,4 +89,23 @@ operational state; `US-093` owns the durable boundary.
 
 ## Evidence
 
-Pending implementation.
+Completed on target branch `feature/e11-standalone-workspace` at commit
+`61e92c2a73ba3381e0d50b11509ba0eeed079bc9`:
+
+- Root Cargo metadata reports exactly one workspace member/package,
+  `harness-symphony`, with MIT/edition 2021 and the Symphony repository URL.
+- The regenerated `Cargo.lock` contains `harness-symphony` and no
+  `harness-cli`; all Cargo dependencies are registry dependencies.
+- Rust `1.92.0` and Node `24.9.0` are pinned; README, LICENSE, `.gitignore`, and
+  direct Linux/macOS/Windows CI are committed.
+- The Web manifest and Electron app id are Symphony-owned. Preserved relative
+  asset paths pass build, Playwright, and desktop smoke without `harness.db`.
+- The generic Harness template was installed with merge semantics. Its
+  downloaded v0.1.11 CLI is ignored/provisional, and no target DB was created;
+  US-093 must force-upgrade it to the exact US-092 protocol tag first.
+- Local and third-directory fresh-clone gates passed: 99 Rust tests, fmt,
+  all-target clippy, locked release build, `npm ci`, Web build, 19 Chromium
+  Playwright tests, and Electron desktop smoke.
+- `tests/standalone/test-verify-workspace.sh` rejects a two-member fixture that
+  contains `harness-cli`; source `scripts/test-verify-e11-us091.sh` rejects
+  repository-harness itself as a substitute target.
