@@ -262,6 +262,15 @@ def begin(args: argparse.Namespace, journal: Path) -> None:
     finish_forward(payload, journal, args.inject_after)
 
 
+def fence(journal: Path, transition_id: str) -> None:
+    payload = {
+        "format_version": FORMAT_VERSION,
+        "state": "fenced",
+        "transition_id": transition_id,
+    }
+    write_journal(journal, payload)
+
+
 def complete(journal: Path, transition_id: str) -> None:
     payload = read_journal(journal)
     if payload["transition_id"] != transition_id:
@@ -277,6 +286,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", type=Path, required=True)
     subparsers = parser.add_subparsers(dest="command", required=True)
+    fence_parser = subparsers.add_parser("fence")
+    fence_parser.add_argument("--transition-id", required=True)
     begin_parser = subparsers.add_parser("begin")
     begin_parser.add_argument("--transition-id", required=True)
     begin_parser.add_argument("--active-db", type=Path, default=Path("harness.db"))
@@ -304,14 +315,29 @@ def main() -> int:
         if args.command == "begin":
             if journal.exists():
                 previous = read_journal(journal)
-                if previous["state"] not in ("complete", "compensated"):
+                can_promote_fence = (
+                    previous["state"] == "fenced"
+                    and previous["transition_id"] == args.transition_id
+                )
+                if previous["state"] not in ("complete", "compensated") and not can_promote_fence:
                     raise TransitionError("an unfinished epoch transition already exists")
             begin(args, journal)
+        elif args.command == "fence":
+            if journal.exists():
+                previous = read_journal(journal)
+                if previous["state"] not in ("complete", "compensated"):
+                    raise TransitionError("an unfinished epoch transition already exists")
+            fence(journal, args.transition_id)
         elif args.command == "recover":
             payload = read_journal(journal)
             if payload["state"] in ("complete", "compensated"):
                 raise TransitionError(f"transition is already {payload['state']}")
-            if args.strategy == "forward":
+            if payload["state"] == "fenced":
+                if args.strategy != "compensate":
+                    raise TransitionError("a fence without a prepared pair can only compensate")
+                payload["state"] = "compensated"
+                write_journal(journal, payload)
+            elif args.strategy == "forward":
                 finish_forward(payload, journal)
             else:
                 compensate(payload, journal)

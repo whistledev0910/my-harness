@@ -68,6 +68,26 @@ begin_with_crash() {
   grep -Fq "injected crash after $step" "$fixture/begin.out"
 }
 
+# A pre-preparation fence blocks both reads and writes, can be promoted into
+# the same transition, and can be compensated without any rename.
+fixture=$(make_fixture preflight-fence)
+"$transition" --repo-root "$fixture" fence --transition-id transition-preflight
+assert_fenced "$fixture" 0
+"$transition" --repo-root "$fixture" recover --strategy compensate
+HARNESS_REPO_ROOT="$fixture" HARNESS_DB_PATH="$fixture/harness.db" \
+  "$cli" query stats >/dev/null
+
+fixture=$(make_fixture promoted-fence)
+"$transition" --repo-root "$fixture" fence --transition-id transition-promoted
+assert_fenced "$fixture" 0
+"$transition" --repo-root "$fixture" begin \
+  --transition-id transition-promoted \
+  --fresh-db "$fixture/prepared/harness.db" \
+  --fresh-log "$fixture/prepared/changesets" \
+  --archive-root "$fixture/archive"
+assert_fenced "$fixture" 1
+"$transition" --repo-root "$fixture" complete --transition-id transition-promoted
+
 for step in prepared legacy_db_archived legacy_log_archived fresh_db_activated fresh_log_activated; do
   fixture=$(make_fixture "forward-$step")
   begin_with_crash "$fixture" "$step"
