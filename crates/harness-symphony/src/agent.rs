@@ -155,36 +155,49 @@ fn run_codex_agent(config: &ResolvedConfig, prepared: &PreparedRun) -> Result<()
             Ok(line) => line,
             Err(mpsc::RecvTimeoutError::Timeout) => {
                 if let Some(status) = child.try_wait()? {
-                    let stderr = read_child_stderr(stderr)?;
-                    return Err(AgentError::CommandFailed {
-                        status: status.to_string(),
-                        stderr,
-                    });
-                }
-                if pending_state_query.is_some()
-                    && last_event_at.elapsed() >= Duration::from_secs(CODEX_IDLE_RECONCILE_SECONDS)
-                {
-                    terminate_child(&mut child);
-                    return Err(AgentError::Codex(format!(
-                        "no app-server events or turn-state response for {} second(s) after reconciliation request. Last app-server method: {last_observed_method}; events: {event_count}; see {}",
-                        CODEX_IDLE_RECONCILE_SECONDS,
-                        event_log_path.display()
-                    )));
-                }
-                if let (Some(thread_id), Some(_turn_id)) = (&thread_id, &turn_id) {
-                    if pending_state_query.is_none()
-                        && turn_started
+                    // The stdout reader runs on another thread. A short-lived
+                    // app-server can exit after writing its terminal event but
+                    // before that thread enqueues the final line. Once the
+                    // child has exited, the pipe must reach EOF, so drain the
+                    // channel to its deterministic final line/disconnect
+                    // instead of racing the process status against stdout.
+                    match line_rx.recv() {
+                        Ok(line) => line,
+                        Err(_) => {
+                            let stderr = read_child_stderr(stderr)?;
+                            return Err(AgentError::CommandFailed {
+                                status: status.to_string(),
+                                stderr,
+                            });
+                        }
+                    }
+                } else {
+                    if pending_state_query.is_some()
                         && last_event_at.elapsed()
                             >= Duration::from_secs(CODEX_IDLE_RECONCILE_SECONDS)
                     {
-                        let request_id = next_request_id;
-                        next_request_id += 1;
-                        send_turn_state_query(&mut stdin, request_id, thread_id)?;
-                        pending_state_query = Some(request_id);
-                        last_event_at = Instant::now();
+                        terminate_child(&mut child);
+                        return Err(AgentError::Codex(format!(
+                            "no app-server events or turn-state response for {} second(s) after reconciliation request. Last app-server method: {last_observed_method}; events: {event_count}; see {}",
+                            CODEX_IDLE_RECONCILE_SECONDS,
+                            event_log_path.display()
+                        )));
                     }
+                    if let (Some(thread_id), Some(_turn_id)) = (&thread_id, &turn_id) {
+                        if pending_state_query.is_none()
+                            && turn_started
+                            && last_event_at.elapsed()
+                                >= Duration::from_secs(CODEX_IDLE_RECONCILE_SECONDS)
+                        {
+                            let request_id = next_request_id;
+                            next_request_id += 1;
+                            send_turn_state_query(&mut stdin, request_id, thread_id)?;
+                            pending_state_query = Some(request_id);
+                            last_event_at = Instant::now();
+                        }
+                    }
+                    continue;
                 }
-                continue;
             }
             Err(mpsc::RecvTimeoutError::Disconnected) => {
                 let status = child.wait()?;
