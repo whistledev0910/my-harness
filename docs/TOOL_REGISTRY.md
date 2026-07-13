@@ -152,8 +152,8 @@ without parsing the human table.
 | `import brownfield` | Project memory | Seed durable records from markdown state. | none |
 | `intake` | Task specification | Record a feature intake classification. | `--type`, `--summary`, `--lane` |
 | `story add` | Task state | Create a durable story record. | `--id`, `--title`, `--lane`, optional `--verify` |
-| `story update` | Task state | Update story status, proof flags, evidence, or verification command. | `--id`, optional proof/status fields |
-| `story update --json` | Task state | Perform a machine-readable update, optionally with transactional compare-and-set/runnable preconditions. | `--id`, update fields, optional `--expected-status`, `--require-runnable` |
+| `story update` | Task state | Update non-completion story status, proof flags, evidence, or verification command; `implemented` requires `story complete`. | `--id`, optional proof/status fields |
+| `story update --json` | Task state | Perform a machine-readable non-completion status update with transactional compare-and-set/runnable preconditions. | `--id`, `--status`, `--expected-status`, optional `--require-runnable` |
 | `story dependency add` | Task state | Add a cycle-safe durable dependency edge. | `--blocker`, `--blocked` |
 | `story dependency remove` | Task state | Remove a durable dependency edge; missing edges are unchanged. | `--blocker`, `--blocked` |
 | `story hierarchy add` | Task state | Add an idempotent, cycle-safe parent/child edge. | `--parent`, `--child`, optional `--json` |

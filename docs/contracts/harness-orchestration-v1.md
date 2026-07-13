@@ -234,6 +234,16 @@ another process changes it to `changed`; the later retirement supplies
 `--expected-status planned --require-runnable`; the command conflicts instead
 of retiring stale work.
 
+`implemented` is not a valid target for either the human-readable `story
+update` command or this JSON compare-and-set surface. Such an attempt returns
+`INVALID_ARGUMENT`/exit `2`, writes neither story fields nor a semantic
+operation, and directs the caller to `story complete <id>`. The required cause
+and effect is: move selected work from `planned` to `in_progress`, implement the
+change, then invoke `story complete`; only fresh passing completion proof may
+create the live `implemented` state. Changeset apply and brownfield import keep
+accepting historical implemented records so existing provenance can still be
+replayed or migrated.
+
 ## Changesets
 
 ```text

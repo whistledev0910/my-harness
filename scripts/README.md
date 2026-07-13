@@ -38,6 +38,10 @@ no. `story verify <id>` runs the configured `verify_command`; it does not accept
 proof flags. Configure the command with `story add/update --verify`, run
 `story verify <id>`, then update proof flags with `story update`.
 
+`story update --status implemented` is rejected in both human-readable and
+JSON/CAS modes. Move active work to `in_progress` or `changed`, then use `story
+complete <id>` so fresh proof and the implemented transition happen together.
+
 Backlog `--risk` uses Harness lanes, not severity words: use `tiny`, `normal`,
 or `high-risk`. Use `tiny` instead of `low`. `query matrix` defaults to
 human-readable `yes`/`no`; use `query matrix --numeric` when copying values into

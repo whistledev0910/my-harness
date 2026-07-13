@@ -36,8 +36,25 @@ jq -e '
   .result.hierarchy == [{"parent":"US-A","child":"US-B"}]
 ' "$tmp/graph-before.json" >/dev/null
 
-run story update --id US-A --status implemented --expected-status planned --require-runnable --json >"$tmp/cas.json"
-jq -e '.result.before_status == "planned" and .result.after_status == "implemented" and .result.runnable_before' "$tmp/cas.json" >/dev/null
+set +e
+run story update --id US-A --status implemented >"$tmp/text-bypass.out" 2>"$tmp/text-bypass.err"
+text_bypass_exit=$?
+set -e
+test "$text_bypass_exit" -eq 1
+grep -F "status 'implemented' is completion-only" "$tmp/text-bypass.err" >/dev/null
+
+set +e
+run story update --id US-A --status implemented --expected-status planned --require-runnable --json >"$tmp/cas-bypass.json"
+cas_bypass_exit=$?
+set -e
+test "$cas_bypass_exit" -eq 2
+jq -e '.error.code == "INVALID_ARGUMENT" and .operation == "story.update" and (.error.message | contains("story complete US-A"))' "$tmp/cas-bypass.json" >/dev/null
+run query stories --json | jq -e '(.result.stories[] | select(.id == "US-A").status) == "planned"' >/dev/null
+
+run story update --id US-A --status in_progress --expected-status planned --require-runnable --json >"$tmp/cas.json"
+jq -e '.result.before_status == "planned" and .result.after_status == "in_progress" and .result.runnable_before' "$tmp/cas.json" >/dev/null
+run story complete US-A --json >"$tmp/complete.json"
+jq -e '.result.id == "US-A" and .result.result == "pass"' "$tmp/complete.json" >/dev/null
 run query stories --json | jq -e '(.result.stories[] | select(.id == "US-B").runnable) == true' >/dev/null
 
 set +e

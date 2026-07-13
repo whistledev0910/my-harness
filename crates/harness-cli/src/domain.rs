@@ -356,7 +356,7 @@ pub fn compiled_tool_registry() -> Vec<ToolEntry> {
             "harness-cli",
             "story update",
             "story update",
-            "Update story status, proof flags, or verification command.",
+            "Update non-completion story status, proof flags, or verification command.",
             &[("id", "string", true)],
             "Task state",
             "0.1.0",

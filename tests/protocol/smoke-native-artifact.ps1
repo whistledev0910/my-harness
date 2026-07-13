@@ -50,10 +50,26 @@ try {
         throw "Work graph is incomplete or has no stable revision"
     }
 
-    $cas = Invoke-HarnessJson -Arguments @("story", "update", "--id", "US-A", "--status", "implemented", "--expected-status", "planned", "--require-runnable", "--json")
-    if ($cas.result.before_status -ne "planned" -or $cas.result.after_status -ne "implemented") {
+    $textBypassStderr = Join-Path $Temp "text-bypass.stderr"
+    & $Artifact story update --id US-A --status implemented 2>$textBypassStderr | Out-Null
+    if ($LASTEXITCODE -ne 1 -or -not (Get-Content -Raw $textBypassStderr).Contains("status 'implemented' is completion-only")) {
+        throw "Human-readable story update did not reject the completion bypass"
+    }
+    $casBypass = Invoke-HarnessJson -Arguments @("story", "update", "--id", "US-A", "--status", "implemented", "--expected-status", "planned", "--require-runnable", "--json") -ExpectedExit 2
+    if ($casBypass.error.code -ne "INVALID_ARGUMENT" -or -not $casBypass.error.message.Contains("story complete US-A")) {
+        throw "Machine story update did not reject the completion bypass"
+    }
+    $unchangedStories = Invoke-HarnessJson -Arguments @("query", "stories", "--json")
+    if (($unchangedStories.result.stories | Where-Object id -eq "US-A").status -ne "planned") {
+        throw "Rejected completion bypass changed story state"
+    }
+
+    $cas = Invoke-HarnessJson -Arguments @("story", "update", "--id", "US-A", "--status", "in_progress", "--expected-status", "planned", "--require-runnable", "--json")
+    if ($cas.result.before_status -ne "planned" -or $cas.result.after_status -ne "in_progress") {
         throw "CAS result did not report the transition"
     }
+    $complete = Invoke-HarnessJson -Arguments @("story", "complete", "US-A", "--json")
+    if ($complete.result.result -ne "pass") { throw "Explicit story completion did not pass" }
     $conflict = Invoke-HarnessJson -Arguments @("story", "hierarchy", "add", "--parent", "US-B", "--child", "US-A", "--json") -ExpectedExit 3
     if ($conflict.error.code -ne "CONFLICT") { throw "Hierarchy cycle was not a stable conflict" }
 

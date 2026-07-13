@@ -279,7 +279,10 @@ story implemented only when that proof passes. Resolver stories additionally
 require a stable linked Harness-improvement intake and a completed matching
 implementation trace recorded after the newest resolver link. On pass, story
 proof and eligible accepted backlog closures are committed atomically and
-replayably. Ordinary `story verify` and `story verify-all` remain proof-only.
+replayably. Ordinary text updates and JSON compare-and-set updates reject an
+`implemented` target and direct the caller to `story complete`; other lifecycle,
+proof, evidence, and verification-command updates remain available. Ordinary
+`story verify` and `story verify-all` remain proof-only.
 
 ## Phase 5 Evolution Commands
 
@@ -352,7 +355,9 @@ record requirement.
 
 Agents may update directly:
 
-- Story status and evidence via `scripts/bin/harness-cli story update`.
+- Non-completion story status and evidence via
+  `scripts/bin/harness-cli story update`; use `story complete` to reach
+  `implemented`.
 - Test matrix rows via `scripts/bin/harness-cli story add` and
   `scripts/bin/harness-cli story update`.
 - Links from story packets to product docs.

@@ -68,6 +68,8 @@ pub enum HarnessInfraError {
     },
     #[error("story update conflict: story '{0}' is not runnable")]
     StoryNotRunnable(String),
+    #[error("story update: status 'implemented' is completion-only for story '{0}'. Move the story to 'in_progress' or 'changed', then run: harness-cli story complete {0}")]
+    StoryImplementedRequiresCompletion(String),
     #[error("changeset identity conflict: run '{id}' was previously applied with SHA-256 '{applied_sha256}', not '{content_sha256}'")]
     ChangesetIdentityConflict {
         id: String,
@@ -1449,6 +1451,8 @@ impl HarnessRepository for SqliteHarnessRepository {
 
         let mut connection = self.open_existing()?;
         self.with_logged_write(&mut connection, |transaction| {
+            ensure_story_exists(transaction, &input.id)?;
+            reject_ordinary_story_implementation(&input.id, input.status.as_deref())?;
             let unit = input.unit.map(|value| value.0);
             let integration = input.integration.map(|value| value.0);
             let e2e = input.e2e.map(|value| value.0);
@@ -1686,6 +1690,7 @@ impl HarnessRepository for SqliteHarnessRepository {
             if input.require_runnable && runnable != 1 {
                 return Err(HarnessInfraError::StoryNotRunnable(input.id));
             }
+            reject_ordinary_story_implementation(&input.id, Some(&input.status))?;
             transaction.execute(
                 "UPDATE story SET status=?1 WHERE id=?2;",
                 params![input.status, input.id],
@@ -5530,6 +5535,15 @@ fn ensure_story_exists(transaction: &Transaction<'_>, id: &str) -> Result<()> {
     }
 }
 
+fn reject_ordinary_story_implementation(id: &str, status: Option<&str>) -> Result<()> {
+    if status.is_some_and(|status| status.trim().eq_ignore_ascii_case("implemented")) {
+        return Err(HarnessInfraError::StoryImplementedRequiresCompletion(
+            id.to_owned(),
+        ));
+    }
+    Ok(())
+}
+
 fn story_completion_context(
     connection: &Connection,
     story_id: &str,
@@ -7115,6 +7129,135 @@ mod tests {
     }
 
     #[test]
+    fn story_update_rejects_implemented_and_preserves_the_existing_story() {
+        let (_temp_dir, repository) = isolated_test_repository();
+        repository.init().unwrap();
+        repository
+            .add_story(StoryAddInput {
+                id: "US-GATE-TEXT".to_owned(),
+                title: "Text completion gate".to_owned(),
+                risk_lane: RiskLane::Normal,
+                contract_doc: None,
+                verify_command: Some(passing_command().to_owned()),
+                notes: None,
+            })
+            .unwrap();
+
+        let error = repository
+            .update_story(StoryUpdateInput {
+                id: "US-GATE-TEXT".to_owned(),
+                contract_doc: None,
+                status: Some("implemented".to_owned()),
+                evidence: Some("unverified completion".to_owned()),
+                unit: Some(BoolFlag(1)),
+                integration: None,
+                e2e: None,
+                platform: None,
+                verify_command: None,
+            })
+            .unwrap_err();
+        assert!(matches!(
+            error,
+            HarnessInfraError::StoryImplementedRequiresCompletion(id) if id == "US-GATE-TEXT"
+        ));
+
+        let connection = repository.open_existing().unwrap();
+        let unchanged: (String, Option<String>, i64) = connection
+            .query_row(
+                "SELECT status, evidence, unit_proof FROM story WHERE id='US-GATE-TEXT';",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+            )
+            .unwrap();
+        assert_eq!(unchanged, ("planned".to_owned(), None, 0));
+        drop(connection);
+
+        repository
+            .update_story(StoryUpdateInput {
+                id: "US-GATE-TEXT".to_owned(),
+                contract_doc: None,
+                status: Some("in_progress".to_owned()),
+                evidence: Some("work started".to_owned()),
+                unit: Some(BoolFlag(1)),
+                integration: None,
+                e2e: None,
+                platform: None,
+                verify_command: None,
+            })
+            .unwrap();
+        let connection = repository.open_existing().unwrap();
+        let updated: (String, Option<String>, i64) = connection
+            .query_row(
+                "SELECT status, evidence, unit_proof FROM story WHERE id='US-GATE-TEXT';",
+                [],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+            )
+            .unwrap();
+        assert_eq!(
+            updated,
+            ("in_progress".to_owned(), Some("work started".to_owned()), 1)
+        );
+    }
+
+    #[test]
+    fn story_update_cas_rejects_implemented_without_a_write_or_operation_log() {
+        let (_temp_dir, repository) = isolated_test_repository();
+        let repository = repository.with_run_id("run_completion_gate");
+        repository.init().unwrap();
+        repository
+            .add_story(StoryAddInput {
+                id: "US-GATE-CAS".to_owned(),
+                title: "CAS completion gate".to_owned(),
+                risk_lane: RiskLane::Normal,
+                contract_doc: None,
+                verify_command: Some(passing_command().to_owned()),
+                notes: None,
+            })
+            .unwrap();
+        let changeset = repository.changeset_path("run_completion_gate");
+        let before = fs::read_to_string(&changeset).unwrap();
+
+        let error = repository
+            .update_story_cas(StoryCasUpdateInput {
+                id: "US-GATE-CAS".to_owned(),
+                status: "implemented".to_owned(),
+                expected_status: "planned".to_owned(),
+                require_runnable: true,
+            })
+            .unwrap_err();
+        assert!(matches!(
+            error,
+            HarnessInfraError::StoryImplementedRequiresCompletion(id) if id == "US-GATE-CAS"
+        ));
+        assert_eq!(fs::read_to_string(&changeset).unwrap(), before);
+        assert_eq!(
+            repository
+                .query_orchestration_stories()
+                .unwrap()
+                .into_iter()
+                .find(|story| story.id == "US-GATE-CAS")
+                .unwrap()
+                .status,
+            "planned"
+        );
+
+        let changed = repository
+            .update_story_cas(StoryCasUpdateInput {
+                id: "US-GATE-CAS".to_owned(),
+                status: "in_progress".to_owned(),
+                expected_status: "planned".to_owned(),
+                require_runnable: true,
+            })
+            .unwrap();
+        assert_eq!(changed.before_status, "planned");
+        assert_eq!(changed.after_status, "in_progress");
+        assert!(changed.runnable_before);
+        assert!(fs::read_to_string(changeset)
+            .unwrap()
+            .contains("\"status\":\"in_progress\""));
+    }
+
+    #[test]
     fn story_completion_rejects_ineligible_story_states_before_verification() {
         let (_temp_dir, repository) = isolated_test_repository();
         repository.init().unwrap();
@@ -8556,7 +8699,7 @@ mod tests {
             .update_story(StoryUpdateInput {
                 id: "US-T".to_owned(),
                 contract_doc: None,
-                status: Some("implemented".to_owned()),
+                status: Some("in_progress".to_owned()),
                 evidence: Some("unit test".to_owned()),
                 unit: Some(BoolFlag(1)),
                 integration: None,
@@ -9466,7 +9609,7 @@ implemented
         let changed = repository
             .update_story_cas(StoryCasUpdateInput {
                 id: "US-A".into(),
-                status: "implemented".into(),
+                status: "in_progress".into(),
                 expected_status: "planned".into(),
                 require_runnable: true,
             })
@@ -9476,7 +9619,7 @@ implemented
                 changed.before_status.as_str(),
                 changed.after_status.as_str()
             ),
-            ("planned", "implemented")
+            ("planned", "in_progress")
         );
         assert!(matches!(
             repository

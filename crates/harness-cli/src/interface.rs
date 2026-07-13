@@ -120,7 +120,7 @@ enum StoryAction {
     #[command(after_help = RISK_LANE_HELP)]
     Add(StoryAddArgs),
     #[command(
-        after_help = "Proof flags use numeric booleans: --unit 1 --integration 1 --e2e 0 --platform 0. Do not use yes/no."
+        after_help = "Proof flags use numeric booleans: --unit 1 --integration 1 --e2e 0 --platform 0. Do not use yes/no. Status 'implemented' is completion-only; move active work to in_progress or changed, then run story complete <id>."
     )]
     Update(StoryUpdateArgs),
     /// Add or remove a dependency edge where blocker -> blocked.
@@ -265,6 +265,7 @@ struct StoryUpdateArgs {
     #[arg(long)]
     contract: Option<String>,
     #[arg(long)]
+    /// Set a non-completion lifecycle status. Use `story complete` for implemented.
     status: Option<String>,
     #[arg(long)]
     evidence: Option<String>,
@@ -873,6 +874,9 @@ pub fn emit_machine_error(operation: &str, error: &InterfaceError) -> i32 {
         | InterfaceError::ParseHarnessValue(_)
         | InterfaceError::ToolValidation(_)
         | InterfaceError::EmptySql => ("INVALID_ARGUMENT", false, 2),
+        InterfaceError::Infrastructure(
+            crate::infrastructure::HarnessInfraError::StoryImplementedRequiresCompletion(_),
+        ) => ("INVALID_ARGUMENT", false, 2),
         InterfaceError::Infrastructure(
             crate::infrastructure::HarnessInfraError::StoryNotFound(_)
             | crate::infrastructure::HarnessInfraError::ToolNotFound(_)

@@ -19,7 +19,8 @@ story status, resolution evidence, and eligible accepted backlog closure.
 that requires completion eligibility, runs fresh proof, and atomically records
 implemented story state plus eligible resolver backlog closure. Completion
 evidence and semantic operations replay with the same completion identity and
-resolution evidence.
+resolution evidence. Ordinary text and JSON/CAS story updates reject an
+`implemented` target, closing the former unverified completion bypass.
 
 ## Target Behavior
 
@@ -84,6 +85,10 @@ closures atomically on pass.
 - Resolution evidence names the story and proof but does not populate measured
   actual outcome or an outcome observation.
 - Ordinary `story verify` and `verify-all` remain proof-only commands.
+- Ordinary text and JSON/CAS `story update` calls cannot set `implemented`,
+  return actionable completion guidance, and leave all story fields unchanged.
+- Non-completion lifecycle transitions through ordinary and JSON/CAS update
+  paths remain available.
 - Repeated or concurrent completion is idempotent and cannot duplicate closure.
 - Any write failure rolls back every completion transition.
 - Later failed verification never reopens or rewrites historical closure.
