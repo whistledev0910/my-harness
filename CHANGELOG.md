@@ -1,5 +1,33 @@
 # Changelog
 
+## 2026-07-20 - PR #50
+
+- feat(core-state): make source state reproducible (@hoangnb24)
+- Merge commit: `9552c55d25ab32ce745f5ad715cf58f38add1c54`
+- Harness CLI candidate: `harness-cli-v0.1.18` (publication requires platform proof)
+- Changed files: 71 total (first 20 shown)
+  - `.gitattributes`
+  - `.github/workflows/premerge.yml`
+  - `.gitignore`
+  - `.harness/changesets/run_20260720_e15_execution_intake.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_reproducible_core_state.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us115.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us116.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us117.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us117_complete.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us118.changeset.jsonl`
+  - `.harness/changesets/run_20260720_e15_us119.changeset.jsonl`
+  - `.harness/changesets/run_auto_01784535496798252000_0000047583_000000.changeset.jsonl`
+  - `.harness/changesets/run_auto_01784549926906970000_0000020925_000000.changeset.jsonl`
+  - `.harness/changesets/run_auto_01784550199340549000_0000025691_000000.changeset.jsonl`
+  - `.harness/changesets/run_auto_01784550758040287000_0000037021_000000.changeset.jsonl`
+  - `.harness/core-state/harness.db`
+  - `.harness/core-state/manifest.json`
+  - `README.md`
+  - `crates/harness-cli/src/infrastructure.rs`
+  - `crates/harness-cli/src/interface.rs`
+  - _… 51 additional file(s) omitted from this entry._
+
 ## 2026-07-13 - PR #47
 
 - Fix post-merge CLI release recovery (@hoangnb24)
