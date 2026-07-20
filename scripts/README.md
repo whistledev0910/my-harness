@@ -83,63 +83,36 @@ docs.
 
 ## Installer
 
-The upstream installer applies the Harness v0 operating files and folder
-structure to a target project directory. It defaults to the current directory,
-accepts a target path, and asks interactive users whether to `1. Merge`,
-`2. Override`, or `3. Stop` when the target already contains `AGENTS.md`,
-`docs/`, or `scripts/`.
-Non-interactive installs stop on those protected paths unless `--merge` or
-`--override` is provided. Use `--merge` as the safe update path for repositories
-that already have Harness: it keeps existing files in place and creates only
-missing Harness files. Add `--refresh-agent-shim` when an older install has the
-full generated Harness guide in `AGENTS.md` and should move to the small stable
-shim. Use `--override` only when replacing the protected Harness surface is
-intentional.
+The default installer is docs-only and safe for an existing repository. It
+copies Harness documentation into `.harness/docs/`, writes
+`.harness/README.md` and `.harness/VERSION`, and creates or refreshes only the
+marked Harness block in `AGENTS.md`. Existing project files under `docs/`,
+`scripts/`, and the rest of `AGENTS.md` remain untouched.
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --yes
-```
-
-```powershell
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --dry-run
 ```
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --merge --yes
-```
-
-```powershell
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Merge -Yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --yes
 ```
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --merge --refresh-agent-shim --yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --directory /path/to/project --yes
 ```
 
-```powershell
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Merge -RefreshAgentShim -Yes
+The installer supports `--directory`, `--dry-run`, `--yes`, and `--help`.
+`HARNESS_REF` pins the downloaded branch or tag, and `HARNESS_REPOSITORY`
+selects a fork. Re-running it updates the vendored docs and keeps exactly one
+Harness block in `AGENTS.md`.
+
+The Rust CLI, database, dashboard, and helper scripts are source-repository
+tools and are not part of the default installed payload. The installer test
+runs without network access:
+
+```bash
+scripts/test-install-harness.sh
 ```
-
-`--refresh-agent-shim` backs up `AGENTS.md` before changing it. If the existing
-file is recognized as the old Harness-generated operating guide, the installer
-replaces it with the current shim. Otherwise it appends or replaces only the
-marked `<!-- HARNESS:BEGIN -->` block so project-specific instructions remain
-in place.
-
-The installer must stay limited to harness files. Do not use it to scaffold
-application source folders, package scripts, CI, tests, platform shells, or fake
-validation commands. The installer script is not part of the installed project
-payload.
-
-By default the installer also downloads the prebuilt Rust Harness CLI for the
-current platform into `scripts/bin/harness-cli` on macOS/Linux or
-`scripts/bin/harness-cli.exe` on Windows, then verifies its `.sha256` checksum.
-A source branch can pin the release used by the installer through
-`scripts/harness-cli-release-tag`; Phase 3 pins `harness-cli-v0.1.4` so branch
-installs receive a Phase 3-built CLI. Set `HARNESS_CLI_RELEASE_TAG` to override
-that tag, or set `HARNESS_CLI_BASE_URL` to point at an alternate artifact
-directory, such as a local `file:///.../dist` directory created by
-`scripts/build-harness-cli-release.sh`.
 
 ## Schema Migrations
 

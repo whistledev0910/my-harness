@@ -62,94 +62,46 @@ https://openai.com/index/harness-engineering/
 
 ## Install Harness Into A Project
 
-From a target project directory, run:
+The default installer is safe for existing repositories: it installs only
+Harness documentation under `.harness/` and adds or refreshes a marked block in
+`AGENTS.md`. It does not replace the project's `README.md`, `docs/`, `scripts/`,
+or existing agent instructions.
+
+Preview the change from the target project directory:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --dry-run
 ```
 
-On Windows PowerShell, run:
-
-```powershell
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Yes
-```
-
-If the target already has `AGENTS.md`, `docs/`, or `scripts/`, choose one:
+Install it:
 
 ```bash
-# Update an existing Harness repo without moving existing files
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --merge --yes
-
-# Back up and replace AGENTS.md, docs/, and scripts/
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --override --yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --yes
 ```
 
-```powershell
-# Update an existing Harness repo without moving existing files
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Merge -Yes
-
-# Back up and replace AGENTS.md, docs/, and scripts/
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Override -Yes
-```
-
-Use `--merge` when a project already has Harness and you want to append newly
-added Harness files without moving the existing `AGENTS.md`, `docs/`, or
-`scripts/` paths into backup. Existing files stay untouched; only missing
-Harness files are created.
-
-For older Harness installs whose `AGENTS.md` still contains the full generated
-operating guide, refresh it into the small stable shim:
+Or target another existing directory:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --merge --refresh-agent-shim --yes
+curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scripts/install-harness.sh" | bash -s -- --directory /path/to/project --yes
 ```
 
-The refresh backs up the existing file. If it detects the old
-Harness-generated guide, it replaces it with the shim. If the file appears
-custom, it appends or updates a marked Harness block instead of overwriting the
-project's local instructions.
+Re-running the command updates vendored Harness docs and the marked `AGENTS.md`
+block without duplicating it. The docs-only installer deliberately skips the
+Rust CLI, SQLite database, dashboard, and helper scripts; projects keep using
+their existing issue tracking, decisions, documentation, and validation tools.
 
-If the project is driven with Claude Code, add `--claude`. Claude Code never
-auto-loads `AGENTS.md`, so without this the installed harness is invisible to
-fresh sessions. The flag installs (or refreshes) a `CLAUDE.md` whose marked
-Harness block `@`-imports `AGENTS.md` and `docs/FEATURE_INTAKE.md` into every
-session's context. An existing `CLAUDE.md` gets the block appended after a
-backup; plain installs without the flag never touch `CLAUDE.md`:
+Installed shape:
 
-```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --claude --yes
+```text
+existing-project/
+  AGENTS.md                 # existing content preserved; one Harness block
+  docs/                     # untouched project docs
+  scripts/                  # untouched project scripts
+  .harness/
+    README.md               # docs-only precedence and path rules
+    VERSION
+    docs/                   # vendored Harness guidance
 ```
-
-Or install into a specific path:
-
-```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --directory /path/to/project --yes
-```
-
-```powershell
-& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/hoangnb24/repository-harness/main/scripts/install-harness.ps1"))) -Directory C:\path\to\project -Yes
-```
-
-Use `--dry-run` on Bash or `-DryRun` on PowerShell to preview changes before
-writing files.
-
-The installer also downloads the prebuilt Harness CLI for the current platform,
-verifies its `.sha256` checksum, and installs it at
-`scripts/bin/harness-cli` on macOS/Linux or `scripts/bin/harness-cli.exe` on
-Windows. The Rust CLI is the main Harness tool and stable command path.
-
-Harness CLI release assets are published from tags by the
-`Harness CLI Release` GitHub Actions workflow. The installer expects each
-release to include `harness-cli-<platform>` and
-`harness-cli-<platform>.sha256` assets for macOS arm64, macOS x64, Linux x64,
-Linux arm64, and Windows x64. The Windows asset is
-`harness-cli-windows-x64.exe` plus `harness-cli-windows-x64.exe.sha256`.
-
-Merged pull requests are recorded in `CHANGELOG.md` by the
-`Post-Merge Maintenance` workflow. When a merged PR changes the Rust CLI source,
-schema, Cargo metadata, or CLI release packaging, that workflow bumps the CLI
-patch version, updates `scripts/harness-cli-release-tag`, creates a
-`harness-cli-v*` tag, and runs the Harness CLI release build for that tag.
 
 ## Try The Flow
 
@@ -175,6 +127,9 @@ feature intake, become story-sized work when needed, and then carry both product
 validation and harness maintenance expectations.
 
 ## Tool Registry
+
+This section applies when working on the Harness source repository or when a
+project separately installs the full CLI. Docs-only installations skip it.
 
 The harness can use optional external tools (linters, code-graph servers,
 deploy checks) without depending on any of them. You register a tool as a

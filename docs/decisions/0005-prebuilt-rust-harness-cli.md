@@ -4,7 +4,7 @@ Date: 2026-05-23
 
 ## Status
 
-Accepted, amended 2026-05-31, amended 2026-06-09
+Accepted, amended 2026-05-31, amended 2026-06-09, amended 2026-07-20
 
 ## Context
 
@@ -35,8 +35,14 @@ On Windows, the repository-local binary is installed as:
 .\scripts\bin\harness-cli.exe <command>
 ```
 
-The installer should download, verify, and install the platform-specific Rust
-binary directly at that path. There should be no shell wrapper command contract.
+Full installations may download, verify, and install the platform-specific
+Rust binary directly at that path. There should be no shell wrapper command
+contract.
+
+The default installer is docs-only. It installs guidance under `.harness/` and
+does not install the CLI, database, dashboard, or helper scripts. This keeps
+existing repositories free from root-level `docs/` and `scripts/` collisions;
+teams that need the durable layer can install the CLI separately.
 
 The Rust CLI should follow the existing architecture rules:
 
@@ -82,6 +88,8 @@ Tradeoffs:
 - Release artifacts need checksums or another integrity check.
 - Unsupported platforms need a clear error path.
 - The project needs a repeatable release process for supported platforms.
+- CLI users need a separate explicit installation path; docs-only projects skip
+  CLI recording steps and retain their existing project systems.
 
 ## Follow-Up
 
