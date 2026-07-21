@@ -15,9 +15,12 @@ code, and validation material relevant to the task.
   needs coordination or an ordered sequence, has meaningful dependencies, or
   requires explicit recovery steps. Move it to `docs/plans/completed/` only
   after validation.
-- Pause when product intent is ambiguous, an action is difficult to recover,
-  validation would be weakened, or the request does not authorize the needed
-  action.
+- Before editing, identify repository authority for each new externally
+  observable policy. If materially different choices remain open, stop before
+  edits; configurable defaults are not authority.
+- Also pause when product intent remains ambiguous, an action is difficult to
+  recover, validation would be weakened, or the request does not authorize the
+  needed action.
 - Claim completion only with relevant executable or observable evidence. Report
   the outcome, important changed surfaces, validation, and unresolved risks.
 

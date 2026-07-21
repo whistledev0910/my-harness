@@ -1,11 +1,9 @@
 # Repository Workflow
 
-This is the canonical default workflow for humans and agents. The repository is
-the system of record: product behavior, architecture, active plans, decisions,
-code, tests, and observable application behavior carry the work.
-
-The objective is reliable agent execution with as little human attention and
-process overhead as the task permits.
+Canonical default workflow. Repository product behavior,
+architecture, plans, decisions, code, tests, and runtime signals are the system
+of record. Optimize for reliable agent execution with minimal human attention
+and process overhead.
 
 ## Repository Map
 
@@ -18,18 +16,15 @@ process overhead as the task permits.
 - Project code, tests, CI, and runtime signals: executable and observable truth.
 - `scripts/README.md`: upstream Harness development and compatibility commands.
 
-Use `docs/README.md` for the expanded documentation map. Prefer targeted search
-and the nearest relevant index over loading unrelated history.
+Use `docs/README.md` for the map; prefer targeted search.
 
 ## Select The Work Shape
 
-Answer three questions independently. Do not use one risk label to decide all
-three.
+Answer three questions independently; do not let one risk label decide them.
 
 ### Does The Work Need Durable Memory?
 
-Use an ephemeral plan for bounded work that can be completed safely in the
-current session.
+Use an ephemeral plan for bounded, single-session work.
 
 Create or update one execution plan in `docs/plans/active/` when work:
 
@@ -45,18 +40,21 @@ for the same work unless one has independent long-term value.
 
 ### Does The Work Need Human Judgment?
 
-Pause and request direction when:
+Before editing, identify repository authority for each new externally
+observable policy. If materially different choices remain open, stop before
+edits and request the smallest necessary decision. Configurable defaults are
+not authority.
 
-- product intent is ambiguous;
-- valid alternatives have materially different product consequences;
+For example, `Add rate limiting` without a quota, trusted key, enforcement
+topology, or response contract must stop. `Enforce the documented 20 requests
+per minute per authenticated tenant` may proceed.
+
+Also pause when:
+
+- product intent remains ambiguous;
 - the action is irreversible or difficult to recover;
 - validation, security, or compatibility requirements would be weakened; or
 - the requested work does not authorize the necessary action.
-
-Sensitive subject matter is not an automatic pause when the expected behavior
-and authority are already explicit. Fixing an authorization bypass with an
-existing contract can proceed; creating a new administrator deletion power
-requires product judgment.
 
 ### What Proves The Behavior?
 

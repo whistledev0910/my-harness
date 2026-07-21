@@ -29,6 +29,9 @@ require AGENTS.md 'No Harness CLI operation is required.'
 require docs/WORKFLOW.md '### Bounded Change'
 require docs/WORKFLOW.md '### Durable Planned Change'
 require docs/WORKFLOW.md '### Does The Work Need Human Judgment?'
+require AGENTS.md 'configurable defaults are not authority'
+require docs/WORKFLOW.md '`Add rate limiting` without a quota'
+require docs/WORKFLOW.md 'must stop'
 require docs/HARNESS.md 'ordinary repository task'
 require docs/CONTEXT_RULES.md 'The mandatory entry context is `AGENTS.md` plus `docs/WORKFLOW.md`'
 require README.md 'The default path requires no local database.'
@@ -57,6 +60,7 @@ done
 for file in \
   docs/decisions/0019-repository-centered-default-workflow.md \
   docs/decisions/0020-installation-profiles-and-knowledge-boundaries.md \
+  docs/decisions/0021-consumer-first-application-legibility-phase.md \
   docs/compatibility/README.md \
   docs/provenance/README.md; do
   [[ -f "$root/$file" ]] || fail "missing source-only artifact: $file"
@@ -93,6 +97,13 @@ require scripts/README.md 'By default the installer copies only the repository-c
 require docs/README.md '## Installed Core'
 require docs/README.md '## Optional Source Indexes'
 require docs/compatibility/README.md '## Install Boundary'
+require PHASE3.md '# Reduction Phase 3 — Application Legibility Pilot'
+require PHASE3.md '## Evidence Matrix'
+require PHASE3.md '## What Remains To Prove'
+require PHASE3.md 'Phase 3 completes only when one task exercises that loop'
+require docs/decisions/README.md '0021-consumer-first-application-legibility-phase.md'
+require docs/decisions/0021-consumer-first-application-legibility-phase.md 'Phase 3 therefore remains active.'
+require docs/compatibility/phase-3-active-observability-legacy.md 'Historical compatibility plan.'
 require docs/provenance/README.md 'source evidence, not default task'
 
 for executable in \

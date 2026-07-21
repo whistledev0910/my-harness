@@ -16,3 +16,13 @@ instead of creating permanent plan documents.
 - `phase-2-knowledge-boundary-and-payload-reduction.md`: made the default
   installation a ten-file repository-centered core and moved the complete CLI,
   SQLite, and orchestration surface behind explicit compatibility selection.
+- `phase-3-e-inna-brain-application-legibility-pilot.md`: tested the reduced
+  core in a real consumer, confirmed application discovery, and exposed that a
+  prose ambiguity rule did not reliably stop speculative product policy.
+- `phase-3-decision-boundary-replay.md`: converted the failed consumer task into
+  a compact installed policy gate and verified with a clean replay that a fresh
+  agent stopped before inventing rate-limit semantics or editing the app.
+
+The Phase 3 entries are completed evidence checkpoints, not a claim that the
+full application runtime/interface loop is complete. Decision 0021 keeps the
+phase active until that loop has observable proof.

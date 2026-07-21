@@ -132,7 +132,9 @@ before_judgment=$(shasum -a 256 "$fixture/src/task-status.sh" | awk '{print $1}'
 grep -Fq 'allow every teammate to edit every task' "$root/docs/demo/README.md"
 grep -Fq 'keep ownership restrictions but simplify the permission code' \
   "$root/docs/demo/README.md"
-grep -Fq 'Pause and request direction' "$root/docs/WORKFLOW.md"
+grep -Fq '`Add rate limiting` without a quota' "$root/docs/WORKFLOW.md"
+grep -Fq 'must stop' "$root/docs/WORKFLOW.md"
+grep -Fq 'configurable defaults are not authority' "$root/AGENTS.md"
 after_judgment=$(shasum -a 256 "$fixture/src/task-status.sh" | awk '{print $1}')
 [[ "$before_judgment" == "$after_judgment" ]]
 assert_no_control_plane_state

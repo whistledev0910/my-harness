@@ -1,5 +1,10 @@
 #Phase 4 — Mechanical Verification: Finalized Scope
 
+> Historical compatibility roadmap. Its phase numbering predates decisions
+> 0019 and 0020 and is not the active repository-centered roadmap. The Rust
+> CLI/SQLite workflow it describes remains available only through explicit
+> compatibility selection. See `PHASE3.md` for the active phase.
+
 **Target repo:** `repository-harness` (feature branch off `main`)
 **Validation:** `harness-benchmark` re-run after implementation
 **Current harness maturity:** H3 partial (Phase 3 active observability complete)

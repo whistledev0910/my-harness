@@ -23,6 +23,7 @@ profile and requires an immutable release reference.
 
 ## Lifecycle References
 
+- [Superseded Phase 3 active-observability plan](phase-3-active-observability-legacy.md)
 - [Feature intake](../FEATURE_INTAKE.md)
 - [Story proof matrix](../TEST_MATRIX.md)
 - [Trace and scoring](../TRACE_SPEC.md)
