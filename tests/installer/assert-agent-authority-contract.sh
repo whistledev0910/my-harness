@@ -19,7 +19,7 @@ cmp -s <(extract_block "$root/CLAUDE.md") "$claude_block"
 
 grep -Fq 'Start with the requested outcome' "$agent_block"
 grep -Fq 'Answers, explanations, reviews, diagnoses, plans, and status reports are' "$agent_block"
-grep -Fq 'No Harness CLI operation is required.' "$agent_block"
+grep -Fq 'No control-plane operation is required.' "$agent_block"
 grep -Fq 'docs/plans/active/' "$agent_block"
 grep -Fq 'identify repository authority for each new externally' "$agent_block"
 grep -Fq 'configurable defaults are not authority' "$agent_block"

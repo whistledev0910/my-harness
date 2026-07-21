@@ -56,6 +56,56 @@ Out of scope:
 6. Cut over product documentation and the default install only after the new
    behavior passes repository-wide validation.
 
+## Implementation Contract
+
+Commands:
+
+- `harness install [--directory <path>] [--dry-run]` installs missing core
+  files and adopts an existing copy-on-install core without overwriting local
+  files.
+- `harness update [--directory <path>] [--dry-run]` compares the recorded
+  upstream base, the consumer file, and the embedded release payload. It applies
+  only a conflict-free plan.
+- `harness status [--directory <path>] [--json]` reports installed version,
+  target version, local modifications, missing files, and update availability
+  without mutation.
+- `harness doctor [--directory <path>] [--json]` validates provenance, base
+  hashes, path safety, merge availability, and interrupted-transaction state.
+
+Tracked provenance lives under `.harness-core/`: `manifest.json` records the
+schema, installed core version, paths, ownership, and upstream hashes; `base/`
+stores the exact upstream bytes required for the next three-way comparison.
+This is Git-visible package state, not task or control-plane state.
+
+The update rules are deterministic:
+
+1. local equals base: take upstream;
+2. upstream equals base: preserve local;
+3. local equals upstream: keep that content;
+4. both changed: use a real three-way text merge;
+5. overlapping changes, unsafe paths, missing managed files, or corrupted base
+   state: report a conflict and write nothing.
+
+Application writes are transactional at the command boundary. All target and
+state changes are staged, prior bytes are backed up, an interruption journal is
+made durable before activation, and provenance is committed last. A later
+command rolls back an incomplete transaction before doing new work; a committed
+transaction only needs cleanup.
+
+Clean Architecture is structural, not naming-only:
+
+```text
+domain <- application <- infrastructure
+                    <- interface
+composition root wires interface and infrastructure
+```
+
+The domain contains pure paths, manifests, merge decisions, plans, and reports.
+Application use cases depend only on domain types and ports. Infrastructure
+implements embedded distribution, filesystem state, hashing, locking,
+transactions, and Git-backed three-way merge. The interface parses commands and
+renders results. Mechanical tests reject inward layers importing outward ones.
+
 ## Risks And Recovery
 
 - **Consumer data loss:** stage the complete result, stop on unresolved
@@ -74,11 +124,11 @@ Out of scope:
 ## Progress
 
 - [x] Record the accepted product boundary and current upstream goal.
-- [ ] Specify commands, ownership, provenance, conflict, and recovery contracts.
-- [ ] Implement the independent Rust CLI and focused tests.
-- [ ] Implement immutable bootstraps and existing-install migration.
+- [x] Specify commands, ownership, provenance, conflict, and recovery contracts.
+- [x] Implement the independent Rust CLI and focused tests.
+- [x] Implement immutable bootstraps and existing-install migration.
 - [ ] Run cross-platform update and recovery proof.
-- [ ] Cut over current product documentation and default installation.
+- [x] Cut over current product documentation and default installation.
 - [ ] Run full repository validation and record the result.
 
 ## Decisions
@@ -91,13 +141,17 @@ Out of scope:
 
 ## Validation
 
-- Focused proof: the direction-setting checkpoint passed agent-authority,
-  documentation, workflow, Bash installer, and optional-consumer boundary
-  contracts. Command and merge-contract tests remain pending implementation.
-- Integration or end-to-end proof: pending fresh-install, customized-update,
-  conflict, migration, rollback, and platform evidence.
-- Repository-required checks: `scripts/validate-premerge.sh` passed for the
-  direction-setting checkpoint. Full CLI implementation proof remains pending.
+- Focused proof: 10 unit tests, 2 mechanical architecture tests, 2 CLI lifecycle
+  tests, and 2 update lifecycle tests pass. They cover fresh install, legacy
+  adoption, dry-run, status, diagnostics, one-sided changes, add/remove,
+  non-overlapping merge, overlap conflict, missing files, backup, interrupted
+  recovery, apply failure rollback, path safety, and all-or-nothing writes.
+- Integration or end-to-end proof: the Bash installer profile, migration,
+  upgrade, checksum failure, rollback, dry-run, and optional-consumer boundary
+  suites pass. Windows runtime evidence remains pending CI.
+- Repository-required checks: `scripts/validate-premerge.sh` passes with the
+  full implementation. Native Windows installer/update proof remains pending
+  the pull-request workflow.
 
 ## Result
 

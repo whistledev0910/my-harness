@@ -4,8 +4,7 @@ Date: 2026-07-21
 
 ## Status
 
-Accepted target. Current installation behavior remains unchanged until the
-active implementation plan is completed and validated.
+Implemented. Cross-platform release publication completes after merge to main.
 
 ## Context
 
@@ -41,9 +40,7 @@ bootstraps. They must download an immutable, checksum-verified `harness`
 artifact and delegate installation rather than independently implementing core
 update semantics.
 
-The current installer and compatibility behavior remain authoritative until
-the active plan proves the replacement path. This decision does not claim that
-the new CLI already exists.
+The compatibility behavior remains separately available through `harness-cli`.
 
 ## Alternatives Considered
 

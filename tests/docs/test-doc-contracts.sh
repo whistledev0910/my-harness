@@ -25,7 +25,7 @@ reject() {
 # Current default authority is repository-centered and explicitly keeps
 # workflow-database operations off the bounded path.
 require AGENTS.md 'Start with the requested outcome'
-require AGENTS.md 'No Harness CLI operation is required.'
+require AGENTS.md 'No control-plane operation is required.'
 require docs/WORKFLOW.md '### Bounded Change'
 require docs/WORKFLOW.md '### Durable Planned Change'
 require docs/WORKFLOW.md '### Does The Work Need Human Judgment?'
@@ -93,10 +93,11 @@ done
 
 require scripts/README.md 'Normal'
 require scripts/README.md 'story row, matrix query, trace, score, audit, or proposal'
-require docs/ARCHITECTURE.md 'The upstream Harness product is implemented as a Rust workspace'
+require docs/ARCHITECTURE.md 'The upstream Harness product is a Rust workspace with two independent binaries.'
+require docs/ARCHITECTURE.md '`crates/harness/` is the default core-maintenance CLI.'
 require docs/ARCHITECTURE.md 'The reusable template does not select an application stack'
 require scripts/README.md 'Installed consumer projects keep their own stack-specific validation commands'
-require scripts/README.md 'By default the installer copies only the repository-centered core.'
+require scripts/README.md 'By default the installer downloads the checksum-verified `harness` maintenance'
 require docs/README.md '## Installed Core'
 require docs/README.md '## Optional Source Indexes'
 require docs/compatibility/README.md '## Install Boundary'
@@ -159,6 +160,9 @@ for required_gate in \
   'tests/docs/test-doc-contracts.sh' \
   'tests/workflow/test-repository-workflow.sh' \
   'tests/workflow/test-task-authority.sh' \
+  'tests/maintenance/test-harness-release-classification.sh' \
+  'tests/release/test-harness-release-workflow-contract.sh' \
+  'tests/release/test-harness-release-identity-guard.sh' \
   'tests/release/test-post-merge-release-recovery.sh'; do
   require scripts/validate-premerge.sh "$required_gate"
 done
@@ -172,5 +176,6 @@ rg -Fq 'tests/installer/test-install-harness-modes.ps1' "$root/.github/workflows
     "$root/.github/workflows/premerge.yml" ||
   fail 'pull-request workflow does not exercise the PowerShell installer contract'
 require .github/workflows/harness-cli-release.yml 'run: scripts/validate-premerge.sh'
+require .github/workflows/harness-release.yml 'run: scripts/validate-premerge.sh'
 
 echo "repository workflow, compatibility boundary, links, authority, and validation references passed"
