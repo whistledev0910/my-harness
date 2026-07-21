@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-07-21 - PR #56
+
+- feat(harness): set core maintenance CLI direction (@hoangnb24)
+- Merge commit: `d5bb4db1760d764f24343838f0bda4fc42f079af`
+- Harness CLI candidate: `harness-cli-v0.1.21` (publication requires platform proof)
+- Harness core candidate: `harness-v0.1.1` (publication requires platform proof)
+- Changed files: 61 total (first 20 shown)
+  - `.github/workflows/harness-release.yml`
+  - `.github/workflows/post-merge-maintenance.yml`
+  - `.gitignore`
+  - `AGENTS.md`
+  - `Cargo.lock`
+  - `Cargo.toml`
+  - `README.md`
+  - `crates/harness/Cargo.toml`
+  - `crates/harness/assets/docs/decisions/README.md`
+  - `crates/harness/assets/docs/plans/README.md`
+  - `crates/harness/assets/docs/plans/completed/README.md`
+  - `crates/harness/src/application/mod.rs`
+  - `crates/harness/src/application/ports.rs`
+  - `crates/harness/src/application/service.rs`
+  - `crates/harness/src/domain/mod.rs`
+  - `crates/harness/src/domain/model.rs`
+  - `crates/harness/src/infrastructure/embedded_distribution.rs`
+  - `crates/harness/src/infrastructure/filesystem_state.rs`
+  - `crates/harness/src/infrastructure/git_merge.rs`
+  - `crates/harness/src/infrastructure/mod.rs`
+  - _… 41 additional file(s) omitted from this entry._
+
 ## 2026-07-21 - PR #55
 
 - feat(phase5): split optional consumer ownership (@hoangnb24)
