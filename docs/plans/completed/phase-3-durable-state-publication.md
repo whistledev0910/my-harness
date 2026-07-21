@@ -4,7 +4,7 @@ Date: 2026-07-21
 
 ## Status
 
-Active
+Completed
 
 ## Outcome
 
@@ -85,9 +85,9 @@ Out of scope:
 - [x] Add decision 0021 and the authoritative evidence matrix.
 - [x] Update indexes and documentation contracts.
 - [x] Run focused and full validation.
-- [ ] Record the result and move this plan to completed.
-- [ ] Commit and push the feature branch.
-- [ ] Open the pull request to `main`.
+- [x] Record the result and move this plan to completed.
+- [x] Commit and push the feature branch.
+- [x] Open the pull request to `main`.
 
 ## Decisions
 
@@ -111,4 +111,14 @@ Out of scope:
 
 ## Result
 
-Pending.
+The durable Phase 3 state was committed at `0747c44`, pushed on
+`feature/phase3-decision-boundary-replay`, and published as
+<https://github.com/hoangnb24/repository-harness/pull/53> targeting `main`.
+
+The PR contains the core decision-boundary correction, the clean e-inna replay,
+and decision 0021 plus the P3-01 through P3-07 evidence matrix. It records the
+e-inna work as a completed first checkpoint while keeping Reduction Phase 3
+active until the real runtime/interface loop is exercised. The local full
+pre-merge contract passed before publication. The two remote pre-merge jobs
+were running when this plan closed; their eventual status remains observable on
+the PR and is not claimed here.
