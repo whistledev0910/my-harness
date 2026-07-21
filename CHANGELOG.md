@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-07-21 - PR #57
+
+- Fix release verification bootstrap (@hoangnb24)
+- Merge commit: `b7dac2b4bf8e3201c6ac5b8e096662571068b554`
+- Harness CLI candidate: `harness-cli-v0.1.22` (publication requires platform proof)
+- Harness core candidate: `harness-v0.1.2` (publication requires platform proof)
+- Changed files: 4 total
+  - `.github/workflows/harness-cli-release.yml`
+  - `.github/workflows/harness-release.yml`
+  - `tests/release/test-harness-release-workflow-contract.sh`
+  - `tests/release/test-release-workflow-contract.sh`
+
 ## 2026-07-21 - PR #56
 
 - feat(harness): set core maintenance CLI direction (@hoangnb24)
