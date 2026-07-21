@@ -34,7 +34,7 @@ printf '[package]\nname = "harness-cli"\nversion = "0.0.0"\n' \
   >"$source_fixture/crates/harness-cli/Cargo.toml"
 
 run_in "$source_fixture" init >/dev/null
-run_in "$source_fixture" intake --type harness_improvement \
+run_in "$source_fixture" --compatibility-write intake --type harness_improvement \
   --summary "source auto capture" --lane normal >/dev/null
 
 mapfile -t source_changesets < <(

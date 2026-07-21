@@ -24,6 +24,7 @@ tests/coherence/test-revision-coherence.sh
 tests/coherence/test-core-state-ownership.sh
 tests/core/test-schema-replay-command-contract.sh
 tests/changesets/test-automatic-source-capture.sh
+tests/boundary/test-phase4-control-plane-freeze.sh
 tests/bootstrap/test-bootstrap-harness.sh
 tests/bootstrap/test-core-state-materialization.sh
 tests/bootstrap/test-fresh-source-checkout.sh

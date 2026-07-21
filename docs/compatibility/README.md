@@ -23,7 +23,9 @@ profile and requires an immutable release reference.
 
 ## Lifecycle References
 
+- [Phase 4 write-consumer inventory and freeze boundary](phase-4-write-consumer-inventory.md)
 - [Superseded Phase 3 active-observability plan](phase-3-active-observability-legacy.md)
+- [Superseded Phase 4 mechanical-verification roadmap](phase-4-mechanical-verification-legacy.md)
 - [Feature intake](../FEATURE_INTAKE.md)
 - [Story proof matrix](../TEST_MATRIX.md)
 - [Trace and scoring](../TRACE_SPEC.md)

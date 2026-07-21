@@ -39,3 +39,6 @@ No active execution plans are currently indexed.
 
 See `completed/README.md`. Phase 1 and Phase 2 are retained there because they
 record consequential source-of-truth, payload, and compatibility transitions.
+Phase 4 is retained because it records the consumer audit, explicit-intent
+boundary, write freeze, and decision to preserve the still-used compatibility
+implementation.

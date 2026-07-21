@@ -31,6 +31,10 @@ use crate::infrastructure::{ProposalDecision, ProposalResult, ToolCheckResult};
 #[command(about = "durable layer for the project harness", long_about = None)]
 #[command(version)]
 pub struct Cli {
+    /// Permit an explicitly selected legacy lifecycle write to this source
+    /// repository's default compatibility database.
+    #[arg(long, global = true)]
+    compatibility_write: bool,
     #[command(subcommand)]
     command: Command,
 }
@@ -730,6 +734,10 @@ pub enum InterfaceError {
     Output(std::io::Error),
     #[error("path cannot be represented as UTF-8 for protocol JSON")]
     NonUtf8Path,
+    #[error(
+        "upstream SQLite lifecycle write '{operation}' is frozen for new repository work; use Git-native plans and decisions for current authority. Rerun with --compatibility-write only when maintaining preserved compatibility state"
+    )]
+    LegacyLifecycleWriteFrozen { operation: &'static str },
     #[error("{0}")]
     EpochFence(#[from] EpochFenceError),
 }
@@ -766,6 +774,31 @@ impl Cli {
                 }) | DbAction::Rebuild { .. }
             ),
             Command::ScoreTrace(_) | Command::ScoreContext { .. } | Command::Query(_) => false,
+        }
+    }
+
+    fn legacy_lifecycle_write(&self) -> Option<&'static str> {
+        if self.machine_mode() || !self.mutates_state() {
+            return None;
+        }
+
+        match &self.command {
+            Command::Import(_) => Some("import brownfield"),
+            Command::Intake(_) => Some("intake"),
+            Command::Story(_) => Some("story"),
+            Command::Decision(_) => Some("decision"),
+            Command::Backlog(_) => Some("backlog"),
+            Command::Tool(_) => Some("tool"),
+            Command::Intervention(_) => Some("intervention"),
+            Command::Trace(_) => Some("trace"),
+            Command::Audit(_) => Some("audit --record-evidence"),
+            Command::Propose(_) => Some("propose decision"),
+            Command::Init
+            | Command::Migrate
+            | Command::ScoreTrace(_)
+            | Command::ScoreContext { .. }
+            | Command::Db(_)
+            | Command::Query(_) => None,
         }
     }
 
@@ -973,6 +1006,9 @@ pub fn emit_parse_error(message: &str) -> i32 {
 
 pub fn run(cli: Cli) -> Result<(), InterfaceError> {
     let context = resolve_context()?;
+    if let Some(notice) = enforce_control_plane_freeze(&cli, &context)? {
+        eprintln!("{notice}");
+    }
     let _epoch_write_guard = acquire_command_guard(&context.repo_root, cli.mutates_state())?;
     let service = HarnessService::new(context);
 
@@ -1636,6 +1672,32 @@ pub fn run(cli: Cli) -> Result<(), InterfaceError> {
     }
 
     Ok(())
+}
+
+fn enforce_control_plane_freeze(
+    cli: &Cli,
+    context: &HarnessContext,
+) -> Result<Option<String>, InterfaceError> {
+    let Some(operation) = cli.legacy_lifecycle_write() else {
+        return Ok(None);
+    };
+    let is_upstream_source = context.repo_root.join("Cargo.toml").is_file()
+        && context
+            .repo_root
+            .join("crates/harness-cli/Cargo.toml")
+            .is_file();
+    let targets_default_database = context.db_path == context.repo_root.join("harness.db");
+    if !is_upstream_source || !targets_default_database {
+        return Ok(None);
+    }
+
+    if !cli.compatibility_write {
+        return Err(InterfaceError::LegacyLifecycleWriteFrozen { operation });
+    }
+
+    Ok(Some(format!(
+        "warning: executing explicitly selected compatibility write '{operation}' against the upstream legacy database; Git-native plans and decisions remain current authority."
+    )))
 }
 
 fn print_trace_score(result: &TraceScoreResult, latest: bool) {
@@ -2499,6 +2561,122 @@ mod tests {
     #[test]
     fn cli_definition_is_valid() {
         Cli::command().debug_assert();
+    }
+
+    fn context(repo_root: &Path, db_path: &Path) -> HarnessContext {
+        HarnessContext {
+            repo_root: repo_root.to_path_buf(),
+            db_path: db_path.to_path_buf(),
+            schema_dir: repo_root.join("scripts/schema"),
+        }
+    }
+
+    #[test]
+    fn phase4_freeze_targets_only_upstream_default_lifecycle_writes() {
+        let root = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(root.path().join("crates/harness-cli")).unwrap();
+        std::fs::write(root.path().join("Cargo.toml"), "[workspace]\n").unwrap();
+        std::fs::write(
+            root.path().join("crates/harness-cli/Cargo.toml"),
+            "[package]\nname='harness-cli'\nversion='0.0.0'\n",
+        )
+        .unwrap();
+        let default_context = context(root.path(), &root.path().join("harness.db"));
+
+        let intake = Cli::try_parse_from([
+            "harness-cli",
+            "intake",
+            "--type",
+            "change request",
+            "--summary",
+            "legacy write",
+            "--lane",
+            "normal",
+        ])
+        .unwrap();
+        let error = enforce_control_plane_freeze(&intake, &default_context).unwrap_err();
+        assert!(matches!(
+            error,
+            InterfaceError::LegacyLifecycleWriteFrozen {
+                operation: "intake"
+            }
+        ));
+
+        let explicit_intake = Cli::try_parse_from([
+            "harness-cli",
+            "--compatibility-write",
+            "intake",
+            "--type",
+            "change request",
+            "--summary",
+            "legacy write",
+            "--lane",
+            "normal",
+        ])
+        .unwrap();
+        let notice = enforce_control_plane_freeze(&explicit_intake, &default_context)
+            .unwrap()
+            .unwrap();
+        assert!(notice.contains("explicitly selected compatibility write 'intake'"));
+
+        let query = Cli::try_parse_from(["harness-cli", "query", "intakes"]).unwrap();
+        assert!(enforce_control_plane_freeze(&query, &default_context)
+            .unwrap()
+            .is_none());
+
+        let isolated = context(root.path(), &root.path().join("fixture.db"));
+        assert!(enforce_control_plane_freeze(&intake, &isolated)
+            .unwrap()
+            .is_none());
+    }
+
+    #[test]
+    fn phase4_warning_does_not_change_machine_or_maintenance_boundaries() {
+        let root = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(root.path().join("crates/harness-cli")).unwrap();
+        std::fs::write(root.path().join("Cargo.toml"), "[workspace]\n").unwrap();
+        std::fs::write(
+            root.path().join("crates/harness-cli/Cargo.toml"),
+            "[package]\nname='harness-cli'\nversion='0.0.0'\n",
+        )
+        .unwrap();
+        let source = context(root.path(), &root.path().join("harness.db"));
+
+        let machine_story = Cli::try_parse_from([
+            "harness-cli",
+            "story",
+            "add",
+            "--id",
+            "US-200",
+            "--title",
+            "Machine story",
+            "--lane",
+            "normal",
+            "--json",
+        ])
+        .unwrap();
+        assert!(enforce_control_plane_freeze(&machine_story, &source)
+            .unwrap()
+            .is_none());
+
+        for arguments in [
+            vec!["harness-cli", "init"],
+            vec!["harness-cli", "migrate"],
+            vec![
+                "harness-cli",
+                "db",
+                "rebuild",
+                "--from",
+                ".harness/changesets",
+            ],
+            vec!["harness-cli", "audit"],
+            vec!["harness-cli", "propose"],
+        ] {
+            let cli = Cli::try_parse_from(arguments).unwrap();
+            assert!(enforce_control_plane_freeze(&cli, &source)
+                .unwrap()
+                .is_none());
+        }
     }
 
     #[test]

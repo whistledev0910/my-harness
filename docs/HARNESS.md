@@ -152,6 +152,12 @@ requested, when maintaining that compatibility surface, or when an external
 orchestrator's versioned contract requires them. Existing schemas and state
 remain supported during the workflow-decoupling compatibility window.
 
+In this source repository, human lifecycle writes against the default
+`harness.db` are frozen. Deliberate maintenance of preserved compatibility state
+must add the global `--compatibility-write` flag. Machine protocol-v1 JSON,
+installed consumers, explicit database paths, reads, replay, and recovery do
+not require that flag and retain their published behavior.
+
 Reference material for that surface includes:
 
 - `docs/FEATURE_INTAKE.md`;

@@ -19,6 +19,7 @@ consumer product choices.
 | [0019](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0019-repository-centered-default-workflow.md) | Active | Repository-Centered Default Workflow |
 | [0020](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0020-installation-profiles-and-knowledge-boundaries.md) | Active | Installation Profiles And Knowledge Boundaries |
 | [0021](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0021-consumer-first-application-legibility-phase.md) | Active | Consumer-First Application Legibility Phase |
+| [0022](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0022-control-plane-freeze-and-compatibility-runway.md) | Active | Control-Plane Freeze And Compatibility Runway |
 
 ## Compatibility Decisions
 
@@ -32,6 +33,7 @@ SQLite, or orchestration surface.
 | [0006](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0006-phase-4-benchmark-triage.md) | Compatibility | Phase 4 Benchmark Triage |
 | [0007](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0007-improvement-proposal-rules.md) | Compatibility | Improvement Proposal Rules |
 | [0011](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0011-reproducible-core-state.md) | Compatibility | Reproducible Core State |
+| [0010](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0010-proof-before-cli-release-promotion.md) | Compatibility | Proof Before Harness CLI Release Promotion |
 
 ## Historical Decisions
 
@@ -43,6 +45,8 @@ provenance rather than current instruction.
 | [0001](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0001-harness-first-development.md) | Amended by 0019 | Harness-First Development |
 | [0002](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0002-post-spec-product-lifecycle.md) | Superseded by 0003 | Seed Specification Product Lifecycle |
 | [0003](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0003-generic-spec-intake-harness.md) | Amended by 0019 | Generic Spec Intake Harness |
+| [0008](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0008-self-improving-harness-lifecycle.md) | Superseded by 0019 and 0022 | Self-Improving Harness Lifecycle |
+| [0009](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0009-separate-symphony-product-repository.md) | Completed migration | Separate Symphony Into Its Own Product Repository |
 
 ## Add A Decision When
 

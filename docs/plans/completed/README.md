@@ -22,6 +22,9 @@ instead of creating permanent plan documents.
 - `phase-3-decision-boundary-replay.md`: converted the failed consumer task into
   a compact installed policy gate and verified with a clean replay that a fresh
   agent stopped before inventing rate-limit semantics or editing the app.
+- `phase-4-control-plane-freeze.md`: inventoried SQLite authority and consumers,
+  froze accidental upstream lifecycle writes behind explicit compatibility
+  intent, and retained tested protocol, history, reconstruction, and recovery.
 
 The Phase 3 entries are completed evidence checkpoints, not a claim that the
 full application runtime/interface loop is complete. Decision 0021 keeps the

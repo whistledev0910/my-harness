@@ -61,6 +61,7 @@ for file in \
   docs/decisions/0019-repository-centered-default-workflow.md \
   docs/decisions/0020-installation-profiles-and-knowledge-boundaries.md \
   docs/decisions/0021-consumer-first-application-legibility-phase.md \
+  docs/decisions/0022-control-plane-freeze-and-compatibility-runway.md \
   docs/compatibility/README.md \
   docs/provenance/README.md; do
   [[ -f "$root/$file" ]] || fail "missing source-only artifact: $file"
@@ -103,7 +104,22 @@ require PHASE3.md '## What Remains To Prove'
 require PHASE3.md 'Phase 3 completes only when one task exercises that loop'
 require docs/decisions/README.md '0021-consumer-first-application-legibility-phase.md'
 require docs/decisions/0021-consumer-first-application-legibility-phase.md 'Phase 3 therefore remains active.'
+require PHASE4.md '# Reduction Phase 4 — Control-Plane Freeze'
+require PHASE4.md '## Evidence Matrix'
+require PHASE4.md 'warning runway'
+require PHASE4.md 'Complete on 2026-07-21.'
+require PHASE4.md '| P4-08 Deletion boundary'
+require docs/plans/README.md 'No active execution plans are currently indexed.'
+require docs/plans/completed/README.md 'phase-4-control-plane-freeze.md'
+require docs/plans/completed/phase-4-control-plane-freeze.md 'Complete. New upstream work has one Git-native authority path.'
+require docs/decisions/README.md '0022-control-plane-freeze-and-compatibility-runway.md'
+require docs/decisions/0022-control-plane-freeze-and-compatibility-runway.md 'warn on new upstream legacy lifecycle writes'
+require docs/compatibility/README.md 'phase-4-write-consumer-inventory.md'
+require docs/compatibility/phase-4-write-consumer-inventory.md 'No current upstream product or execution authority exists only in SQLite.'
+require docs/contracts/harness-orchestration-v1.md '`--compatibility-write` flag'
+require scripts/README.md '`--compatibility-write` flag'
 require docs/compatibility/phase-3-active-observability-legacy.md 'Historical compatibility plan.'
+require docs/compatibility/phase-4-mechanical-verification-legacy.md 'Historical compatibility roadmap.'
 require docs/provenance/README.md 'source evidence, not default task'
 
 for executable in \
@@ -119,6 +135,7 @@ for required_gate in \
   'cargo test --workspace --locked' \
   'cargo clippy --workspace --all-targets --locked -- -D warnings' \
   'scripts/verify-revision-coherence.sh' \
+  'tests/boundary/test-phase4-control-plane-freeze.sh' \
   'tests/docs/test-doc-contracts.sh' \
   'tests/evals/test-repository-workflow.sh' \
   'tests/evals/test-task-authority.sh' \

@@ -42,6 +42,14 @@ checksum-verified prebuilt binary and safely initializes missing local state.
 Both modes migrate older supported databases and refuse unsupported schemas or
 CLI/release-pin drift.
 
+Human lifecycle writes to this source repository's default `harness.db` are
+frozen for new work. Use Git-native plans and decisions instead. Only deliberate
+maintenance of preserved compatibility state may add the global
+`--compatibility-write` flag, for example
+`scripts/bin/harness-cli --compatibility-write intake ...`. Installed
+consumers, protocol-v1 JSON operations, and explicit `HARNESS_DB_PATH` workflows
+retain their existing command shapes.
+
 ```bash
 scripts/bin/harness-cli init          # Create the database
 scripts/bin/harness-cli intake ...    # Record a feature intake classification
@@ -102,12 +110,14 @@ to operate on an isolated copied database. `HARNESS_DB_PATH` takes precedence
 over the legacy `HARNESS_DB` override; if neither is set, the CLI uses
 `harness.db` in the repository root.
 
-In this Harness CLI source repository, a typed write to the default
-`harness.db` automatically records semantic operations in one uniquely named
-`.harness/changesets/run_auto_*.changeset.jsonl` file per CLI invocation. The
-caller does not need to begin or finish a run. The first line is a
-`changeset.header`; later lines are typed operations such as `story.update`,
-`trace.add`, and `decision.add`.
+In this Harness CLI source repository, an explicitly authorized typed write to
+the default `harness.db` automatically records semantic operations in one
+uniquely named `.harness/changesets/run_auto_*.changeset.jsonl` file per CLI
+invocation. Human maintenance supplies `--compatibility-write`; protocol-v1
+machine operations remain authorized by their JSON contract. The caller does
+not need to begin or finish a run. The first line is a `changeset.header`;
+later lines are typed operations such as `story.update`, `trace.add`, and
+`decision.add`.
 
 Set `HARNESS_RUN_ID=<run-id>` to supply an explicit identity or aggregate the
 operations from several invocations into one run file. Installed consumers and
