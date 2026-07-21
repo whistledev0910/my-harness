@@ -60,6 +60,7 @@ done
 for file in \
   docs/decisions/0019-repository-centered-default-workflow.md \
   docs/decisions/0020-installation-profiles-and-knowledge-boundaries.md \
+  docs/decisions/0021-consumer-first-application-legibility-phase.md \
   docs/compatibility/README.md \
   docs/provenance/README.md; do
   [[ -f "$root/$file" ]] || fail "missing source-only artifact: $file"
@@ -96,8 +97,12 @@ require scripts/README.md 'By default the installer copies only the repository-c
 require docs/README.md '## Installed Core'
 require docs/README.md '## Optional Source Indexes'
 require docs/compatibility/README.md '## Install Boundary'
-require PHASE3.md '## Replay Result'
-require PHASE3.md 'All five checks passed without orchestrator intervention.'
+require PHASE3.md '# Reduction Phase 3 — Application Legibility Pilot'
+require PHASE3.md '## Evidence Matrix'
+require PHASE3.md '## What Remains To Prove'
+require PHASE3.md 'Phase 3 completes only when one task exercises that loop'
+require docs/decisions/README.md '0021-consumer-first-application-legibility-phase.md'
+require docs/decisions/0021-consumer-first-application-legibility-phase.md 'Phase 3 therefore remains active.'
 require docs/compatibility/phase-3-active-observability-legacy.md 'Historical compatibility plan.'
 require docs/provenance/README.md 'source evidence, not default task'
 

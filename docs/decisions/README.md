@@ -18,6 +18,7 @@ consumer product choices.
 | --- | --- | --- |
 | [0019](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0019-repository-centered-default-workflow.md) | Active | Repository-Centered Default Workflow |
 | [0020](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0020-installation-profiles-and-knowledge-boundaries.md) | Active | Installation Profiles And Knowledge Boundaries |
+| [0021](https://github.com/hoangnb24/repository-harness/blob/main/docs/decisions/0021-consumer-first-application-legibility-phase.md) | Active | Consumer-First Application Legibility Phase |
 
 ## Compatibility Decisions
 

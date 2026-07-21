@@ -28,6 +28,7 @@ and working-memory structure around that truth; it does not install upstream
 
 The following material is deliberately outside the default installation:
 
+- [Reduction Phase 3](https://github.com/hoangnb24/repository-harness/blob/main/PHASE3.md): current consumer-first application-legibility target, evidence matrix, and next gate.
 - [CLI compatibility index](https://github.com/hoangnb24/repository-harness/blob/main/docs/compatibility/README.md): SQLite lifecycle, orchestration protocol, bootstrap, schemas, and CLI maintenance.
 - [Historical index](https://github.com/hoangnb24/repository-harness/blob/main/docs/provenance/README.md): superseded decisions, story-era evidence, reviews, and migration provenance.
 - [Upstream repository](https://github.com/hoangnb24/repository-harness): Rust implementation, installer, release, and maintenance truth.

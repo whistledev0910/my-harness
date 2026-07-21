@@ -105,7 +105,9 @@ Tradeoffs:
 
 ## Follow-Up
 
-- Observe real application tasks before defining an application-legibility
-  phase or making claims about agent behavior.
+- Decision 0021 resolves the application-legibility follow-up using the first
+  real `e-inna-brain` evidence checkpoint. That checkpoint proves compact-core
+  discovery and decision-boundary behavior while keeping the full runtime and
+  interface loop explicitly unproven and active.
 - Consider removing compatibility implementation only under a later decision
   with direct usage evidence and a recoverable migration.
