@@ -1,0 +1,206 @@
+[
+  {
+    "integrity": "ok",
+    "path": ".harness/db-backups/harness-before-us075-marker-20260710213417.db",
+    "sha256": "d603f463ed03f7ad0c794f034b1ccf834ad66606d8a2a9a4e7b69c60cbdfeecf",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".harness/db-backups/harness-db-before-pull-20260629-161129.db",
+    "sha256": "c02bf7d8c0cb6987cdc8f8ae6a24a26fbf25dd6227d591cfc96dbccd7fecb243",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".harness/harness.db",
+    "sha256": "1b8c92c6b72cce9262251231a64c2787e0807b808a70f0bb8ade6b4f66980411",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".harness/state.db",
+    "sha256": "1b8c92c6b72cce9262251231a64c2787e0807b808a70f0bb8ade6b4f66980411",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".harness/symphony.db",
+    "sha256": "1b8c92c6b72cce9262251231a64c2787e0807b808a70f0bb8ade6b4f66980411",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/state.db",
+    "sha256": "04c625a3ec476af5a198677b202f85425d58e1e63bb39e81fa95dc357a1bae26",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/state.db.recovery-20260710-171433",
+    "sha256": "8fa17794e4d5d49076fd6ca9e8c94ae96bf6171d29590676ef4fa1aa8e04826b",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1782535091_39480/harness.db",
+    "sha256": "a62ea6d954b1b3fce7e30de38d701b0656199aa53b4abaa5835b12e05a5ea340",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1782536604_52965/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1782536604_52965/harness.db",
+    "sha256": "f34726713cfea8a7118d97e1a407f755fa30fe0bf8be87c3a1db2ef3cb47f871",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783159027653025000_6614_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783159027653025000_6614_0/harness.db",
+    "sha256": "1e6f6da69e116d2e7f2825776385e1bda3b44f5a9171da58763840639dbad0b1",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783163412740491000_6614_1/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783163412740491000_6614_1/harness.db",
+    "sha256": "8c7a2ec9301628138f0b05ded721a01c8104dcf7f12277183f6b159e26e3347b",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783164291664744000_6614_2/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783164291664744000_6614_2/harness.db",
+    "sha256": "c1c365738c25e1d66139df66c5c094a28cc35a1577f6dd69b8040486cb98df4d",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783178537862657000_95182_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783178537862657000_95182_0/harness.db",
+    "sha256": "726cf38c6e0b9ba9f03db07beb72e21542b491daf2d9f35a007b0fe8fd118f25",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783179886029971000_7111_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783179886029971000_7111_0/harness.db",
+    "sha256": "76e6b5b68c5a50bdf72c86358855f4c74ce97e01923333cca66a25462cbaf482",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783224245101133000_18033_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783224245101133000_18033_0/harness.db",
+    "sha256": "8bcbcdecb7f3225a8ac5c454e2ec52184aa27866ed5ca25e59a199c1e6bd5b21",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783405248236036000_24617_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783405248236036000_24617_0/harness.db",
+    "sha256": "fb2a37f0222bbad65d7ffe84fa1004ffc9ad2b8319d1191e64a431ae157ab319",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783676834844503000_28702_0/.symphony/state.db",
+    "sha256": "1da5a692b5e00e8d341d93ea1db2e502da662011c79d911d43decdc4116ec53a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783676834844503000_28702_0/harness.db",
+    "sha256": "3b8cc5bdb9892f90a57cf5330070ee98d5fe77045bcd4c1c45c7193fbb2e252a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783680036941140000_42977_0/harness.db",
+    "sha256": "b643ca45c050f8781ae50b6b37ede8e517fc4fecc849b55976db1471061da0b4",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783680342594999000_45616_0/harness.db",
+    "sha256": "eb7353e978a369331ed06364ef9d0f8774070d0a7a33703d29b11b97ccf92887",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783698675355923000_95563_0/harness.db",
+    "sha256": "78340f5332542210529fddda11a80623e46d409b456646f8f601d9b1bdb6681a",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783699620299211000_2829_0/harness.db",
+    "sha256": "0ec59832070e0498a63251bc11ee5ebf41637207a496f16243008136f48cdc18",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": ".symphony/worktrees/run_1783700451018024000_10445_0/harness.db",
+    "sha256": "165801f196344ed30ec1fd1bc92ef920e9d8c8316ab80f0b6402335613194d93",
+    "status": "backed-up"
+  },
+  {
+    "integrity": "ok",
+    "path": "harness.db",
+    "sha256": "d4857eb71698f0f66444821b5e76fc2e14cc2b35d56e3c27f4c46b906bed7cbe",
+    "status": "backed-up"
+  },
+  {
+    "bytes": 34590720,
+    "path": ".harness/runs",
+    "sha256": "aa2ee173f69c8f7dd0da44e328e13512f2322b7236612a91c8bdaaece2f0d764",
+    "status": "archived"
+  },
+  {
+    "bytes": 972800,
+    "path": ".harness/db-backups",
+    "sha256": "243bb55e5495eb29c0c3b1f54cce71557b70342e3ecced13322c5a7a641a56b2",
+    "status": "archived"
+  }
+]

@@ -1,0 +1,54 @@
+# match	path	class	reason
+exact	CHANGELOG.md	historical_allowed	dated merged-change history
+exact	README.md	generic_origin_note	external consumer link
+exact	docs/decisions/0009-separate-symphony-product-repository.md	historical_allowed	accepted separation decision
+exact	docs/provenance/e11-us097-disposition-policy.json	historical_allowed	partition disposition evidence
+exact	docs/reviews/US-073-proposal-to-backlog-lifecycle.md	historical_allowed	completed review evidence
+exact	docs/reviews/feature-self-improving-harness-lifecycle-to-main-review.md	historical_allowed	completed review evidence
+exact	docs/stories/epics/E11-symphony-repository-separation/README.md	migration_plan	separation epic dependency record
+exact	docs/stories/epics/E11-symphony-repository-separation/migration-manifest.md	migration_plan	separation ownership record
+exact	docs/stories/epics/E11-symphony-repository-separation/US-091-standalone-symphony-workspace.md	historical_allowed	completed migration story summary
+exact	docs/stories/epics/E11-symphony-repository-separation/US-094-symphony-product-docs-and-optional-tooling-migration.md	historical_allowed	completed migration story summary
+exact	docs/stories/epics/E11-symphony-repository-separation/US-095-cross-repository-standalone-parity-suite.md	historical_allowed	completed migration story summary
+exact	docs/stories/epics/E11-symphony-repository-separation/US-096-standalone-symphony-packaging-and-release-candidate.md	historical_allowed	completed migration story summary
+exact	docs/stories/epics/E11-symphony-repository-separation/US-099-harness-core-regression-closure.md	migration_plan	planned regression story summary
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-099-harness-core-regression-closure	migration_plan	regression closure evidence
+prefix	docs/stories/epics/E11-symphony-repository-separation/evidence	historical_allowed	immutable migration receipts and local verifiers
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-089-separation-boundary-and-frozen-baselines	historical_allowed	completed migration story
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-090-provenance-preserving-symphony-bootstrap	historical_allowed	completed migration story
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-092-machine-readable-harness-orchestration-contract	historical_allowed	completed migration story
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-093-symphony-harness-protocol-adapter	historical_allowed	completed migration story
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-097-durable-history-and-local-state-partition	historical_allowed	completed migration story
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-098-harness-only-repository-cleanup	migration_plan	active cleanup packet
+prefix	docs/stories/epics/E11-symphony-repository-separation/US-100-cutover-and-post-separation-audit	migration_plan	planned cutover packet
+exact	docs/stories/epics/README.md	historical_allowed	pointer to completed migration history
+exact	scripts/e11-us089-baseline.py	historical_allowed	frozen baseline tooling
+exact	scripts/e11-us097-dispositions.py	historical_allowed	partition evidence tooling
+exact	scripts/run-e11-us089-frozen-baseline.sh	historical_allowed	frozen baseline tooling
+exact	scripts/test-verify-e11-us089.sh	historical_allowed	frozen baseline verifier test
+exact	scripts/test-verify-e11-us091.sh	historical_allowed	standalone migration verifier test
+exact	scripts/verify-e11-inventory.sh	historical_allowed	migration inventory verifier
+exact	scripts/verify-e11-us089.sh	historical_allowed	frozen baseline verifier
+exact	scripts/verify-e11-us090.sh	historical_allowed	bootstrap verifier
+exact	scripts/verify-e11-us091.sh	historical_allowed	standalone workspace verifier
+exact	scripts/verify-e11-us098.sh	migration_plan	active cleanup verifier
+exact	scripts/verify-e11-us099.sh	migration_plan	active core regression verifier
+exact	scripts/verify-e11-us100.sh	migration_plan	active cutover verifier
+exact	tests/cutover/released-cross-repo-smoke.sh	migration_plan	released product compatibility fixture
+exact	tests/cutover/assert-canonical-symphony-ownership.sh	migration_plan	canonical target ownership verifier
+exact	tests/cutover/audit-us100-runtime-disposition.sh	migration_plan	archived runtime cleanup verifier
+exact	tests/cutover/test-canonical-symphony-ownership.sh	migration_plan	canonical target ownership negative fixtures
+exact	tests/cutover/test-us100-readiness-schema.sh	migration_plan	cutover readiness negative fixtures
+exact	tests/cutover/test-us100-verifier-negative.sh	migration_plan	cutover evidence negative fixtures
+exact	tests/boundary/assert-harness-only-tree.sh	migration_plan	active ownership boundary
+exact	tests/boundary/assert-symphony-history-allowlist.sh	migration_plan	active history boundary
+exact	tests/boundary/assert-target-symphony-coverage.sh	migration_plan	target ownership proof
+exact	tests/boundary/symphony-history-allowlist.tsv	migration_plan	product-name reference policy
+exact	tests/boundary/test-e11-historical-receipts.sh	historical_allowed	immutable receipt verifier test
+exact	tests/maintenance/test-harness-cli-release-classification.sh	migration_plan	negative wrong-product release fixture
+exact	tests/core/assert-durable-state-boundary.sh	migration_plan	US-099 negative durable-state boundary
+exact	tests/core/assert-schema-replay-command-contract.sh	migration_plan	US-099 product-neutral replay assertion
+exact	tests/core/harness-command-contract.txt	migration_plan	before-cleanup command manifest fixture
+exact	tests/core/test-core-boundary-contract.sh	migration_plan	US-099 negative product-state fixtures
+exact	tests/release/test-release-workflow-contract.sh	migration_plan	US-099 wrong-product release negative fixture
+exact	tests/history/test-e11-us097-inventory.sh	historical_allowed	partition evidence test

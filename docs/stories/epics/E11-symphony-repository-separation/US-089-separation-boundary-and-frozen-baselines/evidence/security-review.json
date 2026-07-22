@@ -1,0 +1,13 @@
+{
+  "vault_directory_mode": "0700",
+  "vault_file_mode": "0600",
+  "absolute_path_scan_committed_evidence": "pass",
+  "high_confidence_secret_pattern_scan": "pass",
+  "scanned_text_classes": [
+    "worktree binary patches",
+    "unreachable commit patches",
+    "frozen baseline command logs"
+  ],
+  "binary_artifact_policy": "Bundle, SQLite, and tar artifacts remain only in the owner-only external vault and are never committed.",
+  "reviewed_at": "2026-07-11"
+}

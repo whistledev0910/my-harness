@@ -1,0 +1,3542 @@
+[
+  {
+    "canonical_payload_sha256": "e33e3f349d46e864ae21cad90ee16edff3c7a832db923f4672ad84109b09c081",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "shared-migration",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "50e53a5b5091808ff9d2ddc010f9cc239142989afebea8b4715cf9e814d86426",
+    "disposition": "archive",
+    "id": "US-028",
+    "line": 2,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "018c0dd5a9acc085e8c796d0cad3846694cb55f378868d4b078ab47fa4115006",
+    "disposition": "archive",
+    "id": "US-028",
+    "line": 3,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2854e7e86b1b8ce0082d8af47b5b64dc9c213751d35ec0075325b1d1248c2d38",
+    "disposition": "archive",
+    "id": "US-029",
+    "line": 4,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3dabbb2de80c2fcd80179e1acb3b3aa21141387e203dbbdcb39b62a16185f669",
+    "disposition": "archive",
+    "id": "US-029",
+    "line": 5,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "861fb8cc353b0fe951009d987049b6a6a8672a1072c6c42cf7f958fb4faae9b2",
+    "disposition": "archive",
+    "id": "US-030",
+    "line": 6,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "775930c806b55f1ebf2557ecd64a3274b242018f0961f492c22841439483b8b4",
+    "disposition": "archive",
+    "id": "US-030",
+    "line": 7,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0d35acebbc340143e62e74fb9f18f652fbac8cffcb784d1820e21fc062a1131c",
+    "disposition": "archive",
+    "id": "US-031",
+    "line": 8,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "337f1ffe61d926e511da1cc8ea9102607a80a4911613fd64a74b60ac6462b246",
+    "disposition": "archive",
+    "id": "US-031",
+    "line": 9,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "962b8be5d8000432595fc3d70509a28fc5f562b2a696bdad6107d2ffd33b51c9",
+    "disposition": "archive",
+    "id": "US-032",
+    "line": 10,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f7dfb1a6275c16ab72e184ca400d4d99ffa3923a5c17150bd359ff827b36df71",
+    "disposition": "archive",
+    "id": "US-032",
+    "line": 11,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "12a3f49ecfbcc43b06eabb9468027e17a12a51eb3d133cc727c1de1c83b38da2",
+    "disposition": "archive",
+    "id": "US-033",
+    "line": 12,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b21127ab2022bf196ab21b5df5570ba0af19e1496c9cac71fc4f85ebecf92d07",
+    "disposition": "archive",
+    "id": "US-033",
+    "line": 13,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "606d8c59268c1c9f03fb130e21d5d05ff2107e90c333c5003bda17be16ef6dab",
+    "disposition": "archive",
+    "id": "US-034",
+    "line": 14,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a2793ae96db148272f5944cedfba6343aa3486a82b36c0c0e7972aee9aa125bf",
+    "disposition": "archive",
+    "id": "US-034",
+    "line": 15,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cd8c333b76e75b1388ae208bf399b1342a261b7aeaf323e93c5fb80468278d6e",
+    "disposition": "archive",
+    "id": "US-035",
+    "line": 16,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1d6ce9cd2271df8a41d742fd22bb14e0bb298fca0c76cf420cce44a6a75065fc",
+    "disposition": "archive",
+    "id": "US-035",
+    "line": 17,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fe45d68995ab5154883859e4029e3748756350dcebca09d390ff9d0349fcd6bb",
+    "disposition": "archive",
+    "id": "US-036",
+    "line": 18,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5d63652f89273e3c6b8441eed1278d8bacef2b111bec6b3ae640570dd3fa7061",
+    "disposition": "archive",
+    "id": "US-036",
+    "line": 19,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "32d6e6a8fc271d40b58cea9af72ab8fae23a6785b900aa95fb5a19c642993852",
+    "disposition": "archive",
+    "id": "US-037",
+    "line": 20,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4d16871d60eb431f765cab0327945cc0da328fdb8379142848df21aac8c36a49",
+    "disposition": "archive",
+    "id": "US-037",
+    "line": 21,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "bf0ebf37d7d287cf88a7218797530ca1fed53815ad5d00bc845ceeabe928eca0",
+    "disposition": "archive",
+    "id": "US-038",
+    "line": 22,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d9230c4c8abe973b0a4d9da06a7bbd072b43752a99c65bcfdefbf84423e9a2a1",
+    "disposition": "archive",
+    "id": "US-038",
+    "line": 23,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "435f78923de6b8cdbb7b29f9cb8b9c39ff2e6764113cb7a81f016cdf4d217bfb",
+    "disposition": "archive",
+    "id": "US-039",
+    "line": 24,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f2940ce4c36adb7592d7e1821c39dc916fecad4622dfe3b23be9bee179a15241",
+    "disposition": "archive",
+    "id": "US-039",
+    "line": 25,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c49ee201091e5d15eac739f806a4e111f550781f7a4cdad18cdc64d4d6fc792e",
+    "disposition": "archive",
+    "id": "US-040",
+    "line": 26,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2f2ea6266b779c03310c569d2bc990c8de12f7f48e19d6ed936e3dbc2a0ce433",
+    "disposition": "archive",
+    "id": "US-040",
+    "line": 27,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b2b8dab740c830b083460a76640572530421be07107f50eeb8e11e8ecf8afcdc",
+    "disposition": "archive",
+    "id": "US-041",
+    "line": 28,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a48422b65f1bed32a7695ded7730b8bb4eaa5d5e81872340dfcd7323ad7a60e2",
+    "disposition": "archive",
+    "id": "US-041",
+    "line": 29,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b5529745a37979ce81e8efd4fee0e589f9fd1d029061aff246033490eff6fbcc",
+    "disposition": "archive",
+    "id": "US-042",
+    "line": 30,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "209c791778572a5c628b138684461a2614b1f061d0fcaba5f28b222ede9bdb81",
+    "disposition": "archive",
+    "id": "US-042",
+    "line": 31,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5e0b19faa7b248c6ec7c07e44210dccfbb2c70d43136331ceb6ea965198152be",
+    "disposition": "archive",
+    "id": "US-043",
+    "line": 32,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d25c3ceff4930b9bdb4c305566e11a433a502deed496cfdc91f33a12c5fe6909",
+    "disposition": "archive",
+    "id": "US-043",
+    "line": 33,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "543029bccd8f7516d12b7c0ef716de5a842b505287372cacf4dd61dfca65b17d",
+    "disposition": "archive",
+    "id": "US-044",
+    "line": 34,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3c2947c0f69d2c0d70db9678f052f051dcce22b5b181ee7f0069e88c8199f6f4",
+    "disposition": "archive",
+    "id": "US-044",
+    "line": 35,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f13c9628a9cf7bde3d3ee6e49af8903ada74158c3323d83241fbe9a879f99f5f",
+    "disposition": "archive",
+    "id": "US-045",
+    "line": 36,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "9b69bef5a623a7825c6d0c6fee3ea53ff3b2037d8fac17b2b37b415d792ea764",
+    "disposition": "archive",
+    "id": "US-045",
+    "line": 37,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e979560ec5c29ed7d10ebd6191033842e280bec7d60cf16894007b7bfb431083",
+    "disposition": "archive",
+    "id": "US-046",
+    "line": 38,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4a81fab22772c36824e74fd6761293c72affa2ce6676a4ba8e142901e38d7124",
+    "disposition": "archive",
+    "id": "US-046",
+    "line": 39,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "de606d67ad8c5ba62d7724f6bf3eb16eaba393e4e33efb3498fe17466ea073e5",
+    "disposition": "archive",
+    "id": "US-047",
+    "line": 40,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cfc706cf4cf94eb7397958cc43e83d772537797ee0c8b4916dfbbe36c6794b00",
+    "disposition": "archive",
+    "id": "US-047",
+    "line": 41,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "523c579d301a40e1dc2280e143237e06452224a7f5ea17c03341648147fa95e1",
+    "disposition": "archive",
+    "id": "US-048",
+    "line": 42,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "12c7f871103a310771c95c4e539bbd9377f9a8788bf96f5028f776530f094136",
+    "disposition": "archive",
+    "id": "US-048",
+    "line": 43,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1bd5afabf31646d5667cbe0f0f952f50144f416a0c92c03281ade95ac45bb082",
+    "disposition": "archive",
+    "id": "US-049",
+    "line": 44,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3ae62ad05809a9474be1bf20d01d5434df2575f0f8af15039179dc154a9b9e28",
+    "disposition": "archive",
+    "id": "US-049",
+    "line": 45,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e97a02c5e62fc76f1de3622a7006461622bb41133209b0881916846a43381bfb",
+    "disposition": "archive",
+    "id": "US-050",
+    "line": 46,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8ba5146fa5740bdadf86b6b7a2b843f45c32cd935892a543135b79f241e6aa6b",
+    "disposition": "archive",
+    "id": "US-050",
+    "line": 47,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fc7e4501e15d9238ce76e324edcc2574888e757a42102fce1f9cb9b640cd3f42",
+    "disposition": "archive",
+    "id": "US-051",
+    "line": 48,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4e3b5b8542fc8de9d624030e6f4dae8f38acf74d645723e98a1db01bb274ed34",
+    "disposition": "archive",
+    "id": "US-051",
+    "line": 49,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0dce792fe39259fbf83c50b3dcd8ebaf2020787ac90980fe4295e44e459348ad",
+    "disposition": "archive",
+    "id": "US-052",
+    "line": 50,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8454df2462637b9a8e36d326f1de78c77046f8b8f1db23f9693ecca982160ed2",
+    "disposition": "archive",
+    "id": "US-052",
+    "line": 51,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e6b34f57f47d19ae1f2d7c7f0118ef2cd8156a3e2f8170f13f43540750406e6a",
+    "disposition": "archive",
+    "id": "US-053",
+    "line": 52,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6819590be873368162feaa855cced339d110487bc8ec944f6c99c82a173b6d9a",
+    "disposition": "archive",
+    "id": "US-053",
+    "line": 53,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "add15ad1465f10b0117ceeda025fec6044ab55048543d5bb1533965309572a5f",
+    "disposition": "archive",
+    "id": "US-054",
+    "line": 54,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6b71309e104b7de19139c0474624d9687d3ca9aee542b916d08b2a833366b283",
+    "disposition": "archive",
+    "id": "US-054",
+    "line": 55,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3430437aebc770a09e79e4743988d5d86c960c9681c289c02bbd41b972539e37",
+    "disposition": "archive",
+    "id": "US-055",
+    "line": 56,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f7c95c4462c9d692b5143f66166150d2fca42020da44b9e43803ba8982b9dc68",
+    "disposition": "archive",
+    "id": "US-055",
+    "line": 57,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b60c7c7a7af2fddde0115136884d249712c89cc0eac53e6ddf15fe2937c13f33",
+    "disposition": "archive",
+    "id": "US-056",
+    "line": 58,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "42dd659c2adc28c0102cca5ca7ec0f4620c9ac185fbef533ceb80d025f3be197",
+    "disposition": "archive",
+    "id": "US-056",
+    "line": 59,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7927bb78d7e4b8adf297564cb697ff265152c35d65d0ab3a648a917fe5ca1f0d",
+    "disposition": "archive",
+    "id": "US-059",
+    "line": 60,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "49a42e737e20d7595bdf97ba3abccb278e909c8410e354462fc003434ef889a1",
+    "disposition": "archive",
+    "id": "US-059",
+    "line": 61,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f84702ac2be2993685b7048b1156f9702c2b2a798d6d4041e8dbd986beee0063",
+    "disposition": "archive",
+    "id": "US-061",
+    "line": 62,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f16a2cb46fb2b79a32676b3af5d5ef09a551340be881395a4fe0083ac249b45d",
+    "disposition": "archive",
+    "id": "US-061",
+    "line": 63,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "bef0eb7601e12c0bbacd1ccbc8e17da66d8b8ce1225b92643c11922dc16531c0",
+    "disposition": "archive",
+    "id": "US-063",
+    "line": 64,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7cebaca0d5d1406f1d75c3fe934e4a554d7c62d0863adc643c3fbbb3847a7672",
+    "disposition": "archive",
+    "id": "US-063",
+    "line": 65,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1fd868ceb88fdadf249e33df9c576c3e85a6ee1a71cea0c23caee5730bfc2e20",
+    "disposition": "archive",
+    "id": "US-SYM-001",
+    "line": 66,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6a0fd1300679fd028b0e693db171b1aa9e4605711e434376b9820b929e70ec57",
+    "disposition": "archive",
+    "id": "US-SYM-001",
+    "line": 67,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1b5edcada01fda4e129687484a93d039601ec128a143c6b18181c6a38847c778",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000002_retire_stale_symphony_docs.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "54b0f77497d10e13981ee8c90cbe010d90776d7982ac7ca5540dd546a4846d08",
+    "disposition": "archive",
+    "id": "US-056",
+    "line": 2,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_0000000002_retire_stale_symphony_docs.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "aaa2a5546e660375d2471e0739f066dc0c5143b03bba07bbad32625660e25a08",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a84ba0d539883a8d5aef4bb0457462f4020b3ae2cb0ff802f8aad4403f31f295",
+    "disposition": "archive",
+    "id": 113,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1ed982b46da944545ce8bfb0ff169abc290c6beb53c8981566c7b1504e9b4439",
+    "disposition": "archive",
+    "id": "US-057",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "61efa6d249a18d2adee1d3f7d40ac437c397e0a43b3e53eb37228828f5137d00",
+    "disposition": "archive",
+    "id": "US-057",
+    "line": 4,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b85be9292db1bb749cec09480dba0e8026b9b0597684c8af1218da687f50493e",
+    "disposition": "archive",
+    "id": "US-057",
+    "line": 5,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6d56c3a94dff838d92b173bc7023e7bad13fb8fa5c64a675aa82309e080125b8",
+    "disposition": "archive",
+    "id": 128,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782473523_99206.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "38b010bc5ee39aa6d2e1399a6bd71ce66a090ef0f6f00b9649148506c79c6ae5",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "15abc24820c9b66a95d472dda6d210f3a6d0611171c1c8a5252168b90b4729ef",
+    "disposition": "archive",
+    "id": 124,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e9579fa9c4f6ee040c003a25dd139379269564247dd3dfa2baa4157f68a27d63",
+    "disposition": "archive",
+    "id": "US-058",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "53debd56a339edfd308b96c2485f7e5855b471bb54462d0534a2a25bf77fbff4",
+    "disposition": "archive",
+    "id": "US-058",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0a62a40bc6b1e906568e15604602c933917f704dd00bde13bf09771cb8fb55b8",
+    "disposition": "archive",
+    "id": "US-058",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b81d08b05605344128eb8cd2a92f9212e97f8202c8146062468e8b6912613c2a",
+    "disposition": "archive",
+    "id": 142,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782536604_52965.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c06a7e0da70c09fbc4a2cdeb5834955fe2718d94ca7b2b41f4ee0d9e15fc0b3d",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2e7f4941f342f4d3dcb1d5aada54cd638f7a01a6d2f598480ccfc19ef0b69c7f",
+    "disposition": "archive",
+    "id": 130,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0f85a006b77206cef7ecaac07b70f72252723f865cf66ce21331cdbf682cb3db",
+    "disposition": "archive",
+    "id": "US-060",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6e69f1efd2a1c202d893b03adda4b352f5d1b3a2396da8495da1f576594511b4",
+    "disposition": "archive",
+    "id": "US-060",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "24a0369f881c540ad30b43c7a6d49e720ed420a9699000ba3fb303e1761c45a2",
+    "disposition": "archive",
+    "id": "US-060",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2c7f3b47ad35404409dc400194b03b5a8f97a9b070f504ce840bb824878e33dc",
+    "disposition": "archive",
+    "id": 148,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782543459_701.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f5225cf1ef118bb1d807cd960b3a275ac49c97e1d19d01a473d1796d697eef2e",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a19d4f9683045995a0b19bc6c7918ae6456b0af27c4165d12464bc637a3c103f",
+    "disposition": "archive",
+    "id": 136,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "329d7854f77c8f5c763000900c55331e7e0486d95aa3050b18d827b09e3b9a91",
+    "disposition": "archive",
+    "id": "US-062",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "07822d1a8e16f330c4748d5377ea1e010ee1b58422934c9d02667fd25b444f5e",
+    "disposition": "archive",
+    "id": "US-062",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "73b5515996e7ef3906237d81ca1d366ce7c87ad881680a67f9325f82ecd69c98",
+    "disposition": "archive",
+    "id": "US-062",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "efb5b3f719afb8990fb6725e2770c776cd127599041a2f7c30728f8c09e0a005",
+    "disposition": "archive",
+    "id": 155,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1782550121_26667.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2b7e3ba7cb33689b81cca4f6591f994fd87e3dfc6b36d5ca2fa5ce675bf4741d",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "shared-migration",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "72914c0710f7e81dbf8b56beab1459888c506cff8e8604689966acec47ad08c9",
+    "disposition": "archive",
+    "id": 158,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8e3c63a5a2ac72c483fc1369fd4bef505c9845f7890d096a88b35648cfbfe75a",
+    "disposition": "archive",
+    "id": "US-065",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0d3d6609c295bb6780223fc6e501b90f61b1313b9ed96390c9778a2d81ba2560",
+    "disposition": "archive",
+    "id": "US-065",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "18a1b3bbb9fce03861a508080db2bb17b0dc75e23688f2d4af83cc6b13e5614c",
+    "disposition": "archive",
+    "id": 13,
+    "line": 5,
+    "op": "backlog.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b3afe44d8add1f00d67857451c467d47a63d345b42a1c653467b682891f7ebff",
+    "disposition": "archive",
+    "id": 178,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5fd4aafb298dae77f26dedd2b19b8b857b12e6c0c1d2b9e01c58f577680c33b8",
+    "disposition": "archive",
+    "id": "US-065",
+    "line": 7,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "652dcacc88c8e6058259d60b6235ff629d47d46e0243156b5c1089438b60d5f8",
+    "disposition": "archive",
+    "id": "US-065",
+    "line": 8,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b9c44cd80cc7364d0df6a4dc16c5cee171f8dc76ad551d2371ca84a54c72ced1",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "995f571e11fc73a4fb08d06ff6b3bbf3c78a85dc5733c89fcf0576be37d091d3",
+    "disposition": "archive",
+    "id": 160,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b0d1d4ef5bd146c2746b373db9cee8ed6492b3e6570e39b06a48da76e89afd6c",
+    "disposition": "archive",
+    "id": "US-066",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6adcbed8bab58cec0b32bfa3972a76f87579ce2630b10788f5498158f24ab66a",
+    "disposition": "archive",
+    "id": "US-066",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "be40a4021269fac16f3e3a57bf1587133112fd9e9e90f726145cc3e31a6fcb43",
+    "disposition": "archive",
+    "id": 182,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a49b389207d5aca1cbbdf1c505a703ff21b1c5f87c371c5ee8e535ea94260558",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "06f7943b46cfa6a73e0b7853ebd8a78a4a4d0b29d5bfa89bca82c541a5362f06",
+    "disposition": "archive",
+    "id": 162,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f97440b707e2afafdb1cc236c152d3cdccaa8d8d66120b865709ab534eedbfa9",
+    "disposition": "archive",
+    "id": "US-067",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "299ca5b0c8e29bb8302512bab91659aa3e46406e2695937cb24eb76c2382fe9f",
+    "disposition": "archive",
+    "id": "US-067",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f6dc4af6f2d3a70ef727d6958d5614f63e9709efdbf709ace39af93bdb24bb5f",
+    "disposition": "archive",
+    "id": 184,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ba8ed4733ee04003fdf9aa845c416c463d007873159f7fa2c94ceeab7f2bfdd7",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7fcf107bf56627fae4fc4ef7a1fad8b6cb748af0f910a3fe837972f145abf775",
+    "disposition": "archive",
+    "id": 165,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "800a26412d24e630c9b381646d7c6bc667fdde5222a40f1ca83d0ad4345f2059",
+    "disposition": "archive",
+    "id": "US-064",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e70f5cb9a6f3540c2eaf19b89e7726b76a0a3d3036614fc430d5a240f247e675",
+    "disposition": "archive",
+    "id": "US-064",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "67231ca43e3b865303da2958bd4822237f685e588705788ae51b031319284480",
+    "disposition": "archive",
+    "id": 187,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "648b3cba09a1baef610f20b493c923cfda114e9f6937a60b22e69b4eeb934e91",
+    "disposition": "archive",
+    "id": "US-064",
+    "line": 6,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3d5d07de69451fb598be68ee469e4876adbbbf26c38d968f015f42f656198b9b",
+    "disposition": "archive",
+    "id": "US-064",
+    "line": 7,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4da62abdf858b5180426180320d10db6bf69099a6c75c4c202448d5be6726e5e",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "07c994dab3523d8e53be416319b95f3dcadf234b58160905f49c26714d3f9b5c",
+    "disposition": "archive",
+    "id": "US-068",
+    "line": 2,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fe430f3008740aaa69b2dac64a3decbb8d49cc6321814adedf487a9563db3896",
+    "disposition": "archive",
+    "id": "US-068",
+    "line": 3,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "576815394110411b65ce5ec5952008a731f864f25cd2d9b869f5b2db3aeb6c47",
+    "disposition": "archive",
+    "id": 189,
+    "line": 4,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "55eee2056fb3906bb1b4d82b9ce9a72713ff41126ee0b1c26b6b2b1a3d10c674",
+    "disposition": "archive",
+    "id": "US-068",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ad784fdce75796ee5c855d3f9468c18599b168ceb751b8742d5424568157710b",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783399293702861000_us069.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "21fe8ac5fe501ea7882b7e7881f0ce8be266a0a24a689afea6d8347dacb4689f",
+    "disposition": "archive",
+    "id": "US-069",
+    "line": 2,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783399293702861000_us069.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "004ae4c648d623fcb51391dc7ec0830d5050aaa78c7c6b62e68eb93c9d4e0c6e",
+    "disposition": "archive",
+    "id": "US-069",
+    "line": 3,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783399293702861000_us069.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "18e6ea414eb52211469452e03427b8fef2de2e82446bdb69000cdd87eea5207b",
+    "disposition": "archive",
+    "id": 194,
+    "line": 4,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783399293702861000_us069.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3b5d6dd9283df21242ba52fc8094fcb9645ebf7a9d865f9acb3bed2c9a261014",
+    "disposition": "archive",
+    "id": "US-069",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783399293702861000_us069.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7cb6f69e77a2ad0feeffa86d6d7837d71531c70fba2f6d2d961276a0ee970a35",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d73ac237e033e2d4ea857b57e60053e867003d5572ec34afddf2135785593f12",
+    "disposition": "archive",
+    "id": 172,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a1183ff16ae6144af6f4d6ec681f357df4321d9f288c3b4e559033ab52127993",
+    "disposition": "archive",
+    "id": "US-070",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "08d3ba0e49ca298be1af8ab4b39ffc0b52fa30a839a0f16d40fbc1dd03a29eca",
+    "disposition": "archive",
+    "id": 195,
+    "line": 4,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "54becd125b066f43ee929b1bad4008961f833f0a37fddbfac561be62463b2b3d",
+    "disposition": "archive",
+    "id": "US-070",
+    "line": 5,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "53cca44adac4c7b13501a5994dbdaa20f7613d0923b5bd6e98fb886f329a202b",
+    "disposition": "archive",
+    "id": 196,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "68f61184b276023e537b34d2161c6accb1e76ac0abf1e3046eed06c688463a93",
+    "disposition": "archive",
+    "id": "US-070",
+    "line": 7,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "9a8f89a6627fca763f019e2bfca24b1c2d2f21114cec03439f33d8622224c371",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "905d8a5855a180f0a3d300ad1c5927f35359f9e3f106ea22f32fcc6a1e8f4740",
+    "disposition": "archive",
+    "id": 173,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7aff88fa4f33f45cb2640e26e38562748c0625b2d95940e77669ef57967a3870",
+    "disposition": "archive",
+    "id": "US-071",
+    "line": 3,
+    "op": "story.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3a1da3a1935052467ce96d6f3821e93fb826a41725a5be6a83aabc5d8291c6aa",
+    "disposition": "archive",
+    "id": "US-071",
+    "line": 4,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "556a261c91d02f788271748fa1ab08b86e9caed119eacd800c13fc6d7ed53f41",
+    "disposition": "archive",
+    "id": 197,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "00e16d86b293f1bfe5e1c846650f85e343ad03b231116fb8b9fa737f3a43960e",
+    "disposition": "archive",
+    "id": 9,
+    "line": 6,
+    "op": "intervention.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "feedbb30a788224733367cb54088ad7cbc655d1f5a5952d8e03b87643afce5b1",
+    "disposition": "archive",
+    "id": 198,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "702878a19c6101b4ed5791eaae2730da7542923b66d27878829b401d235e31df",
+    "disposition": "archive",
+    "id": 10,
+    "line": 8,
+    "op": "intervention.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5708b6d61a83d05dd0ccacff07fc72a258d260c455a212229eb45465694a3c45",
+    "disposition": "archive",
+    "id": 199,
+    "line": 9,
+    "op": "trace.add",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a397c7cf11587ba496d113860fa1132fda8b3eaa554074eaa47daa6018f7ceb6",
+    "disposition": "archive",
+    "id": "US-071",
+    "line": 10,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783523200000000000_us071.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "07fce29f5f156c94405efc0e19d435c9b59e64e7680179640353a39f58955591",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783530000000000000_impeccable_tool.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d07e6a95c34d71a2983f2e930a5fd5c7af96fd4f0e7fd0b8a50b8dfc96fb1f9b",
+    "disposition": "archive",
+    "id": "impeccable",
+    "line": 2,
+    "op": "tool.register",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783530000000000000_impeccable_tool.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f418cd1df83ec43f86b3af7972cbda2dcf2e49c04604ad077b98945945273047",
+    "disposition": "archive",
+    "id": "impeccable",
+    "line": 3,
+    "op": "tool.check",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783530000000000000_impeccable_tool.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "190a9e31ce27d02e31ae33dffaea84cae3c367fe4abaa0caf447ce0ac038139e",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "shared-migration",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b14722e8fa82d5d2caef1ea9de0d3024ff7a8c39aa320850a219268c5a707602",
+    "disposition": "archive",
+    "id": 175,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "29ffc745088b79d920b875e2b85e9acdc9a8e5f30734ad65d75ec8fc81db919e",
+    "disposition": "archive",
+    "id": "US-072",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "27623421ab0bc3f68a09a2b5dd0ad5d05fbe7ab1f2deb11169c8500355aa3ef9",
+    "disposition": "archive",
+    "id": "cargo-workspace-tests",
+    "line": 4,
+    "op": "tool.register",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "76bf50989572a9f0a1f28a0744ef96eab3bd69b4b1251fc8a46bd58f2ac49bf1",
+    "disposition": "archive",
+    "id": "web-ui-build",
+    "line": 5,
+    "op": "tool.register",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cec23db5263c3ccd4b82126bc1385dc8174aa3deeed891da5dc748e7e1280f87",
+    "disposition": "archive",
+    "id": "web-ui-e2e",
+    "line": 6,
+    "op": "tool.register",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "346e73e05fbe2f74cea293024d104e88f0fa7954edc647d8e41765ef9beefcf7",
+    "disposition": "archive",
+    "id": "web-ui-desktop-smoke",
+    "line": 7,
+    "op": "tool.register",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "01b70dbfd1aad3140179cee87b6ef519ef6be67d8a9635ca5d5ae3046c994177",
+    "disposition": "archive",
+    "id": "cargo-workspace-tests",
+    "line": 8,
+    "op": "tool.check",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "de0a3511beb6b6f07ecccd22bbbb7144774674184fa096d3234da8d46a30f0c6",
+    "disposition": "archive",
+    "id": "web-ui-build",
+    "line": 9,
+    "op": "tool.check",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ea0b4b05e45132cdd66f1e30d76441c01fa429b75845a31315cacdc60a7ac7f4",
+    "disposition": "archive",
+    "id": "web-ui-e2e",
+    "line": 10,
+    "op": "tool.check",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "41e7e851e8a78e8d24bf9fe27216f2e8966cf0419543a98b1589b789beabc1c8",
+    "disposition": "archive",
+    "id": "web-ui-desktop-smoke",
+    "line": 11,
+    "op": "tool.check",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "99882132565c8c8d272c3c25b62beeca4c79ba07005a151923c0f6a5b1ad5592",
+    "disposition": "archive",
+    "id": "US-066",
+    "line": 12,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4bd9f3765f6e4bcf64613708399eedff5477202a22864ee3f58d56e7f8427108",
+    "disposition": "archive",
+    "id": "US-067",
+    "line": 13,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "83d8c0c62fec3f970998e4e8a8012f58e19ceeae72f98b9cf617d6eb516ba26d",
+    "disposition": "archive",
+    "id": "US-046",
+    "line": 14,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8c28862ea3b19d02ea7118fbe646c3b3f3c651ca18faa09ff5f0108ee27ea348",
+    "disposition": "archive",
+    "id": "US-047",
+    "line": 15,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1402e44a3b8556ce70fd851c03733155266ba88faeef3bafad787e699d883fa1",
+    "disposition": "archive",
+    "id": "US-048",
+    "line": 16,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4aab1e27fce9bee7fc09d47eb710606cad53648eb43abeac5f11a30c24a46f4f",
+    "disposition": "archive",
+    "id": "US-049",
+    "line": 17,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f509cd9610dbdf602d0c584f08e1e45550e6dbc2e695fffe7678ec6fa15eb278",
+    "disposition": "archive",
+    "id": "US-050",
+    "line": 18,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "533221a8a0e6d6f3dc796297aef6f1138172c401ec2e010bc8c5626a64fa4575",
+    "disposition": "archive",
+    "id": "US-051",
+    "line": 19,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "16d14a79c3a90d58a56a1bfe98815d7e50ac308bcea71a6e1d147bda3456cd8f",
+    "disposition": "archive",
+    "id": "US-052",
+    "line": 20,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "144900f79e9cbd0a6707a3432d8be1c5e5b686a5fc264ce96c14693743c78296",
+    "disposition": "archive",
+    "id": "US-053",
+    "line": 21,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "78bc90a3ad0b80c29cf4bb981e734e14fd00f8a4d9e36c0fde9176d783807bc5",
+    "disposition": "archive",
+    "id": "US-054",
+    "line": 22,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ae5f388a4a71ef16ac59e578d43405b474fd6ace7e24eb9afdbe215ccb20c1b7",
+    "disposition": "archive",
+    "id": "US-055",
+    "line": 23,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5394b8e5a2e72f493c6efc43b938ce7d34de682e244a2b343c15c0ff46ddaac4",
+    "disposition": "archive",
+    "id": "US-056",
+    "line": 24,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "50cb67ab1fe37098e6a5044ba4496c3036e33b29a4b9c238c2aa828c43f66bc4",
+    "disposition": "archive",
+    "id": "US-059",
+    "line": 25,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0cf81e9b36c750313c09bb8770a4380e39c1a1c027e8682e36559662cda0e449",
+    "disposition": "archive",
+    "id": "US-SYM-001",
+    "line": 26,
+    "op": "story.verify",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "03b5a13d55742440360867b3b1e05447ee35bc3b1dfe087ccd2d26c19f2cd9f3",
+    "disposition": "archive",
+    "id": "US-061",
+    "line": 27,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "668bd6458fa60afeac772fbe52224dd2e0d8940294ccda8d93e46cf4602eff0e",
+    "disposition": "archive",
+    "id": "US-063",
+    "line": 28,
+    "op": "story.update",
+    "owner": "symphony",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5bc7d3e54e176b19c059eed50c76af48c8a54b8ca17727b3f7b1f36648ae69d9",
+    "disposition": "archive",
+    "id": "US-072",
+    "line": 29,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "32d26c70f2b8f9215d29fea5e9f205dfbc2c76369ec6b69d0c61d8a3044da1a2",
+    "disposition": "archive",
+    "id": "US-072",
+    "line": 30,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6b6154d122784eab0cdd032a03cb9a0f7218c9c6336bfd8ff22b7e25b82d7da6",
+    "disposition": "archive",
+    "id": 204,
+    "line": 31,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783610000000000000_us072.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "289a0bf1061e0ab12d6889cf7ccfdce9d442cf77cb0c82cc6578e83e01926cf4",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cfabd252f04b4d22218b51d04a0a78023f62bba8c17ba9c75d7bbbf8d6a481ed",
+    "disposition": "archive",
+    "id": 12,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "53abe438d3d78194f775ca6101e21936fe21f1bbe7925731f6a5d9d7e468defd",
+    "disposition": "archive",
+    "id": "US-073",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "092d3980124d092fe1f82cbb991e8df0ec2a93bf59d4e6f4137c790d31397778",
+    "disposition": "archive",
+    "id": "0008-self-improving-harness-lifecycle",
+    "line": 4,
+    "op": "decision.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "489b4e3ddff3e7659705e9799fec8987ace3f0a6fcf888075b6b8c8affb6287b",
+    "disposition": "archive",
+    "id": "0008-self-improving-harness-lifecycle",
+    "line": 5,
+    "op": "decision.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "317299586aa0b6bde12aa45714bc6479c59c112b701f157cb92e32b9d49f77d6",
+    "disposition": "archive",
+    "id": 17,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3494ae39cecd4bc54b31cf75d37ec3aa1c6765b01b76c5847e4cb9e3366f013d",
+    "disposition": "archive",
+    "id": 18,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783670632_e09_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f4279110229b7ce28f9bc8fa2d807727f79951db13f8db6caa44f0011edc65e2",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "20274a788377d0d114a61d96c798182ccd899cdb89ca44e582b0dae81e94b516",
+    "disposition": "archive",
+    "id": "US-074",
+    "line": 2,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "123c5bc64d86e5c2c8c620c308b5c01014a023c32824cf20301277071d2a9da0",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "24347f72cbeecd1a4eb469cc4c6e9f02205c5534cb691204196232cf0f9c0511",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 4,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3b6b9c78d767bbde7f41c59bb07cbbcd55e3443de3528d9a94c38b534d3917ed",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 5,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "baf4b88e14407e1bf71da56bb514fac8caba37ed3c40af9a69cb1bc9af58751c",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 6,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "60a5a61a9b2bf6c0f0e7974061af53b00d4bb45d7ce5bf2074601465267f8e70",
+    "disposition": "archive",
+    "id": "US-079",
+    "line": 7,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2cd704c58056ba269468f02d4d0796ea650889b568f207dbb898e815a29a3004",
+    "disposition": "archive",
+    "id": "US-080",
+    "line": 8,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a142447a20d666d80745108725c7088f9f30dc6269ccf99ae4757aa3ef558ccc",
+    "disposition": "archive",
+    "id": "US-073",
+    "line": 9,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "74bbe8670d45fca4be0ede00599afa8fbb0ce394eeea273f8d32fe22557ca7e2",
+    "disposition": "archive",
+    "id": "US-074",
+    "line": 10,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8515f2905c77745751df6ad20ecc63e9832a8c538cbdcd4d25985fbf0298bfa2",
+    "disposition": "archive",
+    "id": "US-074",
+    "line": 11,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4c2ba2f58fb61a9b36130a6e72464ea7852d8239aa3ff1d55323dcd464ab75f5",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 12,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "afe3083bc6f3bdb9f97169ba12bb06cd9ed4f4fcdf7733c3966fbd7da4510d32",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 13,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f3860c7cf53ed4fb00ba732fc52e90a26bcd57734dc2c6aaabdb9ecef39ae3f9",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 14,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "15ef70dc227b5d4b391d80b28b499a60cb09bf41e2c7964b0828615e451c353d",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 15,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6a2e7957679384505b0ac7a99de41223a39a89e31013a4cd9169599969c8692b",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 16,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b9f1b3384742f4ee4b5f30848b270244d75a88aa792c2cf320a574e70afd78e5",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 17,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "37a1b7aec886d7d45aca4f54b721e7fb711cd67652730328c261bd59e573c282",
+    "disposition": "archive",
+    "id": "US-073",
+    "line": 18,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "464495559b3cc6de6cd65f7df86642ab8f111c2332b7acc94f40616150147af9",
+    "disposition": "archive",
+    "id": "US-073",
+    "line": 19,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0af40394095bbef08bc719961975b7050c4698d23257dfe54b4e5537137aa24f",
+    "disposition": "archive",
+    "id": 19,
+    "line": 20,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "561e4f8c0df2318b2be1285670d6245b54492ff6b5de2bfe4b39aefa50036ff9",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783680342594999000_45616_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b5705463403d13512561a39be7539de93ffb4988a9ffab0d57e493724eced97b",
+    "disposition": "archive",
+    "id": "US-074",
+    "line": 2,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783680342594999000_45616_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "403c276fc8bc215980df9cacbe6fa049357e3eb27b8e00010bc2ac05c8bc6586",
+    "disposition": "archive",
+    "id": null,
+    "line": 3,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783680342594999000_45616_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2b5d5bae9677ac5a1ec47c536cc3f07093ecafda538c43b5a077465cd6f211fd",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783682363_us075_selective_proposal_decision.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c3958c7765a6e4021fd706bb79ae08464d321546826c274f0215160c506cb92c",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 2,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783682363_us075_selective_proposal_decision.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2f077e13dcc41664b08ebdfd9ca2111101e1e74a958180af661ddf2de9ae7dfb",
+    "disposition": "archive",
+    "id": null,
+    "line": 3,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783682363_us075_selective_proposal_decision.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1ee810437813eac34fe6e2a936a4c49fbd5524384e45e0ccdac4cf7b68e7bb59",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 4,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783682363_us075_selective_proposal_decision.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "646ad7d7fc17a2150505b6d4e86e484990f7cb6748aa12c2349a359a522b61fe",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "395e9206ecd6d95d4c0ccb9073126efd17f0a0c04b25cdc1bd2d324286f76ab2",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "10b434a58f356ddff0d37fd8ab603261dfb3b1320b486bd6585464d8e14161d2",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 3,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2d9cdcbf49f484dc880c48d5e8a98558043b63d3beab333b615b2d6a5acc1e3a",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 4,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "eb77ed2f8bdbd507c30a8223c6def1625ac6345926fed693a97aecbc5e5d6abe",
+    "disposition": "archive",
+    "id": null,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2d9cdcbf49f484dc880c48d5e8a98558043b63d3beab333b615b2d6a5acc1e3a",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 6,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c7e21811d77577c66d69ce7abb9a7fa9b2eb8c1f7598ed6c7693073b41304f7a",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f58f95d365fc77a997cfdca908526faadbb1aa78c5a15bb7f898ca97939aa637",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2f4a35f2f9d8b04e07b9fdd7dec38b915917ad8a0be65431f7c0ff0c6c1a0459",
+    "disposition": "archive",
+    "id": null,
+    "line": 3,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "9474ce6bd74189a93fb225e75dc501646b39ee31e562977285a745dd01f45500",
+    "disposition": "archive",
+    "id": null,
+    "line": 4,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a98b45d197cdb69e3555e38803d4afd247f3553609065e847fa08ce3579e444f",
+    "disposition": "archive",
+    "id": null,
+    "line": 5,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "42b0c15fffdf2eff0a817f650792c41d5d81145a8dc2abab3e32d0efb01d5b0b",
+    "disposition": "archive",
+    "id": "US-081",
+    "line": 6,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6e5fcff3969d2ef75d1e75b3e887a27568f082b2e33eb3ed01ecd23d0f395a72",
+    "disposition": "archive",
+    "id": null,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d494dd726ebd72c4c46b6265453d9699ee01514afe36ad46e4e2b5f3609697a1",
+    "disposition": "archive",
+    "id": "US-081",
+    "line": 8,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4538a773ba3cd5ede467552202022e405efe6ee10339d8eab6c4e3a364a1344d",
+    "disposition": "archive",
+    "id": "US-081",
+    "line": 9,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "750b0a18f0d84470a58c8c2990ce728ee32670838f6ef3575b308e482ca8d310",
+    "disposition": "archive",
+    "id": 1,
+    "line": 10,
+    "op": "backlog.close",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a170b5b6a5c591be40c52fcfa443f136bb7728e2d0d6615e5092e4a49e0c9328",
+    "disposition": "archive",
+    "id": null,
+    "line": 11,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "9a80c528b39f7538c1a2a0b18c1243203b65d518b8b50d8c5687152c117baaca",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783698675355923000_95563_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7e6ea882cb34cf717cd664fa844e27e7bb94a53dc0d21f18358d7b611567f3a1",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783698675355923000_95563_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e464346ab04ff7269b224e4be852b420294a65b4d90810db79f4639bb4be8eaa",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 3,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783698675355923000_95563_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b1037b05c6b3499e1a90bfa07523089d70365a7604e85050b39f2d0acd516624",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 4,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783698675355923000_95563_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "31a9fede19ecb6d7b392877989da3a657deff83c8271a925eee2a1596716a42f",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783699620299211000_2829_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ee0ea04053ddf7df55c26197839db85501aa5c149ecdfd0202e85526db136ce3",
+    "disposition": "archive",
+    "id": "US-079",
+    "line": 2,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783699620299211000_2829_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d01c48507791f30dffb7dd34fae54e57f54353392c35e68f82f2d9515ba0b2bc",
+    "disposition": "archive",
+    "id": null,
+    "line": 3,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783699620299211000_2829_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "384e159ce9fdb58cb35702bd325eb981f2ca18a347ffd5321a4c564af3405bee",
+    "disposition": "archive",
+    "id": "US-079",
+    "line": 4,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783699620299211000_2829_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4ec78f879f4d86a2171e8561c130d39e48b36c97d32bd62f3b79c9e4f533af03",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "411cd0a9477549b954a90f35c7a990af580063ea423d7c4d58b17fddc6a0a833",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "legacy.evidence.capture",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c52cb1381c20012428f07f575cefa4fda51151e97b87e8918ac09ed51418cc69",
+    "disposition": "archive",
+    "id": null,
+    "line": 3,
+    "op": "legacy.evidence.capture",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "bb0b40eca002bbbc0cd69f5dbd9cad804ee55107391b0753bbc20b41293af089",
+    "disposition": "archive",
+    "id": null,
+    "line": 4,
+    "op": "backlog.legacy.reconcile",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fefdeedef94939e659026f96a8633a32d235522d7f97fe2d3bd09a4f7f82d023",
+    "disposition": "archive",
+    "id": null,
+    "line": 5,
+    "op": "legacy.evidence.capture",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4d78f58cc0d2211f743277140f55c9035be25c3eb633be9b51116fe92b3e0c7f",
+    "disposition": "archive",
+    "id": null,
+    "line": 6,
+    "op": "legacy.evidence.capture",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "32b2b95287d5364c4a42ed9fcca5712b4a98a97495041ed72034e17ad8b28db9",
+    "disposition": "archive",
+    "id": null,
+    "line": 7,
+    "op": "backlog.legacy.reconcile",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e074b609c5b655eb7d95364382e31661656fd6cb4c341f79019aa0052c936434",
+    "disposition": "archive",
+    "id": null,
+    "line": 8,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2fd701deeaeb9105ba45d308786175075a05437c7aca308991412543aafda69e",
+    "disposition": "archive",
+    "id": "US-080",
+    "line": 9,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b6b18fbe4f452f1c5f53b9e00da93a579f0c8b2132cda91525cdacfa4e00e3da",
+    "disposition": "archive",
+    "id": null,
+    "line": 10,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ec1907061cc25ac702fbc1102fa7451b5955dbbb98cb944f3899e47fe0b4dfeb",
+    "disposition": "archive",
+    "id": "US-080",
+    "line": 11,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f3d703db03d5bfed43a83b8d46e15ba3893cb08cb998383f5a0dbf5cdfe67f96",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "074ef016b6ae792b86f3c60b7eddcb7f220e00f6dc5e68c75702d4a013c68329",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "dfe19788af3d2a45dbea48debae8356a2fcfd7a63cb6a6cdf30b6ad014374b9f",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 3,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "02343fd57de86814aa9386fb58e19b2986abcf767233d536241e30a76557ae38",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 4,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d024231b0f6e2a8ac898327103ee4836831816070a2f7ff4f54507d3bff92a16",
+    "disposition": "archive",
+    "id": null,
+    "line": 5,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3a7173eb379cd30b75a02236ea5f584babe6c1b5292c14e4203ef12ff86afc72",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 6,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e79bd00452aac3477f725a738a1e9260ee149e4590324362c1bb653e6cd75f57",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 7,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8f32ec491fe0226e1a7862b9ae6ab1cc8e76127f05eaed2fad6b75b1fc8b1df1",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 8,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "294c36f6d8c6f37c9faa06a9b10e8cd9abeda15fed6d5a46088155f88ea78c83",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a5f1f004ff3281665cff17d17445cbdc72eb22a1d2d89ac7fb0af1cb93b9ab79",
+    "disposition": "archive",
+    "id": "US-082",
+    "line": 2,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a0a748d0a9429f124c17716008c316c0485abaf743c43bee9cdc2e404382dc58",
+    "disposition": "archive",
+    "id": "US-080",
+    "line": 3,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0acf4d95a0495ba44eb0a1d144298b5480e16e2a044b4fb19e5f0b01a9fc786d",
+    "disposition": "archive",
+    "id": "US-082",
+    "line": 4,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e95a60a6102a9db4e8f8889807a861d1c606a8d76707a93046b5d0ca2a27fbc5",
+    "disposition": "archive",
+    "id": null,
+    "line": 5,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "76490ff6a1cc547683391f22684c337be7f6b0df7a2c5ebd03d3d1343d019975",
+    "disposition": "archive",
+    "id": "US-082",
+    "line": 6,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3549b73741429201f6d899a89a1719acb81351605dbd844832448e2e3946745b",
+    "disposition": "archive",
+    "id": null,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8a4201ac3e972bac7e00c1715276c3509c8db05099754e269cb9c5e510356fd3",
+    "disposition": "archive",
+    "id": "US-082",
+    "line": 8,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "32e95b38c0c2c72a1ec8d97ef37a202f6e4f640311169f77170c796151cfba94",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "05648bebefaf2b2920d7a0cf4780a8033ce183ed420a558c5e0052f2001a1175",
+    "disposition": "archive",
+    "id": "US-073",
+    "line": 2,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2ca81caa64aaf1ae73a635e6510759406a26585b21541fb14e85a5cce3d00e56",
+    "disposition": "archive",
+    "id": "US-074",
+    "line": 3,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3ee307108e287042e16dd1c71b34f73d4b46339e3f7c3f34f2104ff0a070a829",
+    "disposition": "archive",
+    "id": "US-075",
+    "line": 4,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e9ac4f780d4b41a63c8371f9a2b1779b5081cb2796ca294f392121219d604e5b",
+    "disposition": "archive",
+    "id": "US-076",
+    "line": 5,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3a16149e205d03c1156799e2b8b0c939b484557c1cdd0f3e55c09d8721bf4f14",
+    "disposition": "archive",
+    "id": "US-077",
+    "line": 6,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ad37cf6fb58059d3b6d62b97645f619128ded20a26c926beed13bbd973dbc259",
+    "disposition": "archive",
+    "id": "US-078",
+    "line": 7,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "75309cdc43c2269fcbee18fb53e4ba18768dca72158416dd7417596e386fc66f",
+    "disposition": "archive",
+    "id": "US-079",
+    "line": 8,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ac35700d3db9ab8afe0b62dbc604f23e7b17bb6ad9dc3f0fc974dc09c796950e",
+    "disposition": "archive",
+    "id": "US-080",
+    "line": 9,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5fcf017f856e1a7ddf1c20a932082cc7d09e08467e90e7de18ea9dd3133913e9",
+    "disposition": "archive",
+    "id": "US-081",
+    "line": 10,
+    "op": "story.verify",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "559a04b353e8989a21c8fb608f4bb618df248b218cfccbbb371ae14d305fd477",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "22ebd40f4a4371541cd4344023b2e1f951a02ed7cda3a2bb624f1962033e6450",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a546ebfe3bcf1e00591f5b85b425931e96fbda99ec8530fa8abf67009219be87",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cd2a38c8add8bddf6372b873ebc35589afdcb0d495ea04479ca805522e2f12f0",
+    "disposition": "archive",
+    "id": "US-082",
+    "line": 4,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ffa88e68a18df7aac751bd6ecffdb0ae08a065b02f398c497e72c6441c9c5c01",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 5,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "5043cf7c0618e43f589e479b01ba7e0f0c5db05f7bc9ba4291e64a600fb91163",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 6,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "43308c4916f75e93e1ec429d8e5b0cc17252baac1b7d3451f5b98c82c5c82c24",
+    "disposition": "archive",
+    "id": null,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "48ddab7033b94b8e7287cc4b7439f1762ea5b4023740e92f27eb55b33377ef41",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 8,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "07fe5b3278e6f4a4f525b831b9bc9aa61f333b65a82019685fc0c58c73fe8723",
+    "disposition": "archive",
+    "id": null,
+    "line": 9,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7c62b340e8c156d2c602ff6ca8436fe634fc8e06ff92f98c501ce1de7fcf24ca",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 10,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "defa21eefdde845655b08420e6865533e0d316efc653daf9808dfcb605223e67",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "2821d61e13f78beb49d4e5f0d93c25ab18904d53dc3e7105d875ee55fae43a6f",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cc4040ab84f1f7e28bdf9543530734a6b6eaf23a55a78c811fbac90e89d4d79a",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "01467c71e596dba0f72a25b7e4fad3f0b9d179df9cc7ee35af96cbe4d86bfd55",
+    "disposition": "archive",
+    "id": "US-083",
+    "line": 4,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ed1dc499e6ddde7a8c3014902f32a7a052be905e8d6875a3c6422059ffed8265",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 5,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "bb2ad5bd880ff027f03983e65c39dcbfc899fa80e41f5efab18c6ef6fc5a3016",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 6,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0c3e9558f6116dbf7959dbd989f11049cdc74478e3630a132c77ccbe45f0233f",
+    "disposition": "archive",
+    "id": null,
+    "line": 7,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b6571bcecb70a0eedd5d437fbffed178db4c25cbcee1041c264907937f902ce9",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 8,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d5a4e26f6a94022d58a4c2bf241949d0b2d7af37663f286a54d17c419dd1102e",
+    "disposition": "archive",
+    "id": null,
+    "line": 9,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "3b3380378cc6328d013f1c40aa3ac00f3a925cb5d8e56ccb13db4f5e2fb28a1f",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 10,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "45b90f25962d93001b2231d1eb6b5889464fc3d67d4e8bc89ab0fe725ba8cb01",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "41892b3c664b681077ca5ea4f5553cb3d3c46d17da5163231d73f036d11691a8",
+    "disposition": "archive",
+    "id": null,
+    "line": 2,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "70d9ee31c2009b3443093e62c19b0ea199ee91235523ec1cac88d597acd7cbc9",
+    "disposition": "archive",
+    "id": "US-085",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "62f774c359277fbaf1fa0daea88df186aab91f46061f0643fa66622b79e58d2f",
+    "disposition": "archive",
+    "id": "US-084",
+    "line": 4,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "538c52e4b2cf0c9b4f9e5283bf0eef8c87d88862880ab57778107cfb3fd8665a",
+    "disposition": "archive",
+    "id": "US-085",
+    "line": 5,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7a1a48189e2ce012783a2ccdafa1c6e7961de93679ad4adc4aab5500a619bb17",
+    "disposition": "archive",
+    "id": null,
+    "line": 6,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1eb986c632514568bdc266f5a5cbe192147ca206ca9b729a94c68afef3003fe5",
+    "disposition": "archive",
+    "id": "US-085",
+    "line": 7,
+    "op": "story.complete",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a87d0eeb8aa37cfe3bc6c72df6aafb1029fd73ff7c9e9d35c33803fbf02bc317",
+    "disposition": "archive",
+    "id": null,
+    "line": 8,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "9c73a0c26ee9a1ec0be7d935dcbb703fa7f7496baaa5b34f3fc8cc4ba18fc23c",
+    "disposition": "archive",
+    "id": "US-085",
+    "line": 9,
+    "op": "story.update",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "96907497f60afdf783d2d394bf4f23727f95f3195a140574a71a31375b1b6ac2",
+    "disposition": "archive",
+    "id": null,
+    "line": 1,
+    "op": "changeset.header",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ebe0f5e5edd2d90fa25dfb28de9cf39bf648c5a0f14fb7b77c76df0b3ee16e22",
+    "disposition": "archive",
+    "id": "0009-separate-symphony-product-repository",
+    "line": 2,
+    "op": "decision.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "edf917e7fa79f532f634a72864f1a9289377e519bdff0052004da835ae6285e4",
+    "disposition": "archive",
+    "id": "US-089",
+    "line": 3,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e31df7d0019f036a53927c28cd7ac8d54f97d53ad4bae80b1954d0677d9c9628",
+    "disposition": "archive",
+    "id": "US-090",
+    "line": 4,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "80e4d179560d987e1125c92b3e748143db6a1b705689f46e5b537345e6329ebc",
+    "disposition": "archive",
+    "id": "US-091",
+    "line": 5,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fd136e01748719b6c672d1864d30af3fb80d1fd5a1888ad0c26c9fd09556d464",
+    "disposition": "archive",
+    "id": "US-092",
+    "line": 6,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0795f295f85ece1b8339d0b043c38659c736408b90ffa00f85a451cee3a0ef36",
+    "disposition": "archive",
+    "id": "US-093",
+    "line": 7,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "222c2567ce051fa70134606bb90bdac210b28bb4e7f6045b564ea37fe2f213cb",
+    "disposition": "archive",
+    "id": "US-094",
+    "line": 8,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "ce6e3154253d7de69bbfd76bdca9573cbc6635a7e59ab760c376c9dd48fd09cf",
+    "disposition": "archive",
+    "id": "US-095",
+    "line": 9,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "50bb3af662daff8508c580c2a9ed460f5fcc3ef1754fb78a054c60a2ed548bb4",
+    "disposition": "archive",
+    "id": "US-096",
+    "line": 10,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "db7f3ff0cd80650d3346b434fdb7532ff990642653bdcf6038fdc0ef64b07892",
+    "disposition": "archive",
+    "id": "US-097",
+    "line": 11,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4aca88af348852e427db061cf83e25e29bf86952a1d1f4083c28b7adf9b89730",
+    "disposition": "archive",
+    "id": "US-098",
+    "line": 12,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "c0a27a89e83ea42a66dce41c8ca8b3952d06bc367557306e9fd00ae303f4ebce",
+    "disposition": "archive",
+    "id": "US-099",
+    "line": 13,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "714ec20af077fd745f1239145667d36837d768e0a0e7b0407cb9b417e7bf5999",
+    "disposition": "archive",
+    "id": "US-100",
+    "line": 14,
+    "op": "story.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "be15c8d9d103d2370cd5b593480d8da78d081a3e8c76cb1169cd60fa22d2be03",
+    "disposition": "archive",
+    "id": "US-089",
+    "line": 15,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1e81563d43227c1d9544f6cc4ad61e9dc065281e3f62e2eb50e02ad884e59a85",
+    "disposition": "archive",
+    "id": "US-089",
+    "line": 16,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8b98cc56706e6b21267d96324c624ed6b4cbed0172f8801467ab582ed0cf689e",
+    "disposition": "archive",
+    "id": "US-090",
+    "line": 17,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "41cb636b21764b731195fa755fc582111227ba4cbcf079cdb134be3d227974e8",
+    "disposition": "archive",
+    "id": "US-090",
+    "line": 18,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "87a8994d806ba3d50167ce4b53a53d5c5cd116dd7a39853d67dd477643981ddd",
+    "disposition": "archive",
+    "id": "US-091",
+    "line": 19,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f29e1656245c5fa8dc0d1579327f13cad6e6daef6831a2164a5f8f28f6f2f75a",
+    "disposition": "archive",
+    "id": "US-092",
+    "line": 20,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "76d6151ce852f5c22c7d2f5b71dca1d10403b2bb5722f9c0a4c0433212ad59d0",
+    "disposition": "archive",
+    "id": "US-093",
+    "line": 21,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b01541c3ad590ca6f5089df3eb074ea46f18ce97b4467621515005729dcf2158",
+    "disposition": "archive",
+    "id": "US-094",
+    "line": 22,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "de16bdccee7faadf6831d665890900d2d3cfa8e5dff0b4c640a0da8c07531573",
+    "disposition": "archive",
+    "id": "US-095",
+    "line": 23,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cc73c18fceb76bf0dda7d35264451714c18eb26a9884054ea8d7e358bbc1262b",
+    "disposition": "archive",
+    "id": "US-095",
+    "line": 24,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "86206eb1d838f10832abd57493f2c34343ac85f922235092868a96a3827cc381",
+    "disposition": "archive",
+    "id": "US-096",
+    "line": 25,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e171d6e610cebf62645715d7e2e8176fa6d6bb7aed0a705b76a52977d0e82d8d",
+    "disposition": "archive",
+    "id": "US-097",
+    "line": 26,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d55ace88d6a6de0bdd5fa8834e7c1c260cfe2b765524c3e32b7d41b0e9fb2658",
+    "disposition": "archive",
+    "id": "US-098",
+    "line": 27,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "b83335028f7e63e0cdaff4ec88bad3171e10904b33ed39ab4e2fbc08af7300cc",
+    "disposition": "archive",
+    "id": "US-096",
+    "line": 28,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "0dbc4efa495b1be75840f8c9476b1b925e3f212d4dc6573bd5edefd263fce6f4",
+    "disposition": "archive",
+    "id": "US-099",
+    "line": 29,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "cce3a09740a1bc53945c31fa8a781963a60bcc74eb67cfa6d028da5d8c0fd973",
+    "disposition": "archive",
+    "id": null,
+    "line": 30,
+    "op": "intake.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "fec8f7e4f0a9885bc40aa2e8cdab841e18fcf8b9fb4f17e7f6a5852dcca09a0c",
+    "disposition": "archive",
+    "id": null,
+    "line": 31,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "7d7121d59921140863a70fdeba8c5ea0e9853626404fc4140bf2743eb78597b0",
+    "disposition": "archive",
+    "id": null,
+    "line": 32,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "d12166e2ec7365148cb7f9a818f2cab8b4708c1dd2f5690d55093b6d9bb6c014",
+    "disposition": "archive",
+    "id": null,
+    "line": 33,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f46d8f9269a6a6d71c4890aff36e0075375c27c20ef5169597f142968e59d367",
+    "disposition": "archive",
+    "id": null,
+    "line": 34,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "69c1f0e29fe420751f4f03ac7ade088ca04fac62ef46a97a5700a2c22c6f644d",
+    "disposition": "archive",
+    "id": null,
+    "line": 35,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "1f60f2b6d57e588ef09a21c211114ef961617970dddf8c2a8bf6fb4a4dd70a50",
+    "disposition": "archive",
+    "id": null,
+    "line": 36,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "84e1e4a9f43b8ebb6a9de4cfee4b34fa4c9d56305d67e45414dd8e3d503cbcf4",
+    "disposition": "archive",
+    "id": null,
+    "line": 37,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a7371f13a587f1f4fe075af9a1ea3e53af8c791c31decc07fda95af9a44eaecf",
+    "disposition": "archive",
+    "id": null,
+    "line": 38,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f026a2d5dce4d615765b73262bdf95d2a40952ac25df82aecb40bd8c36effae5",
+    "disposition": "archive",
+    "id": null,
+    "line": 39,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "f9a8abc344e73fc5f311da453b69a94866279ccb9929cc302c07e984531e7657",
+    "disposition": "archive",
+    "id": null,
+    "line": 40,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "8a7c3ed1fb31f74a618d3ea62a89bb0f578833d9a41a154188213f583b17f35a",
+    "disposition": "archive",
+    "id": null,
+    "line": 41,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "57957e679f99238642b29200473dc2a9aa37b845b685fb3b9753bf5126c22a1d",
+    "disposition": "archive",
+    "id": null,
+    "line": 42,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "a3b01b66c5e1e0f118cbb8355e2ea682f6a09a62a46d08011c4333ce373805ee",
+    "disposition": "archive",
+    "id": "US-091",
+    "line": 43,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "e3dbd2c7a26f8ad1cc42011c5532c448bedd594da33a503fdf1f4d68502f8cad",
+    "disposition": "archive",
+    "id": "US-090",
+    "line": 44,
+    "op": "story.dependency.remove",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "6a37b84b22ab4df994307baca75a836f8d0b94099fc1dc6b5ea90cdcd630ab04",
+    "disposition": "archive",
+    "id": "US-091",
+    "line": 45,
+    "op": "story.dependency.remove",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "eddaf2f516bf0ff6a7a36a310765be2eefe71f3fd01df0170a83ff95a6b7db5f",
+    "disposition": "archive",
+    "id": "US-093",
+    "line": 46,
+    "op": "story.dependency.remove",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "efda9a1c80f5db32d7845835955db24a8d6abcc8ea2e340e8890cd18fc72d142",
+    "disposition": "archive",
+    "id": "US-093",
+    "line": 47,
+    "op": "story.dependency.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "50c9ee285b776ebf3c5b5c2aa1155b1af2589f1f367954d00afd9c4c2446a736",
+    "disposition": "archive",
+    "id": null,
+    "line": 48,
+    "op": "intervention.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "af0521ad15a74a78443737fa6ae869d3de191273e2a991a4c79719895441641c",
+    "disposition": "archive",
+    "id": null,
+    "line": 49,
+    "op": "intervention.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  },
+  {
+    "canonical_payload_sha256": "4abe495051a8e8ca82b396064e33058180aaa36d6e072b012e202ca72dac6386",
+    "disposition": "archive",
+    "id": null,
+    "line": 50,
+    "op": "trace.add",
+    "owner": "repository-harness",
+    "path": ".harness/changesets/run_1783785600_e11_symphony_repository_separation_planning.changeset.jsonl",
+    "reason": "reviewed operation ownership at frozen cutoff"
+  }
+]

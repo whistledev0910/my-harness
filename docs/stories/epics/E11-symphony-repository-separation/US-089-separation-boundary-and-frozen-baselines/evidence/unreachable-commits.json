@@ -1,0 +1,61 @@
+{
+  "commits": [
+    {
+      "commit": "26f2607336e67f1d5b4c2c0da39ea1acbaf816f6",
+      "disposition": "archive",
+      "patch_sha256": "7f8bdfe93583ee19a3b03be4e61a914cc1561de77ee2caa6d7253b210dd9e42e",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "chore(harness): register impeccable design validation"
+    },
+    {
+      "commit": "410c4195c17c033e8a6b123c4eabba3f4aab5e77",
+      "disposition": "archive",
+      "patch_sha256": "10eeef833e006005836fdf4e62b0927ef34ad0a7bf243ba98a0fc7cc685d7656",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "fix(symphony): resolve web ui audit findings"
+    },
+    {
+      "commit": "7184c6c97c8c1399abda9085c7d7f472dd6f6811",
+      "disposition": "archive",
+      "patch_sha256": "044539f35e6d7750293847ce0693e9e32260ebec001bb2ba77da343e4a08391e",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "docs(symphony): plan bounded card design work"
+    },
+    {
+      "commit": "7fb91aeb1364c77460fd2acf9b8f89defbd8aa62",
+      "disposition": "archive",
+      "patch_sha256": "2d620c6e6a1f11d2b1b8291f1ff04aea44b6b2532d6865e597a23ea24a910a05",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "fix(symphony): resolve web ui audit findings"
+    },
+    {
+      "commit": "a6f825e79d46345fca6d83d101dea879300cc87e",
+      "disposition": "archive",
+      "patch_sha256": "d09e156fed7a7376263104cada24d64df5305b572483a53e3af1bd5090945a5a",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "fix(symphony): push review branch before creating PR"
+    },
+    {
+      "commit": "b28b355752124e2fe7e55f344ab8712b5646cbef",
+      "disposition": "archive",
+      "patch_sha256": "874a72a7436099ce824f620ffeca5c5c227f07079ec25a79404ecfce2998fd80",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "fix(web-ui): bound long detail evidence text"
+    },
+    {
+      "commit": "b61b6e7c94c97323f1afd2784c9bdf1811dee384",
+      "disposition": "archive",
+      "patch_sha256": "05a44d394efd14bd7b7b0cc3220a4d8b409ff58ba4cc970cde5a70e759b3a987",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "docs(symphony): plan needs attention failure explanation"
+    },
+    {
+      "commit": "e4320347a8a2ff33c890f5c2316a6673bcaef852",
+      "disposition": "archive",
+      "patch_sha256": "0a3b21e55be8782210180805ae62eb2eb29d8d45cc7ac2271fd0cbf2a9220404",
+      "reason": "unreachable committed work is outside bundle refs; binary patch retained in external vault",
+      "subject": "docs(symphony): capture reviewer closure evidence"
+    }
+  ],
+  "count": 8
+}

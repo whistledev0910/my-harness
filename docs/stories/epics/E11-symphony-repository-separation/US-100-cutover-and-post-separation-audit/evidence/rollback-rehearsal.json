@@ -1,0 +1,32 @@
+{
+  "schema": "e11-us100-rollback-rehearsal-v1",
+  "performed_at": "2026-07-12T09:45:00Z",
+  "mode": "scratch-copy-read-only",
+  "source_epoch": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "snapshot_file_sha256": "bde51a2f69d3d783f664e5570d75d805834eafa930cbb16c14fc8ee296492081",
+    "logical_sha256": "d78868d4c7cca95798a8eeedd5675bf357f9d332ea7f37b6e4b1c0865eba7654"
+  },
+  "target_pre_reconcile_epoch": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "snapshot_file_sha256": "c0e6da84d607b52c6f2ddd4e49e7d0704da70200f4adad4410deec1aa6504476",
+    "logical_sha256": "18d877296a6fb161ac304114a6d3b8e0a29fb029a13f5495e1a12db9a98a6e18"
+  },
+  "target_post_reconcile_epoch": {
+    "integrity_check": "ok",
+    "foreign_key_violations": 0,
+    "snapshot_file_sha256": "b32f2fb93e3478bdc20d76bb093c1afd65c2519d85ee4d605089cace3d2f12fc",
+    "logical_sha256": "fb6882cc194119c75e420e745f2674bb08878cb8092d06a840992c86287bc867"
+  },
+  "source_bundle": {
+    "sha256": "cc6b868567750e139d167e8b674d8016359e0e8c66307446ef15fe6ae4df712d",
+    "verify": "complete history",
+    "frozen_commit": "6e8243f2a5cb6a32cf0a7a0ecebdb257a429bdd9"
+  },
+  "target_raw_import_tag": {
+    "tag": "symphony-raw-import-20260712",
+    "peeled_commit": "5db694c8fd43a7d0e34bd9eaf9030d18b856f2b5"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "story_id": "US-093",
+  "target_repository": "git@github.com:hoangnb24/symphony.git",
+  "target_commit": "5b97f565ab71cf108148ff1b23b4568ecae76c72",
+  "protocol_tag": "harness-cli-v0.1.14",
+  "validation_run": "run_1783829400_us093_target_completion",
+  "completed_at": "2026-07-12T04:16:42Z",
+  "owner_attestation": {
+    "type": "reviewed-git-commit",
+    "repository": "git@github.com:hoangnb24/symphony.git",
+    "commit": "5b97f565ab71cf108148ff1b23b4568ecae76c72",
+    "reviewed_by": "hoangnb24",
+    "reviewed_at": "2026-07-12T04:16:42Z"
+  },
+  "release": null
+}

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "story_id": "US-096",
+  "target_repository": "git@github.com:hoangnb24/symphony.git",
+  "target_commit": "43fc95b72f43cf6ad224a6018b4b2c4751216a92",
+  "protocol_tag": "harness-cli-v0.1.14",
+  "validation_run": "github-actions-29184591835-and-29184591836",
+  "completed_at": "2026-07-12T07:56:58Z",
+  "owner_attestation": {
+    "type": "reviewed-git-commit",
+    "repository": "git@github.com:hoangnb24/symphony.git",
+    "commit": "43fc95b72f43cf6ad224a6018b4b2c4751216a92",
+    "reviewed_by": "hoangnb24",
+    "reviewed_at": "2026-07-12T07:56:58Z"
+  },
+  "release": null,
+  "candidate": {
+    "published": false,
+    "workflow_run": 29184591836,
+    "standalone_run": 29184591835,
+    "pull_request_merge_commit": "06ea5b0d8d54ad17ebd09c6d08cf383ca1c83a88",
+    "manifest_sha256": "6d4538ea46a81da16fbc847a042462ae9a0231a46e6d63c0ed336c5b97d9ca5b",
+    "artifacts": {
+      "linux-arm64": "58bda1fe0524962166459cba9c856d379fe7d23b35236f23b2f71c79395d34b6",
+      "linux-x64": "fdfaafc5ec70586d6a2a5b60dd8c2c2e145d2039504d390605ef2db99d4b5c24",
+      "macos-arm64": "9d0dfc24e2c01eceb5e45c91674655ddb97f57623701d66920dbbb59dc84ca5a",
+      "macos-x64": "9550e2ba16ad0677ee7db86b5f44156701283e4773893793224c2d96116d5c91",
+      "windows-x64": "ce5b719d910929a24463622373c72fe60057c0e79124e447f13be03eaaceb6d5"
+    }
+  }
+}

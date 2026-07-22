@@ -4,7 +4,7 @@ Date: 2026-05-23
 
 ## Status
 
-Accepted, amended 2026-05-31, amended 2026-06-09, amended 2026-07-20
+Accepted, amended 2026-05-31, amended 2026-06-09, amended 2026-07-13
 
 ## Context
 
@@ -35,14 +35,8 @@ On Windows, the repository-local binary is installed as:
 .\scripts\bin\harness-cli.exe <command>
 ```
 
-Full installations may download, verify, and install the platform-specific
-Rust binary directly at that path. There should be no shell wrapper command
-contract.
-
-The default installer is docs-only. It installs guidance under `.harness/` and
-does not install the CLI, database, dashboard, or helper scripts. This keeps
-existing repositories free from root-level `docs/` and `scripts/` collisions;
-teams that need the durable layer can install the CLI separately.
+The installer should download, verify, and install the platform-specific Rust
+binary directly at that path. There should be no shell wrapper command contract.
 
 The Rust CLI should follow the existing architecture rules:
 
@@ -56,8 +50,19 @@ Release automation now follows the same distribution contract. After a PR is
 merged to `main`, the post-merge maintenance workflow updates `CHANGELOG.md`.
 When the merged PR changed the Rust CLI source, schema, Cargo metadata, or CLI
 release packaging, it also bumps the CLI patch version, updates the installer
-release tag pin, creates a `harness-cli-v*` tag, and invokes the reusable
-Harness CLI release workflow for that tag.
+release tag pin, and invokes the reusable Harness CLI release workflow for the
+exact versioned maintenance commit. The workflow proves all five platform
+artifacts and the pinned old-to-current upgrade transition before a final
+promotion job creates the annotated `harness-cli-v*` tag and publishes the
+assets. Direct tag pushes are not a publication path because a tag that already
+exists cannot be proof-before-promotion.
+
+Historical upgrade-source binaries run a frozen contract for their own version;
+the built and installed candidate run the current contract. Failed release tags
+are immutable and consumed: automation advances to a later patch version rather
+than deleting, moving, reusing, or publishing a tag whose original proof run
+failed. Decision `0010-proof-before-cli-release-promotion.md` defines the
+promotion and recovery details.
 
 ## Alternatives Considered
 
@@ -88,8 +93,7 @@ Tradeoffs:
 - Release artifacts need checksums or another integrity check.
 - Unsupported platforms need a clear error path.
 - The project needs a repeatable release process for supported platforms.
-- CLI users need a separate explicit installation path; docs-only projects skip
-  CLI recording steps and retain their existing project systems.
+- A failed version remains consumed even when it never receives release assets.
 
 ## Follow-Up
 

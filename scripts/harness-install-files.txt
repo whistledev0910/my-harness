@@ -1,0 +1,12 @@
+# Default Harness core payload embedded in the Rust `harness` binary.
+# Keep this profile generic, repository-centered, and free of SQLite files.
+AGENTS.md
+docs/WORKFLOW.md
+docs/README.md
+docs/product/README.md
+docs/plans/README.md
+docs/plans/active/README.md
+docs/plans/completed/README.md
+docs/decisions/README.md
+docs/templates/decision.md
+docs/templates/exec-plan.md

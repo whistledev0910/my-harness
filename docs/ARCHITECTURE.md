@@ -1,10 +1,45 @@
 # Architecture
 
-No application stack is selected yet.
+The upstream Harness product is a Rust workspace with two independent binaries.
+`crates/harness/` is the default core-maintenance CLI. `crates/harness-cli/` is
+the optional SQLite compatibility control plane. Schema migrations live in
+`scripts/schema/`, while installers and release workflows form the distribution
+boundary.
 
-No application code exists yet. This document defines generic architecture
-questions and boundary rules that future implementation should adapt after a
-user-provided spec and stack decision exist.
+The core-maintenance crate enforces this dependency direction:
+
+```text
+domain <- application <- infrastructure
+                    <- interface
+main.rs composes interface and infrastructure
+```
+
+Domain types contain paths, provenance, merge results, and reports without
+filesystem, process, serialization, or CLI dependencies. Application use cases
+depend on ports. Infrastructure implements embedded release content, hashing,
+locking, filesystem transactions, and Git-backed three-way merge. The interface
+only parses commands and renders results. Architecture tests reject outward
+imports from inner layers.
+
+Consumer provenance lives in `.harness-core/manifest.json` plus the exact
+upstream bytes under `.harness-core/base/`. An update stages its full result,
+writes a durable transaction journal, backs up prior bytes, activates workspace
+files, and commits provenance last. A later mutating command rolls back an
+interrupted apply before starting new work.
+
+The reusable template does not select an application stack for a consumer
+project. The discovery guidance below is for that consumer application after a
+user-provided spec and stack decision exist; it does not describe the upstream
+Harness CLI as unimplemented.
+
+The optional compatibility control plane has three state forms: a tracked
+read-only baseline at `.harness/core-state/`, tracked typed JSONL deltas at
+`.harness/changesets/`, and one ignored writable `harness.db` per checkout or
+worktree. When that surface is explicitly used, bootstrap verifies baseline
+identity, replays only post-baseline deltas, and activates the local database
+atomically. Installed consumers keep their databases local and do not inherit
+the upstream baseline. The default repository workflow requires none of this
+state.
 
 ## Discovery Before Shape
 
@@ -30,7 +65,7 @@ domain
               <- app surfaces
 ```
 
-## Candidate Structure
+## Consumer Candidate Structure
 
 ```text
 app/
@@ -64,8 +99,8 @@ surfaces/
   cli/
 ```
 
-This is a thinking template, not a scaffold. Create real folders only when a
-story enters implementation and the selected stack needs them.
+This is a thinking template, not a scaffold. Create real folders only when an
+accepted change enters implementation and the selected stack needs them.
 
 ## Dependency Rule
 

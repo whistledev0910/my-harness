@@ -1,8 +1,19 @@
 # Feature Intake
 
-Every implementation prompt enters the intake gate before code changes. A new
-project spec also enters through this gate before it becomes product docs,
-stories, or implementation work.
+> **Compatibility reference — not part of the default workflow.** New work uses
+> `docs/WORKFLOW.md`: bounded changes need no intake record, while complex work
+> uses one Git-native execution plan. Use this document only for historical
+> state, CLI maintenance, or an external orchestrator that explicitly requires
+> intake lanes.
+
+This intake gate applies to change, build, and fix requests before code or
+durable Harness state changes. A new project spec also enters through this gate
+before it becomes product docs, stories, or implementation work.
+
+Answer, explain, review, diagnose, plan, and status requests stay read-only.
+They do not bootstrap or initialize Harness, record intake, update a story or
+backlog item, or record a trace. If the user later asks to implement a proposed
+change, that new change request enters this gate.
 
 The human does not need to classify risk. The harness does.
 

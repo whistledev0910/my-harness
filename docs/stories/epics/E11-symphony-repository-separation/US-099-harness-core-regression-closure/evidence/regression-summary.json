@@ -1,0 +1,23 @@
+{
+  "schema": "e11-us099-regression-summary-v1",
+  "source_candidate_commit": "45cb1fbf544906e15bf0a19284e567538f565223",
+  "source_candidate_version": "0.1.14",
+  "source_candidate_macos_arm64_sha256": "c99e84063058e3d1e3cb6bb9f78f1a63e2d169533e1817bfd711c29e54e9400d",
+  "initial_protocol_tag": "harness-cli-v0.1.14",
+  "initial_protocol_local_macos_arm64_sha256": "0adcd5360cd636c189fe0cd958e5b73261f7012a4e43631f08c61269c785caf9",
+  "symphony_candidate_commit": "43fc95b72f43cf6ad224a6018b4b2c4751216a92",
+  "release_validation_run": 29187212255,
+  "release_validation_conclusion": "success",
+  "published": false,
+  "local_consumer_compatibility": {
+    "initial_protocol_control": "pass",
+    "cleaned_core_candidate": "pass",
+    "suite": "tests/compatibility/test-harness-protocol.sh"
+  },
+  "core_contract": {
+    "public_command_paths": 50,
+    "protocol_capabilities": 10,
+    "schema_versions_tested": "fresh and upgrades from 1 through 12 to 13",
+    "harness_cli_tests": 81
+  }
+}

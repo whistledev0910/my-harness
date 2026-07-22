@@ -1,0 +1,393 @@
+source_path	mode	object_type	object_id	disposition	owner_repository	implementation_story	reason
+docs/stories/US-015-story-verify-command.md	100644	blob	00d8e7ef6c9bef3a58e910dfe3b5bd0cd45e0925	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-074-replay-safe-improvement-identity/design.md	100644	blob	00db6b044293a1d72e4d25f2a152ec19f0b877c8	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/src/web.rs	100644	blob	023024d6db5c07f0a987ce589030030864709e2e	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/features/symphony/types.ts	100644	blob	02cae6afcab31fbfb911dc1b4d3a43166872e9ce	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-050-run-start-event-api.md	100644	blob	0513e5e5fd7457279c49668e9cfce19d93740ff6	move	symphony	US-090	approved product path in E11 migration manifest
+scripts/schema/011-legacy-evidence-snapshots.sql	100644	blob	0582ab13033dd6139cdcda92a5ce3fee1987f2f7	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/src/config.rs	100644	blob	06347e52555f1ccdcf7856ec40b1d826978ef075	move	symphony	US-090	approved product path in E11 migration manifest
+.gitattributes	100644	blob	067951f587ba5784c465b4ed589a6aa04807adf5	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/decisions/README.md	100644	blob	07677e4adb09abff6c8930bea148e78dd53f216b	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-012-story-verify-command-field.md	100644	blob	07dfb39f32d5258b2449765264e8b54f18b605e8	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-047-dependency-board-foundation/overview.md	100644	blob	07f748c6ab29fc4f04c756e46cc9a4f03aa00174	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live/event-validation.mjs	100644	blob	0897b13179146947cdae718a873e9806e8760fc3	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/TOOL_REGISTRY.md	100644	blob	089af875e9962769022547b824bb5b6ddb501628	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/colorize.md	100644	blob	08a3862d4171ce6ef14acb41381ac340f7009131	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/US-008-trace-quality-scoring.md	100644	blob	093dd9f608cb5f718950b7b774eb44ebc212feeb	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-083-post-review-correctness-closure/design.md	100644	blob	0981c0741783fe8c17d291f9706e8e37e1fb5898	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/tests/board.spec.ts	100644	blob	0c2d07a8ab4c2a91a0a03bd1e46903b0eddda8e5	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/features/symphony/sidebar.tsx	100644	blob	0c7981f5fef3f0e68f1bb3aa40ccd4f134e3c612	move	symphony	US-090	approved product path in E11 migration manifest
+CONTRIBUTING.md	100644	blob	0ccc5fcfe35a97c0ab3a28d41e218320a1880bfe	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-074-replay-safe-improvement-identity/validation.md	100644	blob	0ccea75a294822cf0cda7766d816ad5538a438ea	retain	repository-harness	US-098	generic Harness core or repository governance path
+.gitignore	100644	blob	0d5db89e79e873627a232fc2588141186dae10c2	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+docs/stories/epics/E05-symphony-local-runner/US-035-run-state-lock.md	100644	blob	0d8d37e6c1f84063e4f9085832ae54ada1f7aa16	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/src/state.rs	100644	blob	0dbc7c2161bf35f10333e74390d71a887178b17f	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-080-legacy-improvement-reconciliation/validation.md	100644	blob	0decb4ad5d5072aa9f02bd15a6aeb837251231f3	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live-browser-session.js	100644	blob	0e362d6be1885c302261031128baac8537ca5afe	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live-insert.mjs	100644	blob	0ed3cafeaf98b741c28dca8427812d544ce2476d	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/README.md	100644	blob	1062387cb40b4c181846c230b6587f663f1d64d4	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+.agents/skills/impeccable/reference/audit.md	100644	blob	10f5572fd2012267910ae74b75fadcfe0e234ba2	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-070-readable-done-column-task-cards.md	100644	blob	11e2a178e9ab25428628cd4b308b5672f8034b71	move	symphony	US-090	approved product path in E11 migration manifest
+docs/decisions/0005-prebuilt-rust-harness-cli.md	100644	blob	1214bd46c28e254e9e327369ef8a6ceeb8b82b80	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/clarify.md	100644	blob	123f294d1b486facdc598d1777a8396674cdfe62	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/TRACE_SPEC.md	100644	blob	130614edb7f20493b0a429d1be0c1bf97f29e143	retain	repository-harness	US-098	generic Harness core or repository governance path
+scripts/schema/009-improvement-identity.sql	100644	blob	1314b1747c04142d457bc37ee4cfaf8f56ec8ff5	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/rules/checks.mjs	100644	blob	13bcdc2241ab396877afb3a87ae3f274cc072b25	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+scripts/README.md	100644	blob	14205bad6e3ffbdf56dd24b2100d55c221419a79	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/decisions/0006-phase-4-benchmark-triage.md	100644	blob	142f3833e3758d89d79e22ea975685d49b2e9e81	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-076-story-backlog-relationships/overview.md	100644	blob	144937bc9b7605444c3a2b722faceaa0240f8b42	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/scripts/lib/is-generated.mjs	100644	blob	165e1ca8075cdb23512a025da1d8b87ab40523b7	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783702000000000000_us077_completion_closure.changeset.jsonl	100644	blob	1668e43aef155f484263d69749d0240ec0574896	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E08-symphony-web-ui-controller/US-047-dependency-board-foundation/execplan.md	100644	blob	17e172d7ba6534d05a2d025a7ab968e8e4bb78e1	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1782473523_99206.changeset.jsonl	100644	blob	1892c9e28c4a238973333bb5f9a981aec2a219d6	archive	migration-archive	US-098	historical/extension evidence must not remain active
+crates/harness-symphony/web-ui/src/features/symphony/constants.ts	100644	blob	19998e2625d1bfc760074cae5b78228ff9cd71ba	move	symphony	US-090	approved product path in E11 migration manifest
+.github/ISSUE_TEMPLATE/agent-failure-case.md	100644	blob	1b5589e357023bc917029d489a7059cb411e5995	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live-complete.mjs	100644	blob	1cc4e7543c2a91f6f6fe4a66e86482df03b95709	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/engines/static-html/css-cascade.mjs	100644	blob	1d873f171cf8cae8dc475041ef68496da157a288	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/index.html	100644	blob	1efef131cc68af0d38a696b84a4314d045ab8598	move	symphony	US-090	approved product path in E11 migration manifest
+docs/IMPROVEMENT_PROTOCOL.md	100644	blob	1ffce63dd5c7cadb53b3aae2ed03052591e41158	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+crates/harness-cli/src/interface.rs	100644	blob	225b1dc92f7052d59a20fe1f9c3859940ae3737a	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-022-context-rule-measurement.md	100644	blob	228d6305a0566761522510ed823ea7391c371f7b	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/agents/impeccable_asset_producer.toml	100644	blob	2419f3ec6d5b13f0b65d02116977b3a8060d7ff3	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/package-lock.json	100644	blob	255f101bb3beea87ed50fe79fac7dc6879c29e03	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-052-sync-approval-done-transition.md	100644	blob	25709226f3d1cdb7272ab9dbf095fda9147530b0	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-server.mjs	100644	blob	27005ef3cae48caba141b9c5c5d2ead9eca7ea14	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-067-needs-attention-recovery-action.md	100644	blob	2721a9fb372c66ea07cf77a46dcc03ac23550385	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-accept.mjs	100644	blob	278dfbb2e5857d6c3b2312cc195e136275f4ee35	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-077-explicit-story-completion/design.md	100644	blob	280e35608e74979828760d82e1cefb7310981f6e	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/stories/US-009-enriched-friction-query.md	100644	blob	299109ee27456c2bef61bdd39c50ec54d11e8ca7	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-047-dependency-board-foundation/validation.md	100644	blob	2a541f31510de69b868ba818acfd2f5b6da5d8f2	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-082-review-finding-closure/execplan.md	100644	blob	2ac1704fa2b1c56c904b6fb65043db125fb77226	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/reference/distill.md	100644	blob	2ac85043eb51a69b6587e994390da7c8364e8ff9	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-084-proof-audit-finding-closure/execplan.md	100644	blob	2bdf9a006b71036546b1dad41218316eea27b90f	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/README.md	100644	blob	2c17de0d85e71724518442481798f2b8c2d4247f	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-069-web-ui-design-principles-validation.md	100644	blob	2c745ded82aafe8d78b366f3639a98448acb56d2	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/product.md	100644	blob	2ca462350362dca84b761764f2d5697a24a5f2da	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/decisions/0003-generic-spec-intake-harness.md	100644	blob	2d29f123f05c6a55d0816ef400b835ea01d9d5eb	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/product/README.md	100644	blob	2d377923ba0f0dd0ad3a7939c6e2e55b0b7e02fa	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+Cargo.toml	100644	blob	2dab61c70fe4a284719d91f8566d7b64867cefc6	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+docs/stories/epics/E08-symphony-web-ui-controller/US-048-local-web-backend-api.md	100644	blob	2ddedb72502a0c0200e1b7d25ac37b1fcde2d296	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E01-durable-layer/US-002-rust-harness-cli/execplan.md	100644	blob	2e0435c4bba6c53e37421ec60c4edb85391d79ad	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/SKILL.md	100644	blob	2f0241da1e761d0df8c516a6736e1075fe4c04e3	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-082-review-finding-closure/overview.md	100644	blob	2f34b7216e936497716492eacd430df9d291f545	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/stories/epics/E10-harness-signal-quality/US-086-evidence-provenance-causal-retirement/overview.md	100644	blob	2f424aa1cb094216d1cf4591a674759be5564a73	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-080-legacy-improvement-reconciliation/execplan.md	100644	blob	2f83c097056132cad54740d2580be0486d3f38a1	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783179886029971000_7111_0.changeset.jsonl	100644	blob	3022365750dec7198b0888026ded09e0621429c9	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/README.md	100644	blob	30320f4e4f56c9c841969b5c60c183bbe1e816b1	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+.agents/skills/impeccable/scripts/live-copy-edit-agent.mjs	100644	blob	313ed7f1061278c5ac273dc0036a122115f2b983	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/src/retention.rs	100644	blob	315fa50c78c64113fa2c3473c5b482e95910e143	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/README.md	100644	blob	31cf654ca0686406dbef580b402c806eb827ea93	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/scripts/pin.mjs	100644	blob	320d98ce130a5f6413b887acaa0aa55b5c4915da	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/document.md	100644	blob	3298274c924923d66c969e86e22d80b555f0c2f5	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/US-072-validation-provider-registry-audit-cleanup.md	100644	blob	32c63fb213f3ca788f2e4b87d28b427e40bca323	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/reference/critique.md	100644	blob	331ea9972353e5d3264b4d8ffd4fab7109a9227f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/US-020-batch-story-verification.md	100644	blob	345e226215eab3520983a606214878e4b9ed9946	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E01-durable-layer/US-002-rust-harness-cli/validation.md	100644	blob	34670ecab264e1f79eebf8080939d8cdc11abd01	retain	repository-harness	US-098	generic Harness core or repository governance path
+CLAUDE.md	100644	blob	34f7e7880e964b5b7df5535403d8c99029371bf6	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/design-system.mjs	100644	blob	352148d86b268aec12b440f31a78cc8c187c7da7	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783523200000000000_us071.changeset.jsonl	100644	blob	352a5d3ac29ae906c12674c749fc0d53d8805a32	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E05-symphony-local-runner/US-039-runs-status.md	100644	blob	35e0499a11bff52b271268e2e4a5e09a7a885de7	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-cli/src/domain.rs	100644	blob	375b85583686ce25df34598b528523fbe8656ceb	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live/manual-apply.mjs	100644	blob	376958d7db355f8b313873d8aad799f7264035e9	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/src/work.rs	100644	blob	378f50e18bba54f188c0300f455b56dd0b085ad2	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E07-symphony-automation/README.md	100644	blob	37fe4fcd9c4fa557e97c696ebdbf26686a4f8fe8	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783744000_us084_proof_audit_closure.changeset.jsonl	100644	blob	396c5ba31727a971f6ae73de6b63e7fcff8c9b40	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.agents/skills/impeccable/scripts/live-browser.js	100644	blob	3ac73b572540e7b8d3dcc3babe0ab3ba8dfa866f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-074-replay-safe-improvement-identity/execplan.md	100644	blob	3b45d4f1d09912211ad82e561b80440a4de6591e	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/detect-antipatterns-browser.js	100644	blob	3bfc2de47facf015730e99d4b80db92be986797f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/shared/color.mjs	100644	blob	3d9a126bfb06e54866172b54da85b1de466c2e95	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-077-explicit-story-completion/execplan.md	100644	blob	3e0372da4a17d3d5d4879eae33f5fe7d1d888dc1	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.github/ISSUE_TEMPLATE/pattern-request.md	100644	blob	3e8e4dce0c76e2ed364101db6470c95ff3a06432	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783676834844503000_28702_0.changeset.jsonl	100644	blob	3f53b92bea8536bc7adce8241f282d4ab7d2169e	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/HARNESS_MATURITY.md	100644	blob	3fd6a8503552331cd5ee9017bfd3f789f72826c7	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/src/agent.rs	100644	blob	3fe8b6c7414b5d16b1f0b415b91f9ed017ba840b	move	symphony	US-090	approved product path in E11 migration manifest
+CHANGELOG.md	100644	blob	405d071c94f7477eec854c0fd0b917d2809d20a1	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/templates/high-risk-story/execplan.md	100644	blob	4098256f5c3caca3e500bd7e1a14eff00e047b5b	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-007-propagate-phase2-docs-through-installer.md	100644	blob	416bfec937ce0e4af7856550a6019ce5a90a5b82	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-083-post-review-correctness-closure/execplan.md	100644	blob	41f07cf5a95fa341b183336b666f69719686d1b3	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/electron/backend.cjs	100644	blob	42a0f808cb145c5650fb45a5af2c229aa518e880	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-wrap.mjs	100644	blob	438c01b68616adccd551e7c9e7fd09828aee3b5a	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/US-024-improvement-proposal-pipeline.md	100644	blob	4432dcf540faebbd488020ca4df1241fe8395397	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-025-post-merge-cli-release-and-changelog.md	100644	blob	4465a0b8805d8e1f33ba5803d2c98c0d66b61dc9	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/src/run.rs	100644	blob	46884ff4bf332d3ed3b60fafb81aed19bc52d443	move	symphony	US-090	approved product path in E11 migration manifest
+docs/demo/README.md	100644	blob	46e01966fb58a41b098c8d4931b06234221df1de	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/templates/spec-intake.md	100644	blob	4799a18fe8cfda432229eaf489119a16acc58bee	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-083-post-review-correctness-closure/validation.md	100644	blob	4897074ea372d6ec332085ee2ac7ba52b2855fca	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/templates/decision.md	100644	blob	496c38a4a10853100425587ec9686a1f03dc7196	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live-target.mjs	100644	blob	498bc55196aeaefd2c9a980e0482b3aef7ca44fe	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/src/pr.rs	100644	blob	49e18db347d700465ca28e0360cf02d2fc8b0092	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E06-symphony-review-sync/US-040-changeset-rendering.md	100644	blob	4ab33a51001d150741b231cce8eea190f555b4fb	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/craft.md	100644	blob	4adbc2b1fe12a197c8487f7c170a9cf4f6505ad2	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/features/symphony/status-badge.tsx	100644	blob	4bc6e44c43c581b5f140520b23b668e5e894bb2d	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/palette.mjs	100644	blob	4c3f1751a177ff56ad249f093b872045b5cbb6dc	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/components/ui/input.tsx	100644	blob	4d5f46a832c1ce1ba3faeb210dcc9e0157308dd4	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783682363_us075_selective_proposal_decision.changeset.jsonl	100644	blob	4d5fd78198435c3ab96081cb3312cb0967f495e1	archive	migration-archive	US-098	historical/extension evidence must not remain active
+scripts/harness-cli-release-tag	100644	blob	4dce807d22e3bfae3d950ec04038ed27239c861e	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/DESIGN.md	100644	blob	4e243b3e56488afd020b233db64f9ab2594f7cb8	move	symphony	US-090	approved product path in E11 migration manifest
+docs/decisions/0004-sqlite-durable-layer.md	100644	blob	4e3b4655478fa6d3c4ee7baa490bc32df5ec7ebb	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/decisions/0002-post-spec-product-lifecycle.md	100644	blob	4e7d109d87682d47b470dfc4f6ffb2fb12d91552	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E05-symphony-local-runner/US-034-work-list.md	100644	blob	4fea742bf15c6cda3dae202bc3e218ff69f68639	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_0000000002_retire_stale_symphony_docs.changeset.jsonl	100644	blob	5092695e2358d15d7a2965c45bb072fb9c0e6691	archive	migration-archive	US-098	historical/extension evidence must not remain active
+crates/harness-symphony/Cargo.toml	100644	blob	513d979bd75ea50473da44ae66d986790930cabf	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-047-dependency-board-foundation.md	100644	blob	52cf1315d39fb9cfe28319574f0ca8e51941dac4	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-076-story-backlog-relationships/validation.md	100644	blob	53a4e038647c67b984bb2460fa21a94a5a633ffa	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783405248236036000_24617_0.changeset.jsonl	100644	blob	54175a2a055bb87b364364012e73ef85d0344a87	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.github/workflows/harness-cli-release.yml	100644	blob	543988c78c6c54d675a1764187ee64bcf7da8832	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+docs/SYMPHONY_QUICKSTART.md	100644	blob	54ba2ce0e1cbc8a149edf8cd94602dc6299b378d	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/src/auto.rs	100644	blob	55789a878a165b0c2f027b98604ae43f321ff5d9	move	symphony	US-090	approved product path in E11 migration manifest
+LICENSE	100644	blob	566dbb23256bc86db5233dbdc51adf64cf497798	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-077-explicit-story-completion/validation.md	100644	blob	56dbf1cd6a4a90fba5660c4785665159eca825de	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/stories/epics/E06-symphony-review-sync/README.md	100644	blob	575655ea8c50a30f05493bf1a09d0f66340d5dcb	move	symphony	US-090	approved product path in E11 migration manifest
+scripts/schema/008-story-hierarchy.sql	100644	blob	5794e2002bf6631868f96eef0a08086b9949aa58	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+docs/FEATURE_INTAKE.md	100644	blob	57d2d6ec5b3a7ec17f9152665a60fb0930216c6c	retain	repository-harness	US-098	generic Harness core or repository governance path
+scripts/schema/004-intervention.sql	100644	blob	58cbd43a00b2a2eb3da8cd3099ac6e5c0f91013d	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E04-symphony-cli-prerequisites/README.md	100644	blob	590ea367fe23daf62c849cfe2218e0343aefce89	archive	migration-archive	US-098	Symphony historical review/story evidence selected for provenance
+.harness/changesets/run_1782536604_52965.changeset.jsonl	100644	blob	59c36954544f0580aa32874cc30c0466ce4ae79b	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.agents/skills/impeccable/scripts/detector/findings.mjs	100644	blob	5a30b4f75a87717b6cf2f579a75d1b3a9cefff59	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/reviews/US-073-proposal-to-backlog-lifecycle.md	100644	blob	5b8680df121a22c10528f7a4d3caedd9872e132f	archive	migration-archive	US-098	Reviewed historical Symphony reference
+scripts/schema/001-init.sql	100644	blob	5bc5e9db01585e7ed3870a68a897208754932b4f	retain	repository-harness	US-098	generic Harness core or repository governance path
+scripts/schema/012-review-finding-closure.sql	100644	blob	5c57aaee3e50761f662dd744a4ca09b8045e3c10	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E04-symphony-cli-prerequisites/US-029-operation-log-writing.md	100644	blob	5c64379c4358133867c378486d1439312c97fe97	archive	migration-archive	US-098	Symphony historical review/story evidence selected for provenance
+.agents/skills/impeccable/scripts/live/vocabulary.mjs	100644	blob	5c7b0b713ac8cf5451ce84b3b3914fdb06f53f7f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/backlog.md	100644	blob	5cfce6f529ba76b6f9f689aa0872c160513ac303	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/HARNESS_BACKLOG.md	100644	blob	60e5f55252465f06df32f287eaf86b1bc37f46b4	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/shape.md	100644	blob	6252c5166c5e1dc77ad1088d814b882d4f0e6391	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/bolder.md	100644	blob	6326d409a878d9ef8115aacf21ba8dc9127aa19f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/TEST_MATRIX.md	100644	blob	63a57625fcd288a211b2308ab8cdc560fb45c937	retain	repository-harness	US-098	generic Harness core or repository governance path
+scripts/schema/007-story-dependencies.sql	100644	blob	644e8fd5e9903da45dfba6f5848857d90ae66560	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+.agents/skills/impeccable/scripts/critique-storage.mjs	100644	blob	645628c8c1dc14a0ec4b8f83c6a4187416c9d1ff	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783224245101133000_18033_0.changeset.jsonl	100644	blob	665f6d74655f4bd50d2cd3fcfa7c2173f863c07b	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E07-symphony-automation/US-044-tiny-here-run.md	100644	blob	678f69add18baad99795e94148c832b3150bbf03	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-082-review-finding-closure/validation.md	100644	blob	68630de7851fcd683eda0d5bc107d199e5319357	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+crates/harness-symphony/web-ui/src/components/ui/card.tsx	100644	blob	68fa01026dd0957381b39e41d120acd23793c0f3	move	symphony	US-090	approved product path in E11 migration manifest
+.github/ISSUE_TEMPLATE/real-world-example.md	100644	blob	6934f00715bf50c14c96bee1d3630ac16f16b7a5	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/src/features/symphony/detail.tsx	100644	blob	6949932cf5c88eda7afd8db7efc34c79e280be31	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/main.tsx	100644	blob	69bd41a942647d3c77c2149521ee4174f1b326c0	move	symphony	US-090	approved product path in E11 migration manifest
+docs/ARCHITECTURE.md	100644	blob	6a9a0d0a428e81cb5b70d5148677b485b9b0be86	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-071-reviewer-subagent-closure.md	100644	blob	6cf4a7db3a52fe49cc557b6af21aea10b42ff746	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-cli/src/infrastructure.rs	100644	blob	6f9693f0317767644c72f1a6e7ed7381fb5a90a2	retain	repository-harness	US-098	generic Harness core or repository governance path
+PHASE2.md	100644	blob	703558dbc88ab64ce5180f1ec44957e8f05599ed	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/animate.md	100644	blob	729271ad6db5f10a945c15a1489e9600c7df0047	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/layout.md	100644	blob	72e6fbea37d4d78add4651bd6d2d71cac3e6f8b2	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live-poll.mjs	100644	blob	740161e10149eec6104a299870a68fa48e93c6bb	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live-resume.mjs	100644	blob	74284d48a052126206cf80826e86a4ecbb77cee9	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/features/symphony/board.tsx	100644	blob	74a63e19e50bb950202f4f395e8e0a80f1ed2071	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/playwright.config.ts	100644	blob	74b4eafd2204bb512cd0555d246fee98925131b0	move	symphony	US-090	approved product path in E11 migration manifest
+docs/HARNESS_AUDIT.md	100644	blob	75c2c0a8edd6bdf737fabc7ad6f9178f4f57c18b	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E05-symphony-local-runner/US-036-prepare-isolated-run.md	100644	blob	76c5a7a8aa0e97a6f1b266a9787cf4d63a163f3a	move	symphony	US-090	approved product path in E11 migration manifest
+docs/HARNESS.md	100644	blob	7807441fcd2e2ec5b1ca013cc1bcbfbf72bb3936	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-076-story-backlog-relationships/execplan.md	100644	blob	78220951a27ec87915ca215a43aa66e466945bf5	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/src/run-log.ts	100644	blob	78860c5bf9ac91df9b0b2146e86c58bf7e64da28	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/electron/smoke.cjs	100644	blob	78da9f7661c94009a418b9c4a5c5a31a3fd7e9e7	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783699620299211000_2829_0.changeset.jsonl	100644	blob	78dee9af9c5a963c9618a91c5e40fad334c256ad	archive	migration-archive	US-098	historical/extension evidence must not remain active
+scripts/schema/005-tool-extensions.sql	100644	blob	795c24d888f405a99370068b1673aeadad3ad320	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-047-dependency-board-foundation/design.md	100644	blob	7a04cf917a4797d225079ba9db77a31b478057f7	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/vite.config.ts	100644	blob	7ad1e4d1bafff37e3a1a121b4b1c0f08ea28f36b	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/detector/engines/static-html/detect-html.mjs	100644	blob	7c6748e1778c647e240d7d8b6b728f5452eaa1cf	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-051-review-surface-run-artifacts.md	100644	blob	7c6f38434601756f2a9ad16315ff31a073e55017	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-inject.mjs	100644	blob	7c8d91182a90cbdfac2c1d3acec8740f4d4489c3	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-064-ready-work-story-delete.md	100644	blob	7d611a16b4fcd89911c042963ba335cf3913ba71	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E05-symphony-local-runner/US-038-result-validation-agent-adapter.md	100644	blob	7d7dc44969eb017e95336b2a2edd696db17271b4	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-066-needs-attention-failure-explanation.md	100644	blob	80036af827b8b7680b11314b216d6adaf0c2620b	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/components/ui/badge.tsx	100644	blob	81235ee1323ca43d07930bd381913312fbc8da47	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/command-metadata.json	100644	blob	83796d54b6bd7ba22f54c288c64574baffe1758b	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E05-symphony-local-runner/US-032-symphony-crate-config.md	100644	blob	8472db8469a1e271560ebc0167150e522320c7cc	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-080-legacy-improvement-reconciliation/overview.md	100644	blob	862c7f7a4cee149cd7a928f97f8c648a3361f8e8	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783399293702861000_us069.changeset.jsonl	100644	blob	8713b3f496b8b0c5ba6b7038d0c1f77f70d07ca7	archive	migration-archive	US-098	historical/extension evidence must not remain active
+scripts/schema/003-tool-registry.sql	100644	blob	8735bd3a2026378f485868c5b86ae2afb9cb3311	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783700451018024000_10445_0.changeset.jsonl	100644	blob	87b5b17732e605d00263b594fe815b5fd536612a	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/US-023-drift-detection-entropy-score.md	100644	blob	87f18e06915756682a5c6c9133adc0e4fe1bf9c3	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-085-semantic-integrity-closure/validation.md	100644	blob	8897ba2e346f4099f7a895aed20053c83f7164db	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/reference/quieter.md	100644	blob	897c1e50c826f7192f049bcdb1363a251fd6b227	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/polish.md	100644	blob	8a0039319fdcdd41441dcd0c5ce1bc0e2251a1e3	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-069-second-pass-audit-2026-07-07.md	100644	blob	8a29d6e3a40de1d3c335b7f583ed622dcc87c8c8	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-061-frankentui-app-server-log-tui.md	100644	blob	8baf71d8aefd1ce49d280cfc23378a1d65a29694	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-cli/Cargo.toml	100644	blob	8bc521275b5a9839dcb3e0a45522d1343f12cb4c	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live-commit-manual-edits.mjs	100644	blob	8bde46b5074bbbd97cbc25c2ea15f89800499be9	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E10-harness-signal-quality/README.md	100644	blob	8c0d499a167663346d54112e85de2f6fe8cb6ef3	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-085-semantic-integrity-closure/design.md	100644	blob	8d2f622e9c53ec6574317d2e57af75eff728be90	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1783164291664744000_6614_2.changeset.jsonl	100644	blob	8dac8b193e0933b2ba3ecc94d32379259a9f6df8	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.harness/changesets/run_1783745900_us085_semantic_integrity.changeset.jsonl	100644	blob	8e0d98cbd5dc2ee6daf67e92ec335a64125065e0	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.codex/hooks.json	100644	blob	8f058ddaf885f1018f785b28ea9885ea082e3780	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.agents/skills/impeccable/scripts/hook.mjs	100644	blob	8f5924976b1e0b758fcd1e8d6b6c16314e7aafdb	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/electron/browser-dev.cjs	100644	blob	8f9eb2d2a8114f2e916e313bb7292952c8307d1a	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/onboard.md	100644	blob	90e33916ef348f050681d400a67e5745bfdb6d41	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-074-replay-safe-improvement-identity/overview.md	100644	blob	90e4336f5c696d005c98023f596352b9fcf9d7cc	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/templates/high-risk-story/design.md	100644	blob	90facfef8db5cfc2877f9a0514ede28bfc83f1ff	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/lib/impeccable-paths.mjs	100644	blob	91121dd593fcc252e8c25a74bb01c31c8c3a771f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-063-task-completion-alert.md	100644	blob	914d402e81f16896b2090c629eaae1149f82ba07	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/harden.md	100644	blob	917be521628aa9aeb1cdb21a3e6e5c527de2a015	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/shared/constants.mjs	100644	blob	917cbf5046c05e1578b59bf8be46add0c6ab6802	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E01-durable-layer/US-002-rust-harness-cli/overview.md	100644	blob	91dc04136e86c13348342f0aed7f0c96d94cbea0	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live/browser-script-parts.mjs	100644	blob	9229e34f8e6e2c1be6f1f6ca1f86ab24206ec6c0	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+scripts/schema/002-story-verify.sql	100644	blob	9254d007b844a4adbe8444cb217b9b5fc7de327e	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/tailwind.config.ts	100644	blob	930456e449c0792b5af8f4949c48a2a9ece56c08	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-085-semantic-integrity-closure/execplan.md	100644	blob	95bcd896dec3e673e29ebfad9218c4d82a04ea62	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/lib/target-args.mjs	100644	blob	967925a42ee0cee6dbf5aa5282c92f4cfe6efde8	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/engines/browser/detect-url.mjs	100644	blob	9831663978e47b8362e57e1efb601e4b50e2789a	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live/completion.mjs	100644	blob	986773066fc5fca25bed355b04014568ddd36f7f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/adapt.md	100644	blob	9909edf13d28cf7bce38d04e34b0fbc12d17cb04	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783698675355923000_95563_0.changeset.jsonl	100644	blob	9911ae92a7bf38ff70a1199e141ec628844a76a8	archive	migration-archive	US-098	historical/extension evidence must not remain active
+scripts/schema/010-story-backlog-links.sql	100644	blob	9a1a7beb0beffcb155e701018bc264063f7bbc80	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/decisions/0001-harness-first-development.md	100644	blob	9b53d2fadedd6316888ddb8793c7267f53077fc6	retain	repository-harness	US-098	generic Harness core or repository governance path
+PHASE4.md	100644	blob	9d64f49c18f8d8f3c7c552d9ea3b236e71df1e7c	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/agents/impeccable_manual_edit_applier.toml	100644	blob	9ddc6f3c3c8a2ea17940c07ce05a4167c7068eae	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/templates/high-risk-story/overview.md	100644	blob	9de28974c751a6a45404a39d833cdb194bbb2dec	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-046-first-class-symphony-codex-adapter.md	100644	blob	9e3c1dd9a1e01a38ca8308d75db046c32873837b	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783680342594999000_45616_0.changeset.jsonl	100644	blob	9ed0c65e855a4f82b4672c0c6f71ec6ef93e7ea6	archive	migration-archive	US-098	historical/extension evidence must not remain active
+crates/harness-symphony/src/sync.rs	100644	blob	9f2d82ab5956dad3fbcf83e90f9e3de12e26d92d	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/features/symphony/api.ts	100644	blob	a044f0fc56fca5b396cf254e50969be757a9c415	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/US-016-auto-trace-scoring-on-write.md	100644	blob	a059caab53b30f4c21151a91937d64db6d0aada5	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-065-unlimited-codex-app-server-runtime.md	100644	blob	a08c2c3b9cebcf72dc287e9e8dce36e02f39b994	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-075-selective-proposal-decision.md	100644	blob	a09e3c04ee073d921b8e9c4930b1a20861e90745	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/scripts/detect-csp.mjs	100644	blob	a13505d23ba3adf679090ce6cd9e20d68bcb12eb	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/review-fixes-1d30bf62-to-main.md	100644	blob	a1cbae4b21eda4f2aecb78eab3332f7876a482f2	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E03-phase-5-evolution-infrastructure/phase-5-progress.md	100644	blob	a43ec542c69dd511232137a32c3c5bdf73dfa38e	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/brand.md	100644	blob	a461c5484a245efb55370d8944664749ec700e9e	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-073-story-dependency-mutation-replay.md	100644	blob	a4b580d536c4002f934d8ae232937e8513cec4d3	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/scripts/lib/design-parser.mjs	100644	blob	a4b9e9483fc8c3aaf723fe361464eb0bce92a805	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783743300_us083_post_review_closure.changeset.jsonl	100644	blob	a5116cd26749dc5c2bedc1b8519fd0f0dd836b71	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E08-symphony-web-ui-controller/US-054-task-hierarchy-rendering.md	100644	blob	a5c1ec84e14f476c3046e4d0daab32985c1abb1f	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/src/lib/utils.ts	100644	blob	a5ef193506d07d0459fec4f187af08283094d7c8	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-084-proof-audit-finding-closure/design.md	100644	blob	a73439b98d11480d93a5269ef8fb36bcc801d4ca	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-027-inbound-tool-registry.md	100644	blob	a7820071bf5633416f194f08e741f24b9cd8f760	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-049-browser-board-task-detail-ui.md	100644	blob	a892c1f25ea8900979db98bbe2bdd790b6a8ecda	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/modern-screenshot.umd.js	100644	blob	a9c5208f6b141d3bafdb8eb843d6fcbdcf23e370	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.codex/skills/harness-intake-griller/SKILL.md	100644	blob	a9ef7404dc6df3587953e811157a33baec301b0c	archive	migration-archive	US-098	historical/extension evidence must not remain active
+crates/harness-symphony/src/doctor.rs	100644	blob	aa19dfe2ac08f3f2508309dd0998402500ba7509	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-discard-manual-edits.mjs	100644	blob	aa669fd202b91e34c6d7bdb4b4fe1ba9fba80b60	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/node/file-system.mjs	100644	blob	aaa8c6df7c3d205001ca785cf8f64601c6858f37	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E10-harness-signal-quality/US-088-lane-aware-trace-health.md	100644	blob	aae62a2ad95ffe47c740e5a991837117dc503855	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_1782543459_701.changeset.jsonl	100644	blob	ab4b8329de507f1a9f9f7af4dd6cdc85337c90d5	archive	migration-archive	US-098	historical/extension evidence must not remain active
+crates/harness-cli/src/main.rs	100644	blob	abb83a3503b027697c35f234501c02a2127dc406	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/engines/regex/detect-text.mjs	100644	blob	abbdd7b1cebd2c3f97935fe253290ccd9b1461a6	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E05-symphony-local-runner/US-037-run-contract-agents-shim.md	100644	blob	ac324ef9ae5b00163a0d04af9564e5ed1169f008	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live/manual-edit-routes.mjs	100644	blob	acd250ec493791c985fe49699b4f8c4d2ba242c8	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.harness/changesets/run_1783178537862657000_95182_0.changeset.jsonl	100644	blob	ad40fea25e5e4c1abceccf314bf24b0d68433b3e	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.agents/skills/impeccable/scripts/live-browser-dom.js	100644	blob	ad6a794b38bbc3f75babfd0bdb983ac3e637d059	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/context.mjs	100644	blob	adf03e0d4bf73d82ae4755d01db9698a5e8619df	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live/insert-ui.mjs	100644	blob	ae54f6f938828d7d08e357adabfadc90cc860e22	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E07-symphony-automation/US-045-auto-mode-work-sources.md	100644	blob	af0205f3b6870763d0baaec9d654cb68b7105f49	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/US-019-machine-readable-tool-registry.md	100644	blob	afbe06d87e3996ec2c6c1dc23476bceb04d1b6a5	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live/session-store.mjs	100644	blob	affba67c9fe48550a474e029baf91b7d29e70abc	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/profile/profiler.mjs	100644	blob	b05fbf3ef1fe255d8f15068deeb6c8a94f4ad7aa	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E08-symphony-web-ui-controller/US-058-scrollable-board-columns.md	100644	blob	b0db8b7239c55bde7b7b09c477a484c3b0527c16	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/detector/shared/page.mjs	100644	blob	b0f6e1ab532c2019a05ab4f8a46ee31c80522d81	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-084-proof-audit-finding-closure/overview.md	100644	blob	b1ce37436a4f70f75bc9d8d6eadae763e32192e9	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-057-dependency-graph-sidebar-view.md	100644	blob	b2be6f83a331a242a903dfaa779ea0d998388e5a	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/delight.md	100644	blob	b319670567ea5288c90c64cc5f4a84a428dd6e0d	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E06-symphony-review-sync/US-042-symphony-sync.md	100644	blob	b52614fbc7725b929e9787deb42d7d1628438252	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-077-explicit-story-completion/overview.md	100644	blob	b5363809bdf796b1d6071c941ad9034fd08011fd	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/reference/typeset.md	100644	blob	b537516c759ec2e1e2d937c3e3d306253e2c9a63	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/hook-lib.mjs	100644	blob	b649211ecf2b6a4261e1a0d0a54a84079048c99b	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/templates/validation-report.md	100644	blob	b66c451ae6869f79a3bd1a8ade46c7f6d82b70d5	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/hooks.md	100644	blob	b6f1a82c269e288dc2b64d7d21cd67b1a1663fb6	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+scripts/harness-install-files.txt	100644	blob	b706ea9ab9f63dae99c5021bc5278efb9e7deea0	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-078-proposal-suppression-recurrence.md	100644	blob	b99c0fc44f22f45b01080a7e2939c34466283b2f	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/electron/main.cjs	100644	blob	ba1fd09e2bf2e59cca913550fce67b1d40b73b6a	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/postcss.config.js	100644	blob	ba80730477d1dd22b1484282d594f2e5dda4785a	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-055-pr-merged-gate-before-sync.md	100644	blob	bb1e224b3e6e322c22bf93263637302911299ffb	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live/ui-core.mjs	100644	blob	bbb2c5c35e534ba5ec7a418946a1c95244e56872	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/live.md	100644	blob	bc1e3e9ead9a40003818449a29b5d85e058eeb1c	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/electron/dev.cjs	100644	blob	bc666652c3911738370297ff0d7e655736561788	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/web-ui/PRODUCT.md	100644	blob	bc7770ed9aa2060c48cd8903846cfc46fff6de9c	move	symphony	US-090	approved product path in E11 migration manifest
+docs/decisions/0007-improvement-proposal-rules.md	100644	blob	bd010cb3b0c565d34a913cb2de50928d6e33d84e	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/web-ui/package.json	100644	blob	bd3de05e4d92b41688c19f4c0c3ef8d0097191af	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/US-021-intervention-recording-schema.md	100644	blob	beadc27e7e2dceb215e490b25ae4bab4461110df	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E04-symphony-cli-prerequisites/US-028-harness-db-path.md	100644	blob	bf46f657eec09e5c9c9c08d9507131a0ec1d1260	archive	migration-archive	US-098	Symphony historical review/story evidence selected for provenance
+Cargo.lock	100644	blob	bfdbf9b6fe29a6cb8e44af04dc2b725074eaa329	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+scripts/schema/006-changeset-applied.sql	100644	blob	c04353756bb0cc5a259823037ca1e4639ed98faa	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/README.md	100644	blob	c0a91ba2d0f85e331de030c623eb2edd1fee95d4	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/SYMPHONY_SCOPE.md	100644	blob	c40431e544a688a543b7711bb9edafda523128f0	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E04-symphony-cli-prerequisites/US-031-db-rebuild.md	100644	blob	c415116c52a9c68ecdea830b1c77e6e9828de7af	archive	migration-archive	US-098	Symphony historical review/story evidence selected for provenance
+.agents/skills/impeccable/reference/interaction-design.md	100644	blob	c42c9d8100b3fb28133dbcabdb468f446d6bcfa5	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.github/workflows/post-merge-maintenance.yml	100644	blob	c446f84f74587535f58d7d66c1565ef12cae8859	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+scripts/install-harness.ps1	100644	blob	c4b36bdf831fdf470f8e696093e9f35e4b8bc58c	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-017-pre-close-verification-gate.md	100644	blob	c4be5e0986a2a177ea6703229d2b65fc25a53cc4	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/detect-antipatterns.mjs	100644	blob	c5bcf064cb9cb7a382463b4cdd2da09e84dac931	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E10-harness-signal-quality/US-087-backlog-triage-health.md	100644	blob	c5e8c237c3a22d4aea717aa012aae890be5cae3b	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/US-018-phase4-cli-ux-hardening.md	100644	blob	c6da3da810663d449e2d6cd72202d922dc60adfb	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/templates/story.md	100644	blob	c76fcb0cbb0120f35dcd5be69beeddd20a5089ba	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E05-symphony-local-runner/US-033-symphony-doctor.md	100644	blob	c8c43e032fbdd18eda30962736be6c0c14d76ca5	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-085-semantic-integrity-closure/overview.md	100644	blob	c8e55fbca8a266eb033474750ba113ce8fd2e912	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-076-story-backlog-relationships/design.md	100644	blob	c90318849536f5e4e162b04d016d53b5eed429a2	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.agents/skills/impeccable/scripts/detector/engines/visual/screenshot-contrast.mjs	100644	blob	c9668dbd7a35922bc898873cb9edc2eb748cddf4	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/components/ui/button.tsx	100644	blob	c9bbedf3cd1f87f4106be4bba276a0b175fbb5aa	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/detect.mjs	100644	blob	cbc0469549d4a0c7efea5a67a0fdb9b52289a621	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/templates/high-risk-story/validation.md	100644	blob	cd399683a205c1398bddf4710656198ebeef1cd7	retain	repository-harness	US-098	generic Harness core or repository governance path
+.harness/changesets/run_0000000000_seed_symphony_index.changeset.jsonl	100644	blob	cdef627eddacf3c964f8d685cc54c8f661bd12fa	archive	migration-archive	US-098	historical/extension evidence must not remain active
+PHASE3.md	100644	blob	ce29ad74452e7cea80591247f67c11dd37c724f1	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/hook-admin.mjs	100644	blob	ce4ec7b2b14d41c10cefe55525bdce712b59ba69	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-079-outcome-observation-daily-health.md	100644	blob	cf23eb6d85acdda8b3d2f9a354c82457040f5fba	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+crates/harness-symphony/src/interface.rs	100644	blob	d0678c22f62c9a85cc622862527c1d6c7e01e39d	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/optimize.md	100644	blob	d0abeea40afd6cafb4d3611db007ce3d960dddb6	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/styles.css	100644	blob	d15e3100e36a3f4cc53ca7bf4564465bab77f4d3	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-056-symphony-controller-reference-revamp.md	100644	blob	d21361da68543e4efaf36f4f006f01c94ef1ac08	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783692800000000000_us081_validation_subprocess_quarantine.changeset.jsonl	100644	blob	d2464deadbf95e1917e84e535b326b75e841ed72	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E08-symphony-web-ui-controller/US-059-electron-desktop-shell.md	100644	blob	d271ad0eda739b69ae280a5115285d03bf374dda	move	symphony	US-090	approved product path in E11 migration manifest
+.harness/changesets/run_1783741400_e09_proof_parity.changeset.jsonl	100644	blob	d294f8080b453468139a246f4feb9b32f4b86b4c	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E10-harness-signal-quality/US-086-evidence-provenance-causal-retirement/validation.md	100644	blob	d60cd983dfbcdc376046729350a038f41173cdc4	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-068-bounded-work-item-cards.md	100644	blob	d6ef0b60611d2c91fc4c651d203292d88774f3a1	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E01-durable-layer/US-002-rust-harness-cli/design.md	100644	blob	d7a1750f4daf00201cd8a5560d2a26553a47c065	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live/manual-edits-buffer.mjs	100644	blob	d96ebbe342f8f44c671942284a0f0b3965da3d6e	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+AGENTS.md	100644	blob	db786859ffc9b2fa3e5929615955e3b2b5075cba	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/product/symphony-web-ui-controller.md	100644	blob	dbeb1baa32da2d9534a587d8b746ab6d9a9803d6	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/lib/impeccable-config.mjs	100644	blob	dc1c3d1c43a1742ebd9afc78287349829fcb5111	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live/svelte-component.mjs	100644	blob	dc35dc0cec81e9670ab144907397107ab8ed3f02	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/reference/init.md	100644	blob	dc505a3d4c8e1f637ac72a557f5f6a1c99550885	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/live-manual-edit-evidence.mjs	100644	blob	dd10e96dc4169acd67dccc506c1bd8669725d557	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/tsconfig.json	100644	blob	df119474e379546a42604dcfe69ee82a90995d08	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-080-legacy-improvement-reconciliation/design.md	100644	blob	df4b508463b32cbfc7f70d0a188d05972cabc088	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-062-task-detail-close-confetti.md	100644	blob	e01a8c94e3f98034a82328f241d0b11259d5f467	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-symphony/src/changeset.rs	100644	blob	e068bcadc2b09859ced1870e35212e35a0d0d6eb	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live.mjs	100644	blob	e0bd1ad242315eeb312f3b429a00d5987a69590a	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E02-phase-2-observability-taxonomy/phase-2-progress.md	100644	blob	e12b29bf5e52734e28b261b03bedd8d920306c9f	retain	repository-harness	US-098	generic Harness core or repository governance path
+crates/harness-symphony/src/main.rs	100644	blob	e14200a4cfe1eec07ffe8b579e45098b94becf9d	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/US-081-validation-subprocess-write-quarantine.md	100644	blob	e16868bb85147479b2ee7cd1bd3a9a8914df4e63	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+.harness/changesets/run_1783685000000000000_us076_story_backlog_relationships.changeset.jsonl	100644	blob	e28fc2ab5c5673de064936f364a5e29789afe448	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.harness/changesets/run_1783670632_e09_planning.changeset.jsonl	100644	blob	e2c502462de1d39b88073d839b45586b50b84288	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.harness/changesets/run_1783530000000000000_impeccable_tool.changeset.jsonl	100644	blob	e363feea7941dfaef88bff6a64505aae2f2d0b64	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E08-symphony-web-ui-controller/US-060-human-readable-chat-logs.md	100644	blob	e44d6797bd97949522f7b77a6e052a84dea91cec	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/detector/shared/inline-ignores.mjs	100644	blob	e5d64b18a825e571c22acb5e5865e93dbaaad912	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/reviews/feature-self-improving-harness-lifecycle-to-main-review.md	100644	blob	e784563350c52c0deeeb8f86fc3cc14b0c931464	archive	migration-archive	US-098	Reviewed historical Symphony reference
+.harness/changesets/run_1783741281_us082_review_finding_closure.changeset.jsonl	100644	blob	e80900bfe59b395bc47ddf218594562299e49054	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.harness/changesets/run_1782550121_26667.changeset.jsonl	100644	blob	ea791e45fcee9c217003f218ee44082e6bf28f9e	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.harness/changesets/run_1783610000000000000_us072.changeset.jsonl	100644	blob	eab2df327fd0f3cc33cd3ce39dafcbf15a61edf0	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E04-symphony-cli-prerequisites/US-030-changeset-apply.md	100644	blob	eb3691559a15d10157ebb2a56b8d6a5ae7876364	archive	migration-archive	US-098	Symphony historical review/story evidence selected for provenance
+docs/CONTEXT_RULES.md	100644	blob	ebd7a0c5c67217cb1f7600078282d8df3b9d60c7	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/registry/antipatterns.mjs	100644	blob	ec10450225fac8f7303c4676699b6dcd90d99181	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/agents/openai.yaml	100644	blob	ee6cae7726ef85d3744c1b978608668a07aefeef	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+PHASE5.md	100644	blob	eeb20175ad717948138b49f0545da6e350ed6ce9	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E05-symphony-local-runner/README.md	100644	blob	ef96b45b6ca91229c7e1aaf4d824fee5ae2d974e	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/reference/overdrive.md	100644	blob	f08bcaee68c6a72791442e4503366f967d8b00c9	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E10-harness-signal-quality/US-086-evidence-provenance-causal-retirement/design.md	100644	blob	f1427ccc65755a95519dce60653dc9281f243108	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/codex.md	100644	blob	f174e1f3cfc5bbedbead951f0819215c4e27d635	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E06-symphony-review-sync/US-041-optional-pr-creation.md	100644	blob	f1cbffa2982ec88b47aa26fbd95749b164facbaa	move	symphony	US-090	approved product path in E11 migration manifest
+docs/decisions/0008-self-improving-harness-lifecycle.md	100644	blob	f24bb0b4a3f46716fe5a661317bc9a6a9e8ec7de	retain	repository-harness	US-098	generic Harness core or repository governance path
+README.md	100644	blob	f297a50f23ab0d18be66ba68ab8bd03e6fc2eb26	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+.harness/changesets/run_1783163412740491000_6614_1.changeset.jsonl	100644	blob	f3bb31a91842ed010eb3738eb2cf9a2615021579	archive	migration-archive	US-098	historical/extension evidence must not remain active
+.agents/skills/impeccable/scripts/hook-before-edit.mjs	100644	blob	f3f010bf8094186af7f59a19dfd69782fe91d0c5	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-084-proof-audit-finding-closure/validation.md	100644	blob	f3f14435e8fe5cc1642240054ef6e93033160fba	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/stories/US-001-install-harness.md	100644	blob	f49eaac4cacf6bc2bde6895acf82198d97b3516d	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/live/sveltekit-adapter.mjs	100644	blob	f5087c189c5cbe0501ede27982faba3a8f36a629	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/context-signals.mjs	100644	blob	f631d756108412740ef478e7920003e1b82c12ca	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+.agents/skills/impeccable/scripts/detector/cli/main.mjs	100644	blob	f70027bc845a2f62897f77d4bb3e0af708df8c0f	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E06-symphony-review-sync/US-043-artifact-retention.md	100644	blob	f71a6d652e8a662284c9337959db2b375bdb98cd	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/epics/E08-symphony-web-ui-controller/US-069-deep-audit-2026-07-07.md	100644	blob	f7cbf41b9d35a2dbb5cfd08c44e8601b78e9fc2b	move	symphony	US-090	approved product path in E11 migration manifest
+.agents/skills/impeccable/scripts/live-status.mjs	100644	blob	f7e464999d43696663e71cab5dd89ab1b8947b74	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-082-review-finding-closure/design.md	100644	blob	f828b0dc99c15657d7b28f682f3bd597ef079bd4	rewrite	repository-harness	US-098	Reviewed active or proof-coupled Symphony reference in a core-owned file
+docs/HARNESS_COMPONENTS.md	100644	blob	f8495c437b8f8862cc9187402430c83c180b2af4	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/reference/extract.md	100644	blob	f8d863ce13651a5613c70d11baf13ccb0162b4b1	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+crates/harness-symphony/web-ui/src/components/ui/separator.tsx	100644	blob	f9aa7a2c1f3cd8d00a66143c1cfe6397389deedc	move	symphony	US-090	approved product path in E11 migration manifest
+docs/stories/US-011-backlog-outcome-workflow.md	100644	blob	fb1b2a37918f0983e417006bc5c65987367fc1ad	retain	repository-harness	US-098	generic Harness core or repository governance path
+.codex/skills/harness-intake-griller/agents/openai.yaml	100644	blob	fc6d24f8d03cf73266210fe34de0e2999d1a3854	archive	migration-archive	US-098	historical/extension evidence must not remain active
+docs/stories/epics/E09-self-improving-harness-lifecycle/US-083-post-review-correctness-closure/overview.md	100644	blob	fca56c2f677a653549475b9d853a7deacbc0a35b	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/GLOSSARY.md	100644	blob	fccb32127466511e0a29689a8f342ba195a9ad39	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E08-symphony-web-ui-controller/US-053-browser-e2e-validation.md	100644	blob	fe0e54a1266718553f6ddf54a557835f4b22ad45	move	symphony	US-090	approved product path in E11 migration manifest
+crates/harness-cli/src/application.rs	100644	blob	ff672ea905068016010bfa20ea28d4126ae6c4f1	retain	repository-harness	US-098	generic Harness core or repository governance path
+docs/stories/epics/E10-harness-signal-quality/US-086-evidence-provenance-causal-retirement/execplan.md	100644	blob	ff956a934deacf3e987759d0d4e12a99d0e3b4ec	retain	repository-harness	US-098	generic Harness core or repository governance path
+.agents/skills/impeccable/scripts/detector/browser/injected/index.mjs	100644	blob	fff811491e7302e932a831f76d28ab11231399d2	discard_after_gate	external-tooling	US-098	project-local optional tooling is not product source
+scripts/install-harness.sh	100755	blob	7417fa02833a68cf1d2f94d27e1bb359d4880c42	retain	repository-harness	US-098	generic Harness core or repository governance path
+scripts/validate-changeset-rebuild.sh	100755	blob	b980b0ff9ad893cc8bfb1c5554375c945cf508d7	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+scripts/test-validate-changeset-rebuild.sh	100755	blob	cc77d345118cdb49b57dd690886470fa6e724f15	rewrite	repository-harness	US-098	mixed root/template coupling explicitly listed for cleanup
+scripts/build-harness-cli-release.sh	100755	blob	f3953a863f8858b9e935e1b59d67b4b648b446b5	retain	repository-harness	US-098	generic Harness core or repository governance path

@@ -1,18 +1,27 @@
-# macOS Finder metadata.
-.DS_Store
-
 # Harness durable layer — each project instance generates its own data.
 harness.db
 harness.db-wal
 harness.db-shm
 
+# macOS Finder metadata.
+.DS_Store
+
+# Legacy dashboard output generated locally by older Harness versions.
+docs/harness-dashboard.html
+
 # Rust build output for harness tooling.
 target/
 dist/
 
-# Downloaded Harness CLI binary for installed project instances.
+# Downloaded Harness binaries for installed project instances.
+scripts/bin/harness
+scripts/bin/harness.exe
 scripts/bin/harness-cli
 scripts/bin/harness-cli.exe
 
-# Generated locally by scripts/generate-dashboard.py.
-docs/harness-dashboard.html
+.harness/*
+!.harness/changesets/
+!.harness/changesets/*.changeset.jsonl
+!.harness/core-state/
+!.harness/core-state/harness.db
+!.harness/core-state/manifest.json

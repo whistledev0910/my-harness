@@ -1,0 +1,91 @@
+name: Pre-Merge Contract
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: premerge-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate:
+    name: Validate repository contract
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes jq ripgrep sqlite3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Bootstrap tracked core state from a fresh checkout
+        run: |
+          test ! -e harness.db
+          scripts/bootstrap-harness.sh
+          scripts/verify-materialized-core-parity.sh
+
+      - name: Run pre-merge contract
+        run: scripts/validate-premerge.sh
+
+      - name: Prove Linux initial-to-candidate upgrade
+        run: |
+          tests/release/download-v0.1.14-artifact.sh \
+            harness-cli-linux-x64 dist/us092-harness-cli-linux-x64
+          candidate_ref="$(awk 'NF && $1 !~ /^#/ {print $1; exit}' scripts/harness-cli-release-tag)"
+          tests/installer/test-cli-upgrade-candidate.sh \
+            dist/us092-harness-cli-linux-x64 \
+            target/debug/harness-cli \
+            harness-cli-linux-x64 \
+            "$candidate_ref"
+
+  windows-installer:
+    name: Validate Windows installer contract
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Bootstrap tracked core state from a fresh checkout
+        shell: pwsh
+        run: |
+          if (Test-Path harness.db) { throw "checkout unexpectedly contains harness.db" }
+          .\scripts\bootstrap-harness.ps1
+
+      - name: Build Windows Harness CLI
+        run: cargo build -p harness-cli --locked
+
+      - name: Download pinned Windows initial protocol artifact
+        shell: bash
+        run: |
+          tests/release/download-v0.1.14-artifact.sh \
+            harness-cli-windows-x64.exe dist/us092-harness-cli-windows-x64.exe
+
+      - name: Run PowerShell installer modes and upgrade transition
+        shell: pwsh
+        run: |
+          $candidateRef = (Get-Content scripts/harness-cli-release-tag | Select-Object -First 1).Trim()
+          tests/installer/test-install-harness-modes.ps1 `
+            -CandidateArtifact target/debug/harness-cli.exe `
+            -InitialArtifact dist/us092-harness-cli-windows-x64.exe `
+            -CandidateRef $candidateRef
