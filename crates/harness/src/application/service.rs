@@ -170,6 +170,11 @@ where
                     });
                     mutations.push(WorkspaceMutation::Delete { path });
                 }
+                (Some(_), None, Some(_)) if relocated_to_hidden_core(&path, &upstream) => changes
+                    .push(PlannedFileChange {
+                        path,
+                        kind: FileChangeKind::Preserve,
+                    }),
                 (Some(_), None, Some(_)) => conflicts.push(UpdateConflict {
                     path,
                     reason: ConflictReason::ModifiedRemovedFile,
@@ -310,6 +315,17 @@ where
         }
         self.merger.merge(base, local, upstream).map_err(Into::into)
     }
+}
+
+fn relocated_to_hidden_core(
+    path: &crate::domain::RelativePath,
+    upstream: &BTreeMap<crate::domain::RelativePath, &crate::domain::DistributionFile>,
+) -> bool {
+    let hidden_path = format!(".harness-core/{path}");
+    path.as_str().starts_with("docs/")
+        && upstream
+            .keys()
+            .any(|candidate| candidate.as_str() == hidden_path.as_str())
 }
 
 fn state_from_distribution(distribution: &CoreDistribution) -> InstallationState {

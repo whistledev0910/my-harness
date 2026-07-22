@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 - Unreleased
+
+- Keep consumer Harness documentation under `.harness-core/docs/` so default
+  installation and updates do not claim or overwrite the project's root
+  `docs/` tree.
+- Migrate unchanged legacy Harness docs out of root while preserving modified
+  project-owned files.
+
 ## 2026-07-21 - PR #58
 
 - Isolate core release artifacts (@hoangnb24)

@@ -31,7 +31,8 @@ Options:
                          Existing CLAUDE.md files get the block appended
                          after a backup; a stale block is refreshed in place.
       --override         On protected-path conflict, back up and replace
-                         AGENTS.md, docs/, and scripts/.
+                         AGENTS.md. With --with-cli, also replace docs/ and
+                         scripts/.
       --force            Overwrite existing files after backing them up.
       --dry-run          Show what would change without writing files.
   -h, --help             Show this help.
@@ -39,8 +40,7 @@ Options:
 Safety:
   The default profile installs the repository-centered core plus the Rust
   maintenance CLI. It performs no SQLite/control-plane download or database
-  write. If AGENTS.md, docs/, or scripts/
-  already exist, interactive installs ask
+  write. If AGENTS.md already exists, interactive installs ask
   whether to merge missing files, override after backup, or stop. Merge is the
   safe update path for repositories that already have Harness: existing files
   stay in place and new Harness files are appended by path. Non-
@@ -305,7 +305,7 @@ EOF
 }
 
 agent_shim_block() {
-  read_source_text "scripts/agent-harness-block.md"
+  read_source_text "scripts/agent-harness-block-installed.md"
 }
 
 claude_shim_block() {
@@ -695,7 +695,7 @@ stage_harness_core_cli() {
     release_tag="$(read_harness_release_tag)"
     [[ "$release_tag" =~ ^harness-v[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9]+)*$ ]] ||
       fail "invalid Harness core release tag: $release_tag"
-    base_url="${HARNESS_CORE_CLI_BASE_URL:-https://github.com/hoangnb24/repository-harness/releases/download/$release_tag}"
+    base_url="${HARNESS_CORE_CLI_BASE_URL:-https://github.com/whistledev0910/my-harness/releases/download/$release_tag}"
     binary_url="${base_url%/}/$CORE_BINARY_NAME"
     checksum_url="$binary_url.sha256"
     checksum_tmp="$CORE_STAGE_ROOT/$CORE_BINARY_NAME.sha256"
@@ -961,7 +961,9 @@ check_protected_target_paths() {
   local conflicts=()
 
   [ -e "$TARGET_DIR/AGENTS.md" ] && conflicts+=("AGENTS.md")
-  [ -e "$TARGET_DIR/docs" ] && conflicts+=("docs/")
+  if [ "$INSTALL_RUST_CLI" -eq 1 ] && [ -e "$TARGET_DIR/docs" ]; then
+    conflicts+=("docs/")
+  fi
   if [ "$INSTALL_RUST_CLI" -eq 1 ] && [ -e "$TARGET_DIR/scripts" ]; then
     conflicts+=("scripts/")
   fi
@@ -1002,7 +1004,7 @@ check_protected_target_paths() {
     printf 'Warning: target already contains protected Harness paths: %s\n' "$joined"
     printf 'Choose how to continue:\n'
     printf '  1. Merge    Copy missing Harness files and skip existing files\n'
-    printf '  2. Override Back up and replace AGENTS.md, docs/, and scripts/\n'
+    printf '  2. Override Back up and replace the listed protected paths\n'
     printf '  3. Stop     Exit without writing files (recommended)\n'
   } > /dev/tty
   prompt_tty 'Choice [1/2/3, default 3]: '
@@ -1030,7 +1032,9 @@ check_protected_target_paths() {
 override_protected_target_paths() {
   local protected
 
-  for protected in AGENTS.md docs; do
+  local protected_paths=(AGENTS.md)
+  [ "$INSTALL_RUST_CLI" -eq 1 ] && protected_paths+=(docs)
+  for protected in "${protected_paths[@]}"; do
     [ -e "$TARGET_DIR/$protected" ] || continue
 
     if [ "$DRY_RUN" -eq 1 ]; then
@@ -1186,6 +1190,8 @@ if [ "$UPGRADE_CLI" -eq 0 ] && [ -n "$SCRIPT_DIR" ] && [ -f "$SCRIPT_DIR/../AGEN
   SOURCE_MODE="local"
 fi
 
+[ "$REQUESTED_CONFLICT_ACTION" = "merge" ] && REFRESH_AGENT_SHIM=1
+
 if [ "$INSTALL_RUST_CLI" -eq 1 ] && [ -z "$CLI_BASE_URL" ]; then
   CLI_BASE_URL="$(default_cli_base_url)"
 fi
@@ -1244,9 +1250,8 @@ else
 fi
 log "Target project: $TARGET_DIR"
 
-install_harness_core
-
 refresh_agent_shim
+install_harness_core
 write_claude_shim
 install_cli_bundle
 

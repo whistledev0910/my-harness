@@ -62,7 +62,11 @@ def entries(path):
         if line.strip() and not line.lstrip().startswith("#")
     }
 
-core_expected = entries(core_manifest)
+core_sources = entries(core_manifest)
+core_expected = {
+    f".harness-core/{path}" if path.startswith("docs/") else path
+    for path in core_sources
+}
 core_runtime = {
     ".gitignore",
     ".harness-core/lock",

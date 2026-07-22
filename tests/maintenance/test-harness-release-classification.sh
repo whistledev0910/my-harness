@@ -10,6 +10,7 @@ printf '%s\n' \
   crates/harness/assets/docs/plans/README.md \
   docs/WORKFLOW.md \
   scripts/agent-harness-block.md \
+  scripts/agent-harness-block-installed.md \
   scripts/install-harness.sh \
   scripts/install-harness.ps1 \
   scripts/build-harness-release.sh \

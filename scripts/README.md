@@ -218,10 +218,10 @@ docs.
 ## Installer
 
 The upstream installer applies the Harness v0 operating files and folder
-structure to a target project directory. It defaults to the current directory,
-accepts a target path, and asks interactive users whether to `1. Merge`,
-`2. Override`, or `3. Stop` when the target already contains `AGENTS.md`,
-`docs/`, or `scripts/`.
+structure to a target project directory. It defaults to the current directory
+and keeps Harness guidance under `.harness-core/docs/`; only `AGENTS.md` is
+installed at root. The optional CLI profile additionally protects its root
+`docs/` and `scripts/` compatibility paths.
 Non-interactive installs stop on those protected paths unless `--merge` or
 `--override` is provided. Use `--merge` as the safe update path for repositories
 that already have Harness: it keeps existing files in place and creates only
@@ -258,8 +258,8 @@ curl -fsSL "https://raw.githubusercontent.com/whistledev0910/my-harness/main/scr
 file is recognized as the old Harness-generated operating guide, the installer
 replaces it with the current shim. Otherwise it appends or replaces only the
 marked `<!-- HARNESS:BEGIN -->` block so project-specific instructions remain
-in place. Both installers read that block from
-`scripts/agent-harness-block.md`; the Bash `--claude` path reads
+in place. Both installers read the consumer block from
+`scripts/agent-harness-block-installed.md`; the Bash `--claude` path reads
 `scripts/claude-harness-block.md`, whose only import is `AGENTS.md`. This keeps
 root, fresh-install, and refresh behavior on the same authority text.
 
@@ -273,8 +273,9 @@ application source folders, package scripts, CI, tests, platform shells, or fake
 validation commands. The installer script is not part of the installed project
 payload.
 
-The default core payload is declared in
-`scripts/harness-install-files.txt`. The optional static CLI payload is declared
+The default core source payload is declared in
+`scripts/harness-install-files.txt`; its `docs/` entries install under
+`.harness-core/docs/`. The optional static CLI payload is declared
 in `scripts/harness-cli-install-files.txt`. Both platform installers read both
 manifests; do not duplicate file lists in installer code. Schema migrations are
 members of the CLI profile and are discovered from `scripts/schema/*.sql`, so a

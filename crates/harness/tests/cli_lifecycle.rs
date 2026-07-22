@@ -36,6 +36,8 @@ fn cli_installs_reports_and_diagnoses_a_fresh_core() {
     assert!(root.path().join("AGENTS.md").is_file());
     assert!(root.path().join(".harness-core/manifest.json").is_file());
     assert!(root.path().join(".harness-core/base/AGENTS.md").is_file());
+    assert!(root.path().join(".harness-core/docs/WORKFLOW.md").is_file());
+    assert!(!root.path().join("docs").exists());
     assert!(!root.path().join("harness.db").exists());
 
     let status = Command::new(binary)
