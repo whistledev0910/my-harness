@@ -295,7 +295,7 @@ dependencies = [
 
 [[package]]
 name = "harness"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "clap",
  "fs2",
@@ -308,7 +308,7 @@ dependencies = [
 
 [[package]]
 name = "harness-cli"
-version = "0.1.22"
+version = "0.1.23"
 dependencies = [
  "chrono",
  "clap",

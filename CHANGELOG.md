@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-07-22 - PR #1
+
+- feat: keep consumer Harness docs under .harness-core (@whistledev0910)
+- Merge commit: `981bb96f7ff3ba9c3d18c205da2ede16916e4e52`
+- Harness CLI candidate: `harness-cli-v0.1.23` (publication requires platform proof)
+- Harness core candidate: `harness-v0.2.1` (publication requires platform proof)
+- Changed files: 21 total (first 20 shown)
+  - `CHANGELOG.md`
+  - `Cargo.lock`
+  - `README.md`
+  - `crates/harness/Cargo.toml`
+  - `crates/harness/src/application/service.rs`
+  - `crates/harness/src/infrastructure/embedded_distribution.rs`
+  - `crates/harness/src/infrastructure/filesystem_state.rs`
+  - `crates/harness/tests/cli_lifecycle.rs`
+  - `crates/harness/tests/update_lifecycle.rs`
+  - `docs/product/installation-profiles.md`
+  - `scripts/README.md`
+  - `scripts/agent-harness-block-installed.md`
+  - `scripts/harness-release-changed.sh`
+  - `scripts/harness-release-tag`
+  - `scripts/install-harness.ps1`
+  - `scripts/install-harness.sh`
+  - `tests/installer/assert-agent-authority-contract.sh`
+  - `tests/installer/assert-install-manifest-links.sh`
+  - `tests/installer/test-install-harness-modes.ps1`
+  - `tests/installer/test-install-harness-modes.sh`
+  - _… 1 additional file(s) omitted from this entry._
+
 ## 0.2.0 - Unreleased
 
 - Keep consumer Harness documentation under `.harness-core/docs/` so default
