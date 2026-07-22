@@ -3,6 +3,7 @@ set -euo pipefail
 
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 agent_block="$root/scripts/agent-harness-block.md"
+installed_agent_block="$root/scripts/agent-harness-block-installed.md"
 claude_block="$root/scripts/claude-harness-block.md"
 workflow="$root/docs/WORKFLOW.md"
 
@@ -30,6 +31,8 @@ grep -Fq 'SQLite intake, story, trace, scoring, audit, and proposal commands are
 ! grep -Fq 'query matrix --active --summary' "$agent_block"
 ! grep -Fq 'lane- and task-specific context' "$agent_block"
 [[ "$(wc -c <"$agent_block" | tr -d ' ')" -le 1600 ]]
+grep -Fq '.harness-core/docs/WORKFLOW.md' "$installed_agent_block"
+! grep -Fq 'Read `docs/WORKFLOW.md`' "$installed_agent_block"
 
 # The only mandatory initial Harness context stays near the approximately
 # 1,000-word target. Everything else is retrieved because the task needs it.
@@ -61,11 +64,11 @@ for payload in \
   grep -Fxq "$payload" "$root/scripts/harness-install-files.txt"
 done
 
-for source_only in scripts/agent-harness-block.md scripts/claude-harness-block.md; do
+for source_only in scripts/agent-harness-block.md scripts/agent-harness-block-installed.md scripts/claude-harness-block.md; do
   ! grep -Fxq "$source_only" "$root/scripts/harness-install-files.txt"
 done
 
-grep -Fq 'read_source_text "scripts/agent-harness-block.md"' "$root/scripts/install-harness.sh"
+grep -Fq 'read_source_text "scripts/agent-harness-block-installed.md"' "$root/scripts/install-harness.sh"
 grep -Fq 'read_source_text "scripts/claude-harness-block.md"' "$root/scripts/install-harness.sh"
 grep -Fq 'REFRESH_AGENT_SHIM=1' "$root/scripts/install-harness.sh"
 grep -Fq 'CLI_PAYLOAD_MANIFEST="scripts/harness-cli-install-files.txt"' "$root/scripts/install-harness.sh"
@@ -73,7 +76,7 @@ grep -Fq 'CLI_PAYLOAD_MANIFEST="scripts/harness-cli-install-files.txt"' "$root/s
 
 # PowerShell is asserted statically on hosts without pwsh. Runtime coverage is
 # provided by test-install-harness-modes.ps1 in the Windows release job.
-grep -Fq 'Read-SourceText "scripts/agent-harness-block.md"' "$root/scripts/install-harness.ps1"
+grep -Fq 'Read-SourceText "scripts/agent-harness-block-installed.md"' "$root/scripts/install-harness.ps1"
 grep -Fq '$RefreshAgentShim = $true' "$root/scripts/install-harness.ps1"
 grep -Fq '$script:CliPayloadManifest = "scripts/harness-cli-install-files.txt"' "$root/scripts/install-harness.ps1"
 grep -Fq 'Assert-HarnessMarkers $content "AGENTS.md"' "$root/scripts/install-harness.ps1"

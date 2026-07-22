@@ -176,7 +176,8 @@ fn apply_locked(
             WorkspaceMutation::Delete { path } => {
                 let target = root.join(path.as_str());
                 if target.exists() {
-                    fs::remove_file(target).map_err(io_error)?;
+                    fs::remove_file(&target).map_err(io_error)?;
+                    remove_empty_parents(root, target.parent())?;
                 }
             }
         }
@@ -200,6 +201,29 @@ fn apply_locked(
     Ok(ApplyReceipt {
         backup_path: backup_has_content.then_some(backup_relative),
     })
+}
+
+fn remove_empty_parents(root: &Path, start: Option<&Path>) -> Result<(), PortError> {
+    let mut current = start.map(Path::to_path_buf);
+    while let Some(directory) = current {
+        if directory == root {
+            break;
+        }
+        current = directory.parent().map(Path::to_path_buf);
+        match fs::remove_dir(&directory) {
+            Ok(()) => {}
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::DirectoryNotEmpty | std::io::ErrorKind::NotFound
+                ) =>
+            {
+                break;
+            }
+            Err(error) => return Err(io_error(error)),
+        }
+    }
+    Ok(())
 }
 
 fn recover_locked(root: &Path, state_root: &Path) -> Result<bool, PortError> {

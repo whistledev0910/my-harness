@@ -57,7 +57,7 @@ function Read-RemoteText([string]$Url) {
 
 function Write-SourceFile([string]$Relative, [string]$Target) {
     if ($Relative -eq "AGENTS.md") {
-        $block = (Read-SourceText "scripts/agent-harness-block.md").TrimEnd("`r", "`n")
+        $block = (Read-SourceText "scripts/agent-harness-block-installed.md").TrimEnd("`r", "`n")
         Set-Content -LiteralPath $Target -Value ("# Agent Instructions`n`n" + $block + "`n") -NoNewline
         return
     }
@@ -234,7 +234,7 @@ function Copy-HarnessFile([string]$Relative) {
 }
 
 function Get-AgentShimBlock {
-    return (Read-SourceText "scripts/agent-harness-block.md").TrimEnd("`r", "`n")
+    return (Read-SourceText "scripts/agent-harness-block-installed.md").TrimEnd("`r", "`n")
 }
 
 function Assert-HarnessMarkers([string]$Content, [string]$Label) {
@@ -364,7 +364,7 @@ function Install-HarnessCore {
         } else {
             $releaseTag = Get-HarnessReleaseTag
             if ($releaseTag -notmatch '^harness-v[0-9]+\.[0-9]+\.[0-9]+(?:[-.][A-Za-z0-9]+)*$') { Fail "invalid Harness core release tag: $releaseTag" }
-            $baseUrl = if ($env:HARNESS_CORE_CLI_BASE_URL) { $env:HARNESS_CORE_CLI_BASE_URL.TrimEnd("/") } else { "https://github.com/hoangnb24/repository-harness/releases/download/$releaseTag" }
+            $baseUrl = if ($env:HARNESS_CORE_CLI_BASE_URL) { $env:HARNESS_CORE_CLI_BASE_URL.TrimEnd("/") } else { "https://github.com/whistledev0910/my-harness/releases/download/$releaseTag" }
             $binaryUrl = "$baseUrl/harness-windows-x64.exe"
             $checksumUrl = "$binaryUrl.sha256"
             $checksum = "$staged.sha256"
@@ -610,12 +610,14 @@ if ($Merge -and $Override) {
     Fail "Use only one of -Merge or -Override"
 }
 
+if ($Merge) { $RefreshAgentShim = $true }
+
 if (!$DryRun -and !(Test-Path $script:TargetDir)) {
     New-Item -ItemType Directory -Force -Path $script:TargetDir | Out-Null
 }
 
-$protectedPaths = @("AGENTS.md", "docs")
-if ($script:InstallCli) { $protectedPaths += "scripts" }
+$protectedPaths = @("AGENTS.md")
+if ($script:InstallCli) { $protectedPaths += @("docs", "scripts") }
 $conflicts = $protectedPaths | Where-Object { Test-Path (Join-Path $script:TargetDir $_) }
 if ($conflicts.Count -gt 0) {
     if ($Merge) {
@@ -670,9 +672,8 @@ if ($script:InstallCli) {
 }
 Write-Step "Target project: $script:TargetDir"
 
-Install-HarnessCore
-
 Refresh-AgentShimFile
+Install-HarnessCore
 Install-CliBundle
 
 Write-Step ""

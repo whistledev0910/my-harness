@@ -113,6 +113,65 @@ fn update_handles_one_sided_add_remove_and_missing_file_rules_atomically() {
     assert_eq!(fs::read(root.path().join("docs/local.md")).unwrap(), before);
 }
 
+#[test]
+fn update_moves_core_docs_hidden_without_overwriting_project_docs() {
+    let root = tempfile::tempdir().unwrap();
+    let version_one = application_with_files(
+        "1.0.0",
+        &[
+            ("docs/WORKFLOW.md", b"old workflow\n"),
+            ("docs/product/README.md", b"old product guide\n"),
+        ],
+    );
+    version_one.install(root.path(), false).unwrap();
+    fs::write(
+        root.path().join("docs/product/README.md"),
+        b"project-owned product guide\n",
+    )
+    .unwrap();
+
+    let version_two = application_with_files(
+        "2.0.0",
+        &[
+            (".harness-core/docs/WORKFLOW.md", b"hidden workflow\n"),
+            (
+                ".harness-core/docs/product/README.md",
+                b"hidden product guide\n",
+            ),
+        ],
+    );
+    let report = version_two.update(root.path(), false).unwrap();
+
+    assert!(report.applied);
+    assert!(report.conflicts.is_empty());
+    assert!(!root.path().join("docs/WORKFLOW.md").exists());
+    assert_eq!(
+        fs::read(root.path().join("docs/product/README.md")).unwrap(),
+        b"project-owned product guide\n"
+    );
+    assert_eq!(
+        fs::read(root.path().join(".harness-core/docs/WORKFLOW.md")).unwrap(),
+        b"hidden workflow\n"
+    );
+}
+
+#[test]
+fn update_removes_the_empty_legacy_docs_tree() {
+    let root = tempfile::tempdir().unwrap();
+    application("1.0.0", b"old workflow\n")
+        .install(root.path(), false)
+        .unwrap();
+
+    let version_two = application_with_files(
+        "2.0.0",
+        &[(".harness-core/docs/WORKFLOW.md", b"hidden workflow\n")],
+    );
+    let report = version_two.update(root.path(), false).unwrap();
+
+    assert!(report.applied);
+    assert!(!root.path().join("docs").exists());
+}
+
 fn application(
     version: &str,
     content: &[u8],

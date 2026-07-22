@@ -104,9 +104,12 @@ The default installation downloads a checksum-verified Rust binary named
 not install the optional SQLite compatibility CLI, discover schemas, install
 database bootstrap scripts, or add database ignore rules. It also does not copy
 this upstream repository's README or architecture over consumer-owned truth.
-The script and templates come from this fork; checksum-verified release
-binaries continue to come from the upstream project until this fork publishes
-equivalent release assets.
+The script, templates, and checksum-verified core binary come from this fork.
+The optional compatibility CLI continues to use its pinned upstream release.
+
+Only `AGENTS.md` is installed at the project root. Harness-owned guidance lives
+under `.harness-core/docs/`, so an existing project `docs/` tree remains
+untouched. `.harness-core/base/` keeps the merge baseline used by updates.
 
 After installation, preview and apply future core upgrades with:
 
@@ -117,7 +120,7 @@ scripts/bin/harness status
 scripts/bin/harness doctor
 ```
 
-The updater keeps the installed upstream base under `.harness-core/`, performs
+The updater keeps the installed upstream base under `.harness-core/base/`, performs
 a three-way merge, stops without writes on conflicts, and backs up changed
 files before activation. On Windows, use `scripts\bin\harness.exe`.
 

@@ -38,9 +38,10 @@ try {
     if ((Get-Content -Raw (Join-Path $Fresh ".gitignore")).Contains("harness.db")) { throw "default core wrote control-plane ignore rules" }
     if (Test-Path (Join-Path $Fresh "harness.db")) { throw "fresh install initialized local DB" }
     if (!(Test-Path (Join-Path $Fresh ".harness-core/manifest.json"))) { throw "fresh core provenance missing" }
-    if (!(Test-Path (Join-Path $Fresh "docs/WORKFLOW.md"))) { throw "fresh workflow missing" }
-    if (!(Test-Path (Join-Path $Fresh "docs/plans/active/README.md"))) { throw "fresh active-plan path missing" }
-    if (!(Test-Path (Join-Path $Fresh "docs/templates/exec-plan.md"))) { throw "fresh execution-plan template missing" }
+    if (Test-Path (Join-Path $Fresh "docs")) { throw "fresh core created project docs" }
+    if (!(Test-Path (Join-Path $Fresh ".harness-core/docs/WORKFLOW.md"))) { throw "fresh hidden workflow missing" }
+    if (!(Test-Path (Join-Path $Fresh ".harness-core/docs/plans/active/README.md"))) { throw "fresh active-plan path missing" }
+    if (!(Test-Path (Join-Path $Fresh ".harness-core/docs/templates/exec-plan.md"))) { throw "fresh execution-plan template missing" }
     if (!(Get-Content -Raw (Join-Path $Fresh "AGENTS.md")).Contains("No control-plane operation is required.")) { throw "fresh default still requires control-plane commands" }
     if ((Get-Content -Raw (Join-Path $Fresh "AGENTS.md")).Contains("Current Upstream Goal")) { throw "fresh default contains upstream repository goal" }
 
@@ -61,9 +62,10 @@ try {
     "existing cli" | Set-Content (Join-Path $Merge "scripts/bin/harness-cli.exe")
     "existing database" | Set-Content (Join-Path $Merge "harness.db")
     Invoke-Install $Merge @("Merge")
-    if ((Get-Content -Raw (Join-Path $Merge "AGENTS.md")).Trim() -ne "project agents") { throw "merge replaced AGENTS" }
+    $MergeAgents = Get-Content -Raw (Join-Path $Merge "AGENTS.md")
+    if (!$MergeAgents.Contains("project agents") -or !$MergeAgents.Contains(".harness-core/docs/WORKFLOW.md")) { throw "merge did not preserve and extend AGENTS" }
     if ((Get-Content -Raw (Join-Path $Merge "docs/HARNESS.md")).Trim() -ne "project harness") { throw "merge replaced docs" }
-    if (!(Test-Path (Join-Path $Merge "docs/WORKFLOW.md"))) { throw "merge did not fill core payload" }
+    if (!(Test-Path (Join-Path $Merge ".harness-core/docs/WORKFLOW.md"))) { throw "merge did not fill hidden core payload" }
     if (Test-Path (Join-Path $Merge "docs/ARCHITECTURE.md")) { throw "core merge installed upstream architecture" }
     if ((Get-Content -Raw (Join-Path $Merge "scripts/bin/harness-cli.exe")).Trim() -ne "existing cli") { throw "core merge changed existing CLI" }
     if ((Get-Content -Raw (Join-Path $Merge "harness.db")).Trim() -ne "existing database") { throw "core merge changed existing database" }
@@ -77,8 +79,8 @@ try {
     "old scripts" | Set-Content (Join-Path $Override "scripts/private.ps1")
     Invoke-Install $Override @("Override")
     $Backup = Get-ChildItem (Join-Path $Override ".harness-backup") -Directory | Select-Object -First 1
-    if (!(Test-Path (Join-Path $Backup.FullName "docs/private.md"))) { throw "override docs backup missing" }
-    if (Test-Path (Join-Path $Override "docs/private.md")) { throw "override leaked old docs" }
+    if ((Get-Content -Raw (Join-Path $Override "docs/private.md")).Trim() -ne "old docs") { throw "core override changed project docs" }
+    if (!(Test-Path (Join-Path $Override ".harness-core/docs/WORKFLOW.md"))) { throw "core override hidden workflow missing" }
     if ((Get-Content -Raw (Join-Path $Override "scripts/private.ps1")).Trim() -ne "old scripts") { throw "core override changed scripts" }
 
     $Shim = Join-Path $Temp "shim"

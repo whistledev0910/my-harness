@@ -4,7 +4,7 @@ The installers expose two product profiles and no arbitrary feature matrix.
 
 ## Core
 
-Core is the default. Its exact files are declared in
+Core is the default. Its source files are declared in
 `scripts/harness-install-files.txt`:
 
 ```text
@@ -22,8 +22,16 @@ docs/templates/exec-plan.md
 
 The platform installer downloads a checksum-verified `harness` binary, places
 it at `scripts/bin/harness` (or `.exe`), and delegates core installation to it.
-The CLI records the exact upstream base in `.harness-core/`; future updates use
-that base for a conflict-safe three-way merge and persistent backup.
+`AGENTS.md` remains at the project root for automatic agent discovery. Every
+declared `docs/` source is installed under `.harness-core/docs/`, leaving a
+consumer's root `docs/` tree untouched. The CLI records the exact upstream base
+in `.harness-core/base/`; future updates use that base for a conflict-safe
+three-way merge and persistent backup.
+
+When upgrading from the older root-doc layout, an unchanged Harness-generated
+file is removed from root after its hidden replacement is ready. A modified
+root document is preserved as project-owned content and is no longer managed by
+Harness.
 
 Core performs no compatibility-CLI download, schema discovery, database
 bootstrap installation, or database-specific `.gitignore` write. A core update
